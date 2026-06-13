@@ -1,86 +1,86 @@
 # PhishGuard MVP
 
-**PhishGuard** е изпитен MVP проект: интелигентна многоагентна система за разпознаване на фишинг съобщения и онлайн измами, базирана на OWL онтология и ACL комуникация между агенти.
+**PhishGuard** is a proven MVP project: an intelligent multi-agent system for recognizing phishing messages and online fraud, based on OWL ontology and ACL communication between agents.
 
-## Какво покрива проектът
+## What the project covers
 
-- Web графична част с React/Vite.
-- Backend API с Node.js/Express.
-- OWL онтология в `server/ontology/phishguard.owl`.
-- Манипулация на онтологията през API и UI.
-- Поне 2 типа агенти — реализирани са 5.
-- ACL комуникация между агентите във FIPA-style JSON формат.
-- База данни SQLite за анализи, история и ACL съобщения.
-- Документация в `docs/PhishGuard_Documentation.md` и `docs/PhishGuard_Documentation.docx`.
+- Web graphical part with React/Vite.
+- Backend API with Node.js/Express.
+- OWL ontology in `server/ontology/phishguard.owl`.
+- Ontology manipulation via API and UI.
+- At least 2 types of agents — 5 have been implemented.
+- ACL communication between agents in FIPA-style JSON format.
+- SQLite database for analytics, history and ACL messages.
+- Documentation in `docs/PhishGuard_Documentation.md` and `docs/PhishGuard_Documentation.docx`.
 
-## Архитектура накратко
+## Architecture in brief
 
 ```text
 React Web App
-   ↓ HTTP
+↓ HTTP
 Express Backend API
-   ↓
+↓
 CoordinatorAgent
-   ↓ ACL messages
+↓ ACL messages
 MessageAnalysisAgent
 LinkAnalysisAgent
 RiskAssessmentAgent
 RecommendationAgent
-   ↓
+↓
 OWL Ontology + SQLite Database
 ```
 
-## Инсталация
+## Installation
 
-Изисквания:
+Requirements:
 
-- Node.js 20+ препоръчително.
+- Node.js 20+ recommended.
 - npm.
 
-Стъпки:
+Steps:
 
 ```bash
 npm install
 npm run dev
 ```
 
-След стартиране:
+After launch:
 
 - Frontend: http://localhost:5173
 - Backend: http://localhost:4000
 - Health check: http://localhost:4000/api/health
 
-## Как се демонстрира
+## How to demonstrate
 
-1. Отвори web приложението.
-2. Постави примерен phishing SMS/email.
-3. Натисни **Анализирай съобщението**.
-4. Покажи:
-   - рисково ниво;
-   - открити признаци;
-   - препоръки;
-   - ACL комуникацията между агентите;
-   - записаната история;
-   - страницата за управление на онтологията.
+1. Open the web application.
+2. Paste a sample phishing SMS/email.
+3. Click **Analyze message**.
+4. Show:
+- risk level;
+- detected signs;
+- recommendations;
+- ACL communication between agents;
+- recorded history;
+- ontology management page.
 
-Примерно съобщение за тест:
-
-```text
-Вашата банкова сметка ще бъде блокирана. Спешно потвърдете паролата и данните си тук: http://secure-bank-login.example.com
-```
-
-## Важни директории
+Sample test message:
 
 ```text
-client/                 React/Vite графична част
-server/                 Express API + агенти + база + онтология
-server/src/agents/      Многоагентна система
-server/src/services/    Услуги за онтология и база
-server/ontology/        OWL файл
-server/data/            SQLite DB и JSON модел на онтологията
-docs/                   Изпитна документация
+Your bank account will be blocked. Urgently confirm your password and data here: http://secure-bank-login.example.com
 ```
 
-## Бележка
+## Important directories
 
-Това е защитна cybersecurity система. Тя не създава фишинг съобщения, а анализира вече получени съобщения и дава препоръки за предпазване.
+```text
+client/ React/Vite graphical part
+server/ Express API + agents + database + ontology
+server/src/agents/ Multi-agent system
+server/src/services/ Ontology and database services
+server/ontology/ OWL file
+server/data/ SQLite DB and JSON model of the ontology
+docs/ Exam documentation
+```
+
+## Note
+
+This is a protective cybersecurity system. It does not create phishing messages, but analyzes already received messages and gives recommendations for protection.
