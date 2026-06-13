@@ -60,7 +60,6 @@ function App() {
             Системата използва онтология, агентна комуникация и база данни за история на анализите.
           </p>
         </div>
-        <div className="status-pill">MVP за изпит</div>
       </section>
 
       <nav className="tabs">

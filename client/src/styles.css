@@ -373,6 +373,10 @@ input:focus, textarea:focus, select:focus {
   gap: 20px;
 }
 
+.ontology-item + .ontology-item {
+  margin-top: 10px;
+}
+
 .history-item > div {
   display: flex;
   justify-content: space-between;
