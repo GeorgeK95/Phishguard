@@ -25,19 +25,19 @@
   "riskLevels": [
     {
       "id": "LowRisk",
-      "label": "Нисък риск",
+      "label": "Low risk",
       "minScore": 0,
       "maxScore": 30
     },
     {
       "id": "MediumRisk",
-      "label": "Среден риск",
+      "label": "Medium risk",
       "minScore": 31,
       "maxScore": 60
     },
     {
       "id": "HighRisk",
-      "label": "Висок риск",
+      "label": "High risk",
       "minScore": 61,
       "maxScore": 100
     }
@@ -54,73 +54,76 @@
     {
       "id": "ChatMessage",
       "label": "Chat message"
+    },
+    {
+      "id": "SocialMedia",
+      "label": "Social media message"
     }
   ],
   "features": [
     {
       "id": "Urgency",
-      "label": "Спешност",
+      "label": "Urgency",
       "score": 15,
-      "description": "Съобщението използва спешност, за да провокира бърза реакция.",
+      "description": "The message uses urgency to push the user into a fast reaction.",
       "keywords": [
-        "спешно",
-        "незабавно",
-        "до 24 часа",
-        "веднага",
         "urgent",
         "immediately",
-        "limited time"
+        "limited time",
+        "within 24 hours",
+        "act now",
+        "right away"
       ]
     },
     {
       "id": "AccountThreat",
-      "label": "Заплаха за акаунт",
+      "label": "Account threat",
       "score": 20,
-      "description": "Съобщението заплашва с блокиране, спиране или ограничаване на акаунт.",
+      "description": "The message threatens account blocking, suspension or restriction.",
       "keywords": [
-        "ще бъде блокиран",
-        "блокирана",
         "suspended",
         "blocked",
         "restricted",
-        "закриване"
+        "account closure",
+        "deactivated",
+        "will be blocked"
       ]
     },
     {
       "id": "CredentialRequest",
-      "label": "Искане за парола или вход",
+      "label": "Credential request",
       "score": 30,
-      "description": "Съобщението изисква парола, вход или потвърждение на акаунт.",
+      "description": "The message asks for a password, login action or account verification.",
       "keywords": [
-        "парола",
         "password",
         "login",
-        "потвърдете акаунта",
         "verify your account",
-        "вход"
+        "confirm your account",
+        "security code",
+        "2fa code"
       ]
     },
     {
       "id": "PaymentRequest",
-      "label": "Искане за плащане",
+      "label": "Payment request",
       "score": 25,
-      "description": "Съобщението иска плащане, такса или банкови данни.",
+      "description": "The message requests a payment, fee, card details or bank information.",
       "keywords": [
-        "платете",
-        "такса",
-        "карта",
+        "pay",
+        "payment",
+        "fee",
         "card",
         "iban",
-        "payment",
         "bank details",
-        "банкови данни"
+        "billing",
+        "invoice"
       ]
     },
     {
       "id": "SuspiciousLink",
-      "label": "Подозрителен линк",
+      "label": "Suspicious link",
       "score": 30,
-      "description": "Съобщението съдържа линк, който може да води към фалшив сайт.",
+      "description": "The message contains a link that may lead to a fake or unsafe website.",
       "keywords": [
         "http://",
         "bit.ly",
@@ -134,74 +137,51 @@
     },
     {
       "id": "PrizeBait",
-      "label": "Фалшива награда",
+      "label": "Prize bait",
       "score": 20,
-      "description": "Съобщението обещава награда, печалба или бонус с цел измама.",
+      "description": "The message promises a prize, reward or bonus to manipulate the user.",
       "keywords": [
-        "спечелихте",
-        "награда",
         "prize",
         "winner",
         "bonus",
-        "free gift"
+        "free gift",
+        "reward",
+        "congratulations"
       ]
     },
     {
       "id": "UnknownSender",
-      "label": "Непознат или неясен подател",
+      "label": "Unknown or unclear sender",
       "score": 10,
-      "description": "Липсва ясен официален подател или институция.",
+      "description": "The message does not clearly identify an official sender or institution.",
       "keywords": [
-        "непознат",
         "unknown",
         "no-reply",
-        "support-center"
+        "support-center",
+        "customer-support",
+        "service-team"
       ]
     },
     {
       "id": "DeliveryFeeBait",
-      "label": "Фалшива куриерска такса",
+      "label": "Fake delivery fee",
       "score": 25,
-      "description": "Съобщението имитира куриер и иска малка такса за пратка.",
+      "description": "The message imitates a delivery provider and asks for a small parcel or shipping fee.",
       "keywords": [
-        "пратка",
-        "доставка",
-        "куриер",
         "delivery",
         "parcel",
-        "shipping fee"
-      ]
-    },
-    {
-      "id": "CryptoPaymentRequest",
-      "label": "Crypto payment request",
-      "score": 25,
-      "description": "Съобщението изисква плащане с криптовалута или изпращане към wallet.",
-      "keywords": [
-        "crypto",
-        "bitcoin",
-        "usdt",
-        "wallet"
-      ]
-    },
-    {
-      "id": "CarFakeOffer",
-      "label": "Car fake offer",
-      "score": 75,
-      "description": "Съобщението предлага кола от САЩ/Канада на СЪМНИТЕЛНО ниска цена.",
-      "keywords": [
-        "car",
-        "audi",
-        "mercedes",
-        "bmw"
+        "shipping fee",
+        "package",
+        "customs fee",
+        "tracking"
       ]
     }
   ],
   "threatTypes": [
     {
       "id": "FakeBankMessage",
-      "label": "Фалшиво банково съобщение",
-      "description": "Измама, която имитира банка и цели кражба на данни или пари.",
+      "label": "Fake bank message",
+      "description": "A scam that imitates a bank in order to steal credentials, personal data or money.",
       "relatedFeatureIds": [
         "AccountThreat",
         "CredentialRequest",
@@ -211,8 +191,8 @@
     },
     {
       "id": "FakeDeliveryMessage",
-      "label": "Фалшиво куриерско съобщение",
-      "description": "Измама, която имитира куриерска услуга и иска такса или данни.",
+      "label": "Fake delivery message",
+      "description": "A scam that imitates a courier or delivery service and asks for a fee or personal data.",
       "relatedFeatureIds": [
         "DeliveryFeeBait",
         "PaymentRequest",
@@ -222,8 +202,8 @@
     },
     {
       "id": "FakePrizeScam",
-      "label": "Фалшива награда",
-      "description": "Измама, която обещава награда и води потребителя към линк или плащане.",
+      "label": "Fake prize scam",
+      "description": "A scam that promises a prize and leads the user to a link, payment or data request.",
       "relatedFeatureIds": [
         "PrizeBait",
         "SuspiciousLink",
@@ -232,78 +212,51 @@
     },
     {
       "id": "CredentialPhishing",
-      "label": "Фишинг за идентификационни данни",
-      "description": "Фишинг атака, при която се търсят пароли, кодове или данни за вход.",
+      "label": "Credential phishing",
+      "description": "A phishing attack focused on stealing passwords, security codes or login credentials.",
       "relatedFeatureIds": [
         "CredentialRequest",
         "SuspiciousLink",
         "Urgency"
-      ]
-    },
-    {
-      "id": "CryptoScam",
-      "label": "Crypto Scam",
-      "description": "Измама, свързана с искане за плащане или инвестиция в криптовалута.",
-      "relatedFeatureIds": [
-        "Urgency",
-        "CredentialRequest",
-        "SuspiciousLink",
-        "UnknownSender",
-        "CryptoPaymentRequest",
-        "DeliveryFeeBait",
-        "PrizeBait",
-        "PaymentRequest",
-        "AccountThreat"
-      ]
-    },
-    {
-      "id": "FakeCarThread",
-      "label": "Fake car thread",
-      "description": "Измама, свързана с коли на ниски цени.",
-      "relatedFeatureIds": [
-        "CarFakeOffer",
-        "SuspiciousLink",
-        "UnknownSender",
-        "PaymentRequest"
       ]
     }
   ],
   "recommendations": [
     {
       "id": "DoNotOpenLink",
-      "label": "Не отваряйте линка",
+      "label": "Do not open the link",
       "appliesToRisk": [
         "MediumRisk",
         "HighRisk"
       ],
-      "text": "Не отваряйте линковете от съобщението, докато не проверите подателя."
+      "text": "Do not open any links from this message before verifying the sender through an official source."
     },
     {
       "id": "DoNotEnterData",
-      "label": "Не въвеждайте лични данни",
+      "label": "Do not enter personal data",
       "appliesToRisk": [
         "MediumRisk",
         "HighRisk"
       ],
-      "text": "Не въвеждайте пароли, банкови данни или лична информация през линка."
+      "text": "Do not enter passwords, card details, banking data or personal information through the provided link."
     },
     {
       "id": "VerifyOfficialWebsite",
-      "label": "Проверете официалния сайт",
+      "label": "Verify the official website",
       "appliesToRisk": [
         "LowRisk",
         "MediumRisk",
         "HighRisk"
       ],
-      "text": "Отворете официалния сайт ръчно от браузъра, вместо да използвате получения линк."
+      "text": "Open the official website manually in the browser instead of using the link from the message."
     },
     {
       "id": "ReportMessage",
-      "label": "Докладвайте съобщението",
+      "label": "Report the message",
       "appliesToRisk": [
         "HighRisk"
       ],
-      "text": "Докладвайте съобщението като спам/фишинг и блокирайте подателя."
+      "text": "Report the message as spam or phishing and block the sender if possible."
     }
   ]
 }

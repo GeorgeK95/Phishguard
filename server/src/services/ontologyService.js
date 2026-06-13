@@ -12,132 +12,264 @@ const ontologyJsonPath = path.resolve(dataDir, 'ontology.json');
 const ontologyOwlPath = path.resolve(ontologyDir, 'phishguard.owl');
 
 const seedOntology = {
-  namespace: 'http://example.org/phishguard#',
-  classes: [
-    { id: 'ThreatType', label: 'Threat type' },
-    { id: 'MessageFeature', label: 'Message feature' },
-    { id: 'CommunicationChannel', label: 'Communication channel' },
-    { id: 'RiskLevel', label: 'Risk level' },
-    { id: 'Recommendation', label: 'Recommendation' }
-  ],
-  riskLevels: [
-    { id: 'LowRisk', label: 'Нисък риск', minScore: 0, maxScore: 30 },
-    { id: 'MediumRisk', label: 'Среден риск', minScore: 31, maxScore: 60 },
-    { id: 'HighRisk', label: 'Висок риск', minScore: 61, maxScore: 100 }
-  ],
-  channels: [
-    { id: 'SMS', label: 'SMS' },
-    { id: 'Email', label: 'Email' },
-    { id: 'ChatMessage', label: 'Chat message' }
-  ],
-  features: [
+  "namespace": "http://example.org/phishguard#",
+  "classes": [
     {
-      id: 'Urgency',
-      label: 'Спешност',
-      score: 15,
-      description: 'Съобщението използва спешност, за да провокира бърза реакция.',
-      keywords: ['спешно', 'незабавно', 'до 24 часа', 'веднага', 'urgent', 'immediately', 'limited time']
+      "id": "ThreatType",
+      "label": "Threat type"
     },
     {
-      id: 'AccountThreat',
-      label: 'Заплаха за акаунт',
-      score: 20,
-      description: 'Съобщението заплашва с блокиране, спиране или ограничаване на акаунт.',
-      keywords: ['ще бъде блокиран', 'блокирана', 'suspended', 'blocked', 'restricted', 'закриване']
+      "id": "MessageFeature",
+      "label": "Message feature"
     },
     {
-      id: 'CredentialRequest',
-      label: 'Искане за парола или вход',
-      score: 30,
-      description: 'Съобщението изисква парола, вход или потвърждение на акаунт.',
-      keywords: ['парола', 'password', 'login', 'потвърдете акаунта', 'verify your account', 'вход']
+      "id": "CommunicationChannel",
+      "label": "Communication channel"
     },
     {
-      id: 'PaymentRequest',
-      label: 'Искане за плащане',
-      score: 25,
-      description: 'Съобщението иска плащане, такса или банкови данни.',
-      keywords: ['платете', 'такса', 'карта', 'card', 'iban', 'payment', 'bank details', 'банкови данни']
+      "id": "RiskLevel",
+      "label": "Risk level"
     },
     {
-      id: 'SuspiciousLink',
-      label: 'Подозрителен линк',
-      score: 30,
-      description: 'Съобщението съдържа линк, който може да води към фалшив сайт.',
-      keywords: ['http://', 'bit.ly', 'tinyurl', 'login-', 'secure-', 'verify-', '.top', '.xyz']
-    },
-    {
-      id: 'PrizeBait',
-      label: 'Фалшива награда',
-      score: 20,
-      description: 'Съобщението обещава награда, печалба или бонус с цел измама.',
-      keywords: ['спечелихте', 'награда', 'prize', 'winner', 'bonus', 'free gift']
-    },
-    {
-      id: 'UnknownSender',
-      label: 'Непознат или неясен подател',
-      score: 10,
-      description: 'Липсва ясен официален подател или институция.',
-      keywords: ['непознат', 'unknown', 'no-reply', 'support-center']
-    },
-    {
-      id: 'DeliveryFeeBait',
-      label: 'Фалшива куриерска такса',
-      score: 25,
-      description: 'Съобщението имитира куриер и иска малка такса за пратка.',
-      keywords: ['пратка', 'доставка', 'куриер', 'delivery', 'parcel', 'shipping fee']
+      "id": "Recommendation",
+      "label": "Recommendation"
     }
   ],
-  threatTypes: [
+  "riskLevels": [
     {
-      id: 'FakeBankMessage',
-      label: 'Фалшиво банково съобщение',
-      description: 'Измама, която имитира банка и цели кражба на данни или пари.',
-      relatedFeatureIds: ['AccountThreat', 'CredentialRequest', 'PaymentRequest', 'SuspiciousLink']
+      "id": "LowRisk",
+      "label": "Low risk",
+      "minScore": 0,
+      "maxScore": 30
     },
     {
-      id: 'FakeDeliveryMessage',
-      label: 'Фалшиво куриерско съобщение',
-      description: 'Измама, която имитира куриерска услуга и иска такса или данни.',
-      relatedFeatureIds: ['DeliveryFeeBait', 'PaymentRequest', 'SuspiciousLink', 'Urgency']
+      "id": "MediumRisk",
+      "label": "Medium risk",
+      "minScore": 31,
+      "maxScore": 60
     },
     {
-      id: 'FakePrizeScam',
-      label: 'Фалшива награда',
-      description: 'Измама, която обещава награда и води потребителя към линк или плащане.',
-      relatedFeatureIds: ['PrizeBait', 'SuspiciousLink', 'PaymentRequest']
-    },
-    {
-      id: 'CredentialPhishing',
-      label: 'Фишинг за идентификационни данни',
-      description: 'Фишинг атака, при която се търсят пароли, кодове или данни за вход.',
-      relatedFeatureIds: ['CredentialRequest', 'SuspiciousLink', 'Urgency']
+      "id": "HighRisk",
+      "label": "High risk",
+      "minScore": 61,
+      "maxScore": 100
     }
   ],
-  recommendations: [
+  "channels": [
     {
-      id: 'DoNotOpenLink',
-      label: 'Не отваряйте линка',
-      appliesToRisk: ['MediumRisk', 'HighRisk'],
-      text: 'Не отваряйте линковете от съобщението, докато не проверите подателя.'
+      "id": "SMS",
+      "label": "SMS"
     },
     {
-      id: 'DoNotEnterData',
-      label: 'Не въвеждайте лични данни',
-      appliesToRisk: ['MediumRisk', 'HighRisk'],
-      text: 'Не въвеждайте пароли, банкови данни или лична информация през линка.'
+      "id": "Email",
+      "label": "Email"
     },
     {
-      id: 'VerifyOfficialWebsite',
-      label: 'Проверете официалния сайт',
-      appliesToRisk: ['LowRisk', 'MediumRisk', 'HighRisk'],
-      text: 'Отворете официалния сайт ръчно от браузъра, вместо да използвате получения линк.'
+      "id": "ChatMessage",
+      "label": "Chat message"
     },
     {
-      id: 'ReportMessage',
-      label: 'Докладвайте съобщението',
-      appliesToRisk: ['HighRisk'],
-      text: 'Докладвайте съобщението като спам/фишинг и блокирайте подателя.'
+      "id": "SocialMedia",
+      "label": "Social media message"
+    }
+  ],
+  "features": [
+    {
+      "id": "Urgency",
+      "label": "Urgency",
+      "score": 15,
+      "description": "The message uses urgency to push the user into a fast reaction.",
+      "keywords": [
+        "urgent",
+        "immediately",
+        "limited time",
+        "within 24 hours",
+        "act now",
+        "right away"
+      ]
+    },
+    {
+      "id": "AccountThreat",
+      "label": "Account threat",
+      "score": 20,
+      "description": "The message threatens account blocking, suspension or restriction.",
+      "keywords": [
+        "suspended",
+        "blocked",
+        "restricted",
+        "account closure",
+        "deactivated",
+        "will be blocked"
+      ]
+    },
+    {
+      "id": "CredentialRequest",
+      "label": "Credential request",
+      "score": 30,
+      "description": "The message asks for a password, login action or account verification.",
+      "keywords": [
+        "password",
+        "login",
+        "verify your account",
+        "confirm your account",
+        "security code",
+        "2fa code"
+      ]
+    },
+    {
+      "id": "PaymentRequest",
+      "label": "Payment request",
+      "score": 25,
+      "description": "The message requests a payment, fee, card details or bank information.",
+      "keywords": [
+        "pay",
+        "payment",
+        "fee",
+        "card",
+        "iban",
+        "bank details",
+        "billing",
+        "invoice"
+      ]
+    },
+    {
+      "id": "SuspiciousLink",
+      "label": "Suspicious link",
+      "score": 30,
+      "description": "The message contains a link that may lead to a fake or unsafe website.",
+      "keywords": [
+        "http://",
+        "bit.ly",
+        "tinyurl",
+        "login-",
+        "secure-",
+        "verify-",
+        ".top",
+        ".xyz"
+      ]
+    },
+    {
+      "id": "PrizeBait",
+      "label": "Prize bait",
+      "score": 20,
+      "description": "The message promises a prize, reward or bonus to manipulate the user.",
+      "keywords": [
+        "prize",
+        "winner",
+        "bonus",
+        "free gift",
+        "reward",
+        "congratulations"
+      ]
+    },
+    {
+      "id": "UnknownSender",
+      "label": "Unknown or unclear sender",
+      "score": 10,
+      "description": "The message does not clearly identify an official sender or institution.",
+      "keywords": [
+        "unknown",
+        "no-reply",
+        "support-center",
+        "customer-support",
+        "service-team"
+      ]
+    },
+    {
+      "id": "DeliveryFeeBait",
+      "label": "Fake delivery fee",
+      "score": 25,
+      "description": "The message imitates a delivery provider and asks for a small parcel or shipping fee.",
+      "keywords": [
+        "delivery",
+        "parcel",
+        "shipping fee",
+        "package",
+        "customs fee",
+        "tracking"
+      ]
+    }
+  ],
+  "threatTypes": [
+    {
+      "id": "FakeBankMessage",
+      "label": "Fake bank message",
+      "description": "A scam that imitates a bank in order to steal credentials, personal data or money.",
+      "relatedFeatureIds": [
+        "AccountThreat",
+        "CredentialRequest",
+        "PaymentRequest",
+        "SuspiciousLink"
+      ]
+    },
+    {
+      "id": "FakeDeliveryMessage",
+      "label": "Fake delivery message",
+      "description": "A scam that imitates a courier or delivery service and asks for a fee or personal data.",
+      "relatedFeatureIds": [
+        "DeliveryFeeBait",
+        "PaymentRequest",
+        "SuspiciousLink",
+        "Urgency"
+      ]
+    },
+    {
+      "id": "FakePrizeScam",
+      "label": "Fake prize scam",
+      "description": "A scam that promises a prize and leads the user to a link, payment or data request.",
+      "relatedFeatureIds": [
+        "PrizeBait",
+        "SuspiciousLink",
+        "PaymentRequest"
+      ]
+    },
+    {
+      "id": "CredentialPhishing",
+      "label": "Credential phishing",
+      "description": "A phishing attack focused on stealing passwords, security codes or login credentials.",
+      "relatedFeatureIds": [
+        "CredentialRequest",
+        "SuspiciousLink",
+        "Urgency"
+      ]
+    }
+  ],
+  "recommendations": [
+    {
+      "id": "DoNotOpenLink",
+      "label": "Do not open the link",
+      "appliesToRisk": [
+        "MediumRisk",
+        "HighRisk"
+      ],
+      "text": "Do not open any links from this message before verifying the sender through an official source."
+    },
+    {
+      "id": "DoNotEnterData",
+      "label": "Do not enter personal data",
+      "appliesToRisk": [
+        "MediumRisk",
+        "HighRisk"
+      ],
+      "text": "Do not enter passwords, card details, banking data or personal information through the provided link."
+    },
+    {
+      "id": "VerifyOfficialWebsite",
+      "label": "Verify the official website",
+      "appliesToRisk": [
+        "LowRisk",
+        "MediumRisk",
+        "HighRisk"
+      ],
+      "text": "Open the official website manually in the browser instead of using the link from the message."
+    },
+    {
+      "id": "ReportMessage",
+      "label": "Report the message",
+      "appliesToRisk": [
+        "HighRisk"
+      ],
+      "text": "Report the message as spam or phishing and block the sender if possible."
     }
   ]
 };
@@ -195,7 +327,7 @@ export async function addFeature({ label, keywords, score = 10, description = ''
     id,
     label,
     score: Number(score) || 10,
-    description: description || `Потребителски добавен признак: ${label}`,
+    description: description || `User-added phishing indicator: ${label}`,
     keywords: keywords.map((keyword) => String(keyword).trim()).filter(Boolean)
   };
 
@@ -218,7 +350,7 @@ export async function addThreatType({ label, description = '', relatedFeatureIds
   const threatType = {
     id,
     label,
-    description: description || `Потребителски добавен тип заплаха: ${label}`,
+    description: description || `User-added threat type: ${label}`,
     relatedFeatureIds: filteredFeatureIds
   };
 
@@ -231,12 +363,12 @@ function toPascalId(value) {
   return String(value)
     .normalize('NFKD')
     .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^a-zA-Z0-9А-Яа-я]+/g, ' ')
+    .replace(/[^a-zA-Z0-9]+/g, ' ')
     .trim()
     .split(/\s+/)
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
     .join('')
-    .replace(/[А-Яа-я]/g, '') || `Entity${Date.now()}`;
+    || `Entity${Date.now()}`;
 }
 
 function literal(value) {
