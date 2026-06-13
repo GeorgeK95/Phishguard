@@ -1,0 +1,21 @@
+{
+  "name": "phishguard-mvp",
+  "version": "1.0.0",
+  "private": true,
+  "description": "PhishGuard MVP - multi-agent phishing analysis system with OWL ontology and ACL communication.",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev --workspace server\" \"npm run dev --workspace client\"",
+    "dev:server": "npm run dev --workspace server",
+    "dev:client": "npm run dev --workspace client",
+    "start": "npm run start --workspace server",
+    "build": "npm run build --workspace client",
+    "check": "npm run check --workspace server && npm run build --workspace client"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

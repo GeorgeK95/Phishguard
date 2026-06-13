@@ -1,0 +1,243 @@
+@prefix pg: <http://example.org/phishguard#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+pg:PhishGuardOntology a owl:Ontology ;
+  rdfs:label "PhishGuard OWL Ontology" ;
+  rdfs:comment "Ontology for phishing message analysis, threat types, message features, risk levels and recommendations." .
+
+pg:ThreatType a owl:Class ;
+  rdfs:label "Threat type" .
+
+pg:MessageFeature a owl:Class ;
+  rdfs:label "Message feature" .
+
+pg:CommunicationChannel a owl:Class ;
+  rdfs:label "Communication channel" .
+
+pg:RiskLevel a owl:Class ;
+  rdfs:label "Risk level" .
+
+pg:Recommendation a owl:Class ;
+  rdfs:label "Recommendation" .
+
+pg:hasFeature a owl:ObjectProperty ;
+  rdfs:label "Threat type has related message feature" .
+
+pg:hasRiskLevel a owl:ObjectProperty ;
+  rdfs:label "Analysis or feature has risk level" .
+
+pg:hasRecommendation a owl:ObjectProperty ;
+  rdfs:label "Risk level has recommendation" .
+
+pg:usesChannel a owl:ObjectProperty ;
+  rdfs:label "Message uses communication channel" .
+
+pg:keyword a owl:DatatypeProperty ;
+  rdfs:label "Keyword used for feature detection" .
+
+pg:riskScore a owl:DatatypeProperty ;
+  rdfs:label "Risk score contribution" .
+
+pg:description a owl:DatatypeProperty ;
+  rdfs:label "Entity description" .
+
+pg:LowRisk a pg:RiskLevel ;
+  rdfs:label "Нисък риск" ;
+  pg:riskScore "0-30" .
+
+pg:MediumRisk a pg:RiskLevel ;
+  rdfs:label "Среден риск" ;
+  pg:riskScore "31-60" .
+
+pg:HighRisk a pg:RiskLevel ;
+  rdfs:label "Висок риск" ;
+  pg:riskScore "61-100" .
+
+pg:SMS a pg:CommunicationChannel ;
+  rdfs:label "SMS" .
+
+pg:Email a pg:CommunicationChannel ;
+  rdfs:label "Email" .
+
+pg:ChatMessage a pg:CommunicationChannel ;
+  rdfs:label "Chat message" .
+
+pg:Urgency a pg:MessageFeature ;
+  rdfs:label "Спешност" ;
+  pg:description "Съобщението използва спешност, за да провокира бърза реакция." ;
+  pg:riskScore "15"^^xsd:integer ;
+  pg:keyword "спешно" ;
+  pg:keyword "незабавно" ;
+  pg:keyword "до 24 часа" ;
+  pg:keyword "веднага" ;
+  pg:keyword "urgent" ;
+  pg:keyword "immediately" ;
+  pg:keyword "limited time" .
+
+pg:AccountThreat a pg:MessageFeature ;
+  rdfs:label "Заплаха за акаунт" ;
+  pg:description "Съобщението заплашва с блокиране, спиране или ограничаване на акаунт." ;
+  pg:riskScore "20"^^xsd:integer ;
+  pg:keyword "ще бъде блокиран" ;
+  pg:keyword "блокирана" ;
+  pg:keyword "suspended" ;
+  pg:keyword "blocked" ;
+  pg:keyword "restricted" ;
+  pg:keyword "закриване" .
+
+pg:CredentialRequest a pg:MessageFeature ;
+  rdfs:label "Искане за парола или вход" ;
+  pg:description "Съобщението изисква парола, вход или потвърждение на акаунт." ;
+  pg:riskScore "30"^^xsd:integer ;
+  pg:keyword "парола" ;
+  pg:keyword "password" ;
+  pg:keyword "login" ;
+  pg:keyword "потвърдете акаунта" ;
+  pg:keyword "verify your account" ;
+  pg:keyword "вход" .
+
+pg:PaymentRequest a pg:MessageFeature ;
+  rdfs:label "Искане за плащане" ;
+  pg:description "Съобщението иска плащане, такса или банкови данни." ;
+  pg:riskScore "25"^^xsd:integer ;
+  pg:keyword "платете" ;
+  pg:keyword "такса" ;
+  pg:keyword "карта" ;
+  pg:keyword "card" ;
+  pg:keyword "iban" ;
+  pg:keyword "payment" ;
+  pg:keyword "bank details" ;
+  pg:keyword "банкови данни" .
+
+pg:SuspiciousLink a pg:MessageFeature ;
+  rdfs:label "Подозрителен линк" ;
+  pg:description "Съобщението съдържа линк, който може да води към фалшив сайт." ;
+  pg:riskScore "30"^^xsd:integer ;
+  pg:keyword "http://" ;
+  pg:keyword "bit.ly" ;
+  pg:keyword "tinyurl" ;
+  pg:keyword "login-" ;
+  pg:keyword "secure-" ;
+  pg:keyword "verify-" ;
+  pg:keyword ".top" ;
+  pg:keyword ".xyz" .
+
+pg:PrizeBait a pg:MessageFeature ;
+  rdfs:label "Фалшива награда" ;
+  pg:description "Съобщението обещава награда, печалба или бонус с цел измама." ;
+  pg:riskScore "20"^^xsd:integer ;
+  pg:keyword "спечелихте" ;
+  pg:keyword "награда" ;
+  pg:keyword "prize" ;
+  pg:keyword "winner" ;
+  pg:keyword "bonus" ;
+  pg:keyword "free gift" .
+
+pg:UnknownSender a pg:MessageFeature ;
+  rdfs:label "Непознат или неясен подател" ;
+  pg:description "Липсва ясен официален подател или институция." ;
+  pg:riskScore "10"^^xsd:integer ;
+  pg:keyword "непознат" ;
+  pg:keyword "unknown" ;
+  pg:keyword "no-reply" ;
+  pg:keyword "support-center" .
+
+pg:DeliveryFeeBait a pg:MessageFeature ;
+  rdfs:label "Фалшива куриерска такса" ;
+  pg:description "Съобщението имитира куриер и иска малка такса за пратка." ;
+  pg:riskScore "25"^^xsd:integer ;
+  pg:keyword "пратка" ;
+  pg:keyword "доставка" ;
+  pg:keyword "куриер" ;
+  pg:keyword "delivery" ;
+  pg:keyword "parcel" ;
+  pg:keyword "shipping fee" .
+
+pg:CryptoPaymentRequest a pg:MessageFeature ;
+  rdfs:label "Crypto payment request" ;
+  pg:description "Съобщението изисква плащане с криптовалута или изпращане към wallet." ;
+  pg:riskScore "25"^^xsd:integer ;
+  pg:keyword "crypto" ;
+  pg:keyword "bitcoin" ;
+  pg:keyword "usdt" ;
+  pg:keyword "wallet" .
+
+pg:CarFakeOffer a pg:MessageFeature ;
+  rdfs:label "Car fake offer" ;
+  pg:description "Съобщението предлага кола от САЩ/Канада на СЪМНИТЕЛНО ниска цена." ;
+  pg:riskScore "75"^^xsd:integer ;
+  pg:keyword "car" ;
+  pg:keyword "audi" ;
+  pg:keyword "mercedes" ;
+  pg:keyword "bmw" .
+
+pg:FakeBankMessage a pg:ThreatType ;
+  rdfs:label "Фалшиво банково съобщение" ;
+  pg:description "Измама, която имитира банка и цели кражба на данни или пари." ;
+  pg:hasFeature pg:AccountThreat ;
+  pg:hasFeature pg:CredentialRequest ;
+  pg:hasFeature pg:PaymentRequest ;
+  pg:hasFeature pg:SuspiciousLink .
+
+pg:FakeDeliveryMessage a pg:ThreatType ;
+  rdfs:label "Фалшиво куриерско съобщение" ;
+  pg:description "Измама, която имитира куриерска услуга и иска такса или данни." ;
+  pg:hasFeature pg:DeliveryFeeBait ;
+  pg:hasFeature pg:PaymentRequest ;
+  pg:hasFeature pg:SuspiciousLink ;
+  pg:hasFeature pg:Urgency .
+
+pg:FakePrizeScam a pg:ThreatType ;
+  rdfs:label "Фалшива награда" ;
+  pg:description "Измама, която обещава награда и води потребителя към линк или плащане." ;
+  pg:hasFeature pg:PrizeBait ;
+  pg:hasFeature pg:SuspiciousLink ;
+  pg:hasFeature pg:PaymentRequest .
+
+pg:CredentialPhishing a pg:ThreatType ;
+  rdfs:label "Фишинг за идентификационни данни" ;
+  pg:description "Фишинг атака, при която се търсят пароли, кодове или данни за вход." ;
+  pg:hasFeature pg:CredentialRequest ;
+  pg:hasFeature pg:SuspiciousLink ;
+  pg:hasFeature pg:Urgency .
+
+pg:CryptoScam a pg:ThreatType ;
+  rdfs:label "Crypto Scam" ;
+  pg:description "Измама, свързана с искане за плащане или инвестиция в криптовалута." ;
+  pg:hasFeature pg:Urgency ;
+  pg:hasFeature pg:CredentialRequest ;
+  pg:hasFeature pg:SuspiciousLink ;
+  pg:hasFeature pg:UnknownSender ;
+  pg:hasFeature pg:CryptoPaymentRequest ;
+  pg:hasFeature pg:DeliveryFeeBait ;
+  pg:hasFeature pg:PrizeBait ;
+  pg:hasFeature pg:PaymentRequest ;
+  pg:hasFeature pg:AccountThreat .
+
+pg:FakeCarThread a pg:ThreatType ;
+  rdfs:label "Fake car thread" ;
+  pg:description "Измама, свързана с коли на ниски цени." ;
+  pg:hasFeature pg:CarFakeOffer ;
+  pg:hasFeature pg:SuspiciousLink ;
+  pg:hasFeature pg:UnknownSender ;
+  pg:hasFeature pg:PaymentRequest .
+
+pg:DoNotOpenLink a pg:Recommendation ;
+  rdfs:label "Не отваряйте линка" ;
+  pg:description "Не отваряйте линковете от съобщението, докато не проверите подателя." .
+
+pg:DoNotEnterData a pg:Recommendation ;
+  rdfs:label "Не въвеждайте лични данни" ;
+  pg:description "Не въвеждайте пароли, банкови данни или лична информация през линка." .
+
+pg:VerifyOfficialWebsite a pg:Recommendation ;
+  rdfs:label "Проверете официалния сайт" ;
+  pg:description "Отворете официалния сайт ръчно от браузъра, вместо да използвате получения линк." .
+
+pg:ReportMessage a pg:Recommendation ;
+  rdfs:label "Докладвайте съобщението" ;
+  pg:description "Докладвайте съобщението като спам/фишинг и блокирайте подателя." .
+
