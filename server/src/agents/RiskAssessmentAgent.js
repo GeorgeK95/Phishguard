@@ -48,7 +48,19 @@ function deduplicateFeatures(features) {
   return Array.from(map.values());
 }
 
-function resolveRiskLevel(score, riskLevels) {
+function resolveRiskLevel(score, riskLevels = []) {
+  if (!Array.isArray(riskLevels) || riskLevels.length === 0) {
+    if (score >= 61) {
+      return { id: 'HighRisk', label: 'High risk', minScore: 61, maxScore: 100 };
+    }
+
+    if (score >= 31) {
+      return { id: 'MediumRisk', label: 'Medium risk', minScore: 31, maxScore: 60 };
+    }
+
+    return { id: 'LowRisk', label: 'Low risk', minScore: 0, maxScore: 30 };
+  }
+
   const level = riskLevels.find((risk) => score >= risk.minScore && score <= risk.maxScore) || riskLevels[riskLevels.length - 1];
   return level;
 }

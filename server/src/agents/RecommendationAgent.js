@@ -5,8 +5,8 @@ export class RecommendationAgent {
 
   async handle(request, ontology) {
     const { riskLevel, detectedFeatures, threatType } = request.content;
-    const recommendations = ontology.recommendations
-      .filter((recommendation) => recommendation.appliesToRisk.includes(riskLevel.id))
+    const recommendations = (ontology.recommendations || [])
+      .filter((recommendation) => Array.isArray(recommendation.appliesToRisk) && recommendation.appliesToRisk.includes(riskLevel.id))
       .map((recommendation) => recommendation.text);
 
     const explanationParts = [];
