@@ -279,6 +279,16 @@ input:focus, textarea:focus, select:focus {
   border: 1px solid #e2e8f0;
 }
 
+.ontology-item strong {
+  display: block;
+}
+
+.ontology-item small {
+  display: block;
+  margin-top: 6px;
+  line-height: 1.45;
+}
+
 .feature-item {
   display: flex;
   justify-content: space-between;
@@ -387,8 +397,97 @@ input:focus, textarea:focus, select:focus {
   color: #64748b;
 }
 
+.ontology-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 18px 0 22px;
+}
+
+.ontology-stats span {
+  padding: 10px 12px;
+  border-radius: 999px;
+  background: #eff6ff;
+  border: 1px solid #dbeafe;
+  color: #1e3a8a;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.ontology-section-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.ontology-group {
+  padding: 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  background: #fbfdff;
+}
+
+.ontology-group-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.ontology-group-header h3 {
+  margin: 0 0 6px;
+}
+
+.ontology-group-header p {
+  margin: 0;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+.ontology-group-header span {
+  display: grid;
+  place-items: center;
+  min-width: 40px;
+  height: 34px;
+  border-radius: 999px;
+  color: #1d4ed8;
+  background: #dbeafe;
+  font-weight: 900;
+}
+
+.ontology-list {
+  display: grid;
+  gap: 10px;
+  max-height: 390px;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.ontology-compact-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  max-height: 390px;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.ontology-compact-list .ontology-item {
+  padding: 10px;
+}
+
+.ontology-compact-list .ontology-item strong {
+  font-size: 14px;
+}
+
+.ontology-compact-list .ontology-item small {
+  display: block;
+  margin-top: 6px;
+}
+
 @media (max-width: 860px) {
-  .hero-card, .two-columns, .ontology-columns {
+  .hero-card, .two-columns, .ontology-columns, .ontology-section-grid {
     grid-template-columns: 1fr;
     display: grid;
   }
@@ -400,4 +499,9 @@ input:focus, textarea:focus, select:focus {
   .status-pill {
     width: fit-content;
   }
+
+  .ontology-compact-list {
+    grid-template-columns: 1fr;
+  }
 }
+

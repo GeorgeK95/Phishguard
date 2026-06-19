@@ -6,54 +6,747 @@
 
 pg:PhishGuardOntology a owl:Ontology ;
   rdfs:label "PhishGuard OWL Ontology" ;
-  rdfs:comment "Ontology for phishing message analysis, threat types, message features, risk levels and recommendations." .
+  rdfs:comment "Expanded ontology for phishing message analysis, online scams, indicators, channels, attack goals, organizations, risk levels and recommendations." .
+
+pg:DomainConcept a owl:Class ;
+  rdfs:label "Domain concept" .
+
+pg:CyberSecurityConcept a owl:Class ;
+  rdfs:label "Cybersecurity concept" .
+
+pg:CyberSecurityConcept rdfs:subClassOf pg:DomainConcept .
+
+pg:PhishingMessage a owl:Class ;
+  rdfs:label "Phishing message" .
+
+pg:PhishingMessage rdfs:subClassOf pg:CyberSecurityConcept .
+
+pg:AnalysisResult a owl:Class ;
+  rdfs:label "Analysis result" .
+
+pg:AnalysisResult rdfs:subClassOf pg:CyberSecurityConcept .
+
+pg:Evidence a owl:Class ;
+  rdfs:label "Evidence" .
+
+pg:Evidence rdfs:subClassOf pg:CyberSecurityConcept .
+
+pg:KeywordEvidence a owl:Class ;
+  rdfs:label "Keyword evidence" .
+
+pg:KeywordEvidence rdfs:subClassOf pg:Evidence .
+
+pg:UrlEvidence a owl:Class ;
+  rdfs:label "URL evidence" .
+
+pg:UrlEvidence rdfs:subClassOf pg:Evidence .
+
+pg:SenderEvidence a owl:Class ;
+  rdfs:label "Sender evidence" .
+
+pg:SenderEvidence rdfs:subClassOf pg:Evidence .
+
+pg:RiskAssessment a owl:Class ;
+  rdfs:label "Risk assessment" .
+
+pg:RiskAssessment rdfs:subClassOf pg:CyberSecurityConcept .
+
+pg:CyberThreat a owl:Class ;
+  rdfs:label "Cyber threat" .
+
+pg:CyberThreat rdfs:subClassOf pg:CyberSecurityConcept .
 
 pg:ThreatType a owl:Class ;
   rdfs:label "Threat type" .
 
+pg:ThreatType rdfs:subClassOf pg:CyberThreat .
+
+pg:PhishingThreat a owl:Class ;
+  rdfs:label "Phishing threat" .
+
+pg:PhishingThreat rdfs:subClassOf pg:ThreatType .
+
+pg:EmailPhishing a owl:Class ;
+  rdfs:label "Email phishing" .
+
+pg:EmailPhishing rdfs:subClassOf pg:PhishingThreat .
+
+pg:SpearPhishing a owl:Class ;
+  rdfs:label "Spear phishing" .
+
+pg:SpearPhishing rdfs:subClassOf pg:PhishingThreat .
+
+pg:CredentialPhishingClass a owl:Class ;
+  rdfs:label "Credential phishing" .
+
+pg:CredentialPhishingClass rdfs:subClassOf pg:PhishingThreat .
+
+pg:ClonePhishing a owl:Class ;
+  rdfs:label "Clone phishing" .
+
+pg:ClonePhishing rdfs:subClassOf pg:PhishingThreat .
+
+pg:QRPhishingThreat a owl:Class ;
+  rdfs:label "QR phishing threat" .
+
+pg:QRPhishingThreat rdfs:subClassOf pg:PhishingThreat .
+
+pg:SmishingThreat a owl:Class ;
+  rdfs:label "Smishing threat" .
+
+pg:SmishingThreat rdfs:subClassOf pg:ThreatType .
+
+pg:FakeBankSms a owl:Class ;
+  rdfs:label "Fake bank SMS" .
+
+pg:FakeBankSms rdfs:subClassOf pg:SmishingThreat .
+
+pg:FakeDeliverySms a owl:Class ;
+  rdfs:label "Fake delivery SMS" .
+
+pg:FakeDeliverySms rdfs:subClassOf pg:SmishingThreat .
+
+pg:FakeTollSms a owl:Class ;
+  rdfs:label "Fake toll SMS" .
+
+pg:FakeTollSms rdfs:subClassOf pg:SmishingThreat .
+
+pg:VishingThreat a owl:Class ;
+  rdfs:label "Vishing threat" .
+
+pg:VishingThreat rdfs:subClassOf pg:ThreatType .
+
+pg:SocialEngineeringThreat a owl:Class ;
+  rdfs:label "Social engineering threat" .
+
+pg:SocialEngineeringThreat rdfs:subClassOf pg:ThreatType .
+
+pg:ImpersonationScam a owl:Class ;
+  rdfs:label "Impersonation scam" .
+
+pg:ImpersonationScam rdfs:subClassOf pg:SocialEngineeringThreat .
+
+pg:FakePrizeScamClass a owl:Class ;
+  rdfs:label "Fake prize scam" .
+
+pg:FakePrizeScamClass rdfs:subClassOf pg:SocialEngineeringThreat .
+
+pg:RomanceScam a owl:Class ;
+  rdfs:label "Romance scam" .
+
+pg:RomanceScam rdfs:subClassOf pg:SocialEngineeringThreat .
+
+pg:TechSupportScam a owl:Class ;
+  rdfs:label "Tech support scam" .
+
+pg:TechSupportScam rdfs:subClassOf pg:SocialEngineeringThreat .
+
+pg:FinancialScam a owl:Class ;
+  rdfs:label "Financial scam" .
+
+pg:FinancialScam rdfs:subClassOf pg:ThreatType .
+
+pg:CryptoScamClass a owl:Class ;
+  rdfs:label "Crypto scam" .
+
+pg:CryptoScamClass rdfs:subClassOf pg:FinancialScam .
+
+pg:InvestmentScam a owl:Class ;
+  rdfs:label "Investment scam" .
+
+pg:InvestmentScam rdfs:subClassOf pg:FinancialScam .
+
+pg:FakePaymentScam a owl:Class ;
+  rdfs:label "Fake payment scam" .
+
+pg:FakePaymentScam rdfs:subClassOf pg:FinancialScam .
+
+pg:RefundScam a owl:Class ;
+  rdfs:label "Refund scam" .
+
+pg:RefundScam rdfs:subClassOf pg:FinancialScam .
+
+pg:MalwareThreat a owl:Class ;
+  rdfs:label "Malware threat" .
+
+pg:MalwareThreat rdfs:subClassOf pg:ThreatType .
+
+pg:MaliciousAttachment a owl:Class ;
+  rdfs:label "Malicious attachment" .
+
+pg:MaliciousAttachment rdfs:subClassOf pg:MalwareThreat .
+
+pg:FakeSoftwareUpdate a owl:Class ;
+  rdfs:label "Fake software update" .
+
+pg:FakeSoftwareUpdate rdfs:subClassOf pg:MalwareThreat .
+
 pg:MessageFeature a owl:Class ;
   rdfs:label "Message feature" .
+
+pg:MessageFeature rdfs:subClassOf pg:CyberSecurityConcept .
+
+pg:LinguisticFeature a owl:Class ;
+  rdfs:label "Linguistic feature" .
+
+pg:LinguisticFeature rdfs:subClassOf pg:MessageFeature .
+
+pg:UrgencyLanguage a owl:Class ;
+  rdfs:label "Urgency language" .
+
+pg:UrgencyLanguage rdfs:subClassOf pg:LinguisticFeature .
+
+pg:ThreateningLanguage a owl:Class ;
+  rdfs:label "Threatening language" .
+
+pg:ThreateningLanguage rdfs:subClassOf pg:LinguisticFeature .
+
+pg:GrammarMistakes a owl:Class ;
+  rdfs:label "Grammar mistakes" .
+
+pg:GrammarMistakes rdfs:subClassOf pg:LinguisticFeature .
+
+pg:GenericGreeting a owl:Class ;
+  rdfs:label "Generic greeting" .
+
+pg:GenericGreeting rdfs:subClassOf pg:LinguisticFeature .
+
+pg:TooGoodToBeTrueLanguage a owl:Class ;
+  rdfs:label "Too-good-to-be-true language" .
+
+pg:TooGoodToBeTrueLanguage rdfs:subClassOf pg:LinguisticFeature .
+
+pg:AuthorityPressure a owl:Class ;
+  rdfs:label "Authority pressure" .
+
+pg:AuthorityPressure rdfs:subClassOf pg:LinguisticFeature .
+
+pg:LinkFeature a owl:Class ;
+  rdfs:label "Link feature" .
+
+pg:LinkFeature rdfs:subClassOf pg:MessageFeature .
+
+pg:SuspiciousUrl a owl:Class ;
+  rdfs:label "Suspicious URL" .
+
+pg:SuspiciousUrl rdfs:subClassOf pg:LinkFeature .
+
+pg:ShortenedUrl a owl:Class ;
+  rdfs:label "Shortened URL" .
+
+pg:ShortenedUrl rdfs:subClassOf pg:LinkFeature .
+
+pg:LookalikeDomain a owl:Class ;
+  rdfs:label "Lookalike domain" .
+
+pg:LookalikeDomain rdfs:subClassOf pg:LinkFeature .
+
+pg:HttpWithoutHttps a owl:Class ;
+  rdfs:label "HTTP without HTTPS" .
+
+pg:HttpWithoutHttps rdfs:subClassOf pg:LinkFeature .
+
+pg:MismatchedDomain a owl:Class ;
+  rdfs:label "Mismatched domain" .
+
+pg:MismatchedDomain rdfs:subClassOf pg:LinkFeature .
+
+pg:TyposquattedDomain a owl:Class ;
+  rdfs:label "Typosquatted domain" .
+
+pg:TyposquattedDomain rdfs:subClassOf pg:LinkFeature .
+
+pg:UrlWithIPAddress a owl:Class ;
+  rdfs:label "URL with IP address" .
+
+pg:UrlWithIPAddress rdfs:subClassOf pg:LinkFeature .
+
+pg:DataRequestFeature a owl:Class ;
+  rdfs:label "Data request feature" .
+
+pg:DataRequestFeature rdfs:subClassOf pg:MessageFeature .
+
+pg:PasswordRequestClass a owl:Class ;
+  rdfs:label "Password request" .
+
+pg:PasswordRequestClass rdfs:subClassOf pg:DataRequestFeature .
+
+pg:CardDataRequestClass a owl:Class ;
+  rdfs:label "Card data request" .
+
+pg:CardDataRequestClass rdfs:subClassOf pg:DataRequestFeature .
+
+pg:PersonalDataRequestClass a owl:Class ;
+  rdfs:label "Personal data request" .
+
+pg:PersonalDataRequestClass rdfs:subClassOf pg:DataRequestFeature .
+
+pg:TwoFactorCodeRequest a owl:Class ;
+  rdfs:label "Two-factor code request" .
+
+pg:TwoFactorCodeRequest rdfs:subClassOf pg:DataRequestFeature .
+
+pg:RecoveryPhraseRequest a owl:Class ;
+  rdfs:label "Recovery phrase request" .
+
+pg:RecoveryPhraseRequest rdfs:subClassOf pg:DataRequestFeature .
+
+pg:PaymentFeature a owl:Class ;
+  rdfs:label "Payment feature" .
+
+pg:PaymentFeature rdfs:subClassOf pg:MessageFeature .
+
+pg:UrgentPaymentRequest a owl:Class ;
+  rdfs:label "Urgent payment request" .
+
+pg:UrgentPaymentRequest rdfs:subClassOf pg:PaymentFeature .
+
+pg:CryptoWalletRequest a owl:Class ;
+  rdfs:label "Crypto wallet request" .
+
+pg:CryptoWalletRequest rdfs:subClassOf pg:PaymentFeature .
+
+pg:SmallFeeRequest a owl:Class ;
+  rdfs:label "Small fee request" .
+
+pg:SmallFeeRequest rdfs:subClassOf pg:PaymentFeature .
+
+pg:GiftCardPaymentRequest a owl:Class ;
+  rdfs:label "Gift card payment request" .
+
+pg:GiftCardPaymentRequest rdfs:subClassOf pg:PaymentFeature .
+
+pg:BankTransferRequest a owl:Class ;
+  rdfs:label "Bank transfer request" .
+
+pg:BankTransferRequest rdfs:subClassOf pg:PaymentFeature .
+
+pg:SenderFeature a owl:Class ;
+  rdfs:label "Sender feature" .
+
+pg:SenderFeature rdfs:subClassOf pg:MessageFeature .
+
+pg:UnknownSenderClass a owl:Class ;
+  rdfs:label "Unknown sender" .
+
+pg:UnknownSenderClass rdfs:subClassOf pg:SenderFeature .
+
+pg:SpoofedEmailAddress a owl:Class ;
+  rdfs:label "Spoofed email address" .
+
+pg:SpoofedEmailAddress rdfs:subClassOf pg:SenderFeature .
+
+pg:ImpersonatedOrganization a owl:Class ;
+  rdfs:label "Impersonated organization" .
+
+pg:ImpersonatedOrganization rdfs:subClassOf pg:SenderFeature .
+
+pg:NoReplySender a owl:Class ;
+  rdfs:label "No-reply sender" .
+
+pg:NoReplySender rdfs:subClassOf pg:SenderFeature .
+
+pg:AttachmentFeature a owl:Class ;
+  rdfs:label "Attachment feature" .
+
+pg:AttachmentFeature rdfs:subClassOf pg:MessageFeature .
+
+pg:ExecutableAttachment a owl:Class ;
+  rdfs:label "Executable attachment" .
+
+pg:ExecutableAttachment rdfs:subClassOf pg:AttachmentFeature .
+
+pg:MacroDocumentAttachment a owl:Class ;
+  rdfs:label "Macro document attachment" .
+
+pg:MacroDocumentAttachment rdfs:subClassOf pg:AttachmentFeature .
+
+pg:ArchiveAttachment a owl:Class ;
+  rdfs:label "Archive attachment" .
+
+pg:ArchiveAttachment rdfs:subClassOf pg:AttachmentFeature .
 
 pg:CommunicationChannel a owl:Class ;
   rdfs:label "Communication channel" .
 
+pg:CommunicationChannel rdfs:subClassOf pg:CyberSecurityConcept .
+
+pg:EmailChannel a owl:Class ;
+  rdfs:label "Email channel" .
+
+pg:EmailChannel rdfs:subClassOf pg:CommunicationChannel .
+
+pg:SmsChannel a owl:Class ;
+  rdfs:label "SMS channel" .
+
+pg:SmsChannel rdfs:subClassOf pg:CommunicationChannel .
+
+pg:ChatChannel a owl:Class ;
+  rdfs:label "Chat channel" .
+
+pg:ChatChannel rdfs:subClassOf pg:CommunicationChannel .
+
+pg:SocialMediaChannel a owl:Class ;
+  rdfs:label "Social media channel" .
+
+pg:SocialMediaChannel rdfs:subClassOf pg:CommunicationChannel .
+
+pg:WhatsAppChannel a owl:Class ;
+  rdfs:label "WhatsApp channel" .
+
+pg:WhatsAppChannel rdfs:subClassOf pg:CommunicationChannel .
+
+pg:ViberChannel a owl:Class ;
+  rdfs:label "Viber channel" .
+
+pg:ViberChannel rdfs:subClassOf pg:CommunicationChannel .
+
+pg:TelegramChannel a owl:Class ;
+  rdfs:label "Telegram channel" .
+
+pg:TelegramChannel rdfs:subClassOf pg:CommunicationChannel .
+
+pg:InstagramDMChannel a owl:Class ;
+  rdfs:label "Instagram DM channel" .
+
+pg:InstagramDMChannel rdfs:subClassOf pg:CommunicationChannel .
+
+pg:FacebookMessengerChannel a owl:Class ;
+  rdfs:label "Facebook Messenger channel" .
+
+pg:FacebookMessengerChannel rdfs:subClassOf pg:CommunicationChannel .
+
+pg:PhoneCallChannel a owl:Class ;
+  rdfs:label "Phone call channel" .
+
+pg:PhoneCallChannel rdfs:subClassOf pg:CommunicationChannel .
+
+pg:QRCodeChannel a owl:Class ;
+  rdfs:label "QR code channel" .
+
+pg:QRCodeChannel rdfs:subClassOf pg:CommunicationChannel .
+
+pg:TargetOrganization a owl:Class ;
+  rdfs:label "Target organization" .
+
+pg:TargetOrganization rdfs:subClassOf pg:CyberSecurityConcept .
+
+pg:BankOrganization a owl:Class ;
+  rdfs:label "Bank organization" .
+
+pg:BankOrganization rdfs:subClassOf pg:TargetOrganization .
+
+pg:CourierCompany a owl:Class ;
+  rdfs:label "Courier company" .
+
+pg:CourierCompany rdfs:subClassOf pg:TargetOrganization .
+
+pg:GovernmentInstitution a owl:Class ;
+  rdfs:label "Government institution" .
+
+pg:GovernmentInstitution rdfs:subClassOf pg:TargetOrganization .
+
+pg:OnlineStore a owl:Class ;
+  rdfs:label "Online store" .
+
+pg:OnlineStore rdfs:subClassOf pg:TargetOrganization .
+
+pg:SocialNetwork a owl:Class ;
+  rdfs:label "Social network" .
+
+pg:SocialNetwork rdfs:subClassOf pg:TargetOrganization .
+
+pg:CryptoExchange a owl:Class ;
+  rdfs:label "Crypto exchange" .
+
+pg:CryptoExchange rdfs:subClassOf pg:TargetOrganization .
+
+pg:PaymentProvider a owl:Class ;
+  rdfs:label "Payment provider" .
+
+pg:PaymentProvider rdfs:subClassOf pg:TargetOrganization .
+
+pg:TelecomProvider a owl:Class ;
+  rdfs:label "Telecom provider" .
+
+pg:TelecomProvider rdfs:subClassOf pg:TargetOrganization .
+
+pg:AttackGoal a owl:Class ;
+  rdfs:label "Attack goal" .
+
+pg:AttackGoal rdfs:subClassOf pg:CyberSecurityConcept .
+
+pg:StealCredentials a owl:Class ;
+  rdfs:label "Steal credentials" .
+
+pg:StealCredentials rdfs:subClassOf pg:AttackGoal .
+
+pg:StealCardData a owl:Class ;
+  rdfs:label "Steal card data" .
+
+pg:StealCardData rdfs:subClassOf pg:AttackGoal .
+
+pg:StealPersonalData a owl:Class ;
+  rdfs:label "Steal personal data" .
+
+pg:StealPersonalData rdfs:subClassOf pg:AttackGoal .
+
+pg:InstallMalware a owl:Class ;
+  rdfs:label "Install malware" .
+
+pg:InstallMalware rdfs:subClassOf pg:AttackGoal .
+
+pg:ReceiveFraudulentPayment a owl:Class ;
+  rdfs:label "Receive fraudulent payment" .
+
+pg:ReceiveFraudulentPayment rdfs:subClassOf pg:AttackGoal .
+
+pg:TakeOverAccount a owl:Class ;
+  rdfs:label "Take over account" .
+
+pg:TakeOverAccount rdfs:subClassOf pg:AttackGoal .
+
+pg:BypassTwoFactor a owl:Class ;
+  rdfs:label "Bypass two-factor authentication" .
+
+pg:BypassTwoFactor rdfs:subClassOf pg:AttackGoal .
+
+pg:StealCryptoAssets a owl:Class ;
+  rdfs:label "Steal crypto assets" .
+
+pg:StealCryptoAssets rdfs:subClassOf pg:AttackGoal .
+
 pg:RiskLevel a owl:Class ;
   rdfs:label "Risk level" .
+
+pg:RiskLevel rdfs:subClassOf pg:CyberSecurityConcept .
+
+pg:LowRiskClass a owl:Class ;
+  rdfs:label "Low risk class" .
+
+pg:LowRiskClass rdfs:subClassOf pg:RiskLevel .
+
+pg:MediumRiskClass a owl:Class ;
+  rdfs:label "Medium risk class" .
+
+pg:MediumRiskClass rdfs:subClassOf pg:RiskLevel .
+
+pg:HighRiskClass a owl:Class ;
+  rdfs:label "High risk class" .
+
+pg:HighRiskClass rdfs:subClassOf pg:RiskLevel .
 
 pg:Recommendation a owl:Class ;
   rdfs:label "Recommendation" .
 
+pg:Recommendation rdfs:subClassOf pg:CyberSecurityConcept .
+
+pg:PreventiveAction a owl:Class ;
+  rdfs:label "Preventive action" .
+
+pg:PreventiveAction rdfs:subClassOf pg:Recommendation .
+
+pg:VerificationAction a owl:Class ;
+  rdfs:label "Verification action" .
+
+pg:VerificationAction rdfs:subClassOf pg:Recommendation .
+
+pg:ReportingAction a owl:Class ;
+  rdfs:label "Reporting action" .
+
+pg:ReportingAction rdfs:subClassOf pg:Recommendation .
+
+pg:RecoveryAction a owl:Class ;
+  rdfs:label "Recovery action" .
+
+pg:RecoveryAction rdfs:subClassOf pg:Recommendation .
+
+pg:DoNotOpenLinkClass a owl:Class ;
+  rdfs:label "Do not open link" .
+
+pg:DoNotOpenLinkClass rdfs:subClassOf pg:PreventiveAction .
+
+pg:DoNotEnterCredentialsClass a owl:Class ;
+  rdfs:label "Do not enter credentials" .
+
+pg:DoNotEnterCredentialsClass rdfs:subClassOf pg:PreventiveAction .
+
+pg:DoNotDownloadAttachmentClass a owl:Class ;
+  rdfs:label "Do not download attachment" .
+
+pg:DoNotDownloadAttachmentClass rdfs:subClassOf pg:PreventiveAction .
+
+pg:VerifyOfficialWebsiteClass a owl:Class ;
+  rdfs:label "Verify official website" .
+
+pg:VerifyOfficialWebsiteClass rdfs:subClassOf pg:VerificationAction .
+
+pg:ContactBankClass a owl:Class ;
+  rdfs:label "Contact bank" .
+
+pg:ContactBankClass rdfs:subClassOf pg:VerificationAction .
+
+pg:ContactCourierClass a owl:Class ;
+  rdfs:label "Contact courier" .
+
+pg:ContactCourierClass rdfs:subClassOf pg:VerificationAction .
+
+pg:ReportMessageClass a owl:Class ;
+  rdfs:label "Report message" .
+
+pg:ReportMessageClass rdfs:subClassOf pg:ReportingAction .
+
+pg:BlockSenderClass a owl:Class ;
+  rdfs:label "Block sender" .
+
+pg:BlockSenderClass rdfs:subClassOf pg:ReportingAction .
+
+pg:ChangePasswordClass a owl:Class ;
+  rdfs:label "Change password" .
+
+pg:ChangePasswordClass rdfs:subClassOf pg:RecoveryAction .
+
+pg:FreezeCardClass a owl:Class ;
+  rdfs:label "Freeze card" .
+
+pg:FreezeCardClass rdfs:subClassOf pg:RecoveryAction .
+
 pg:hasFeature a owl:ObjectProperty ;
   rdfs:label "Threat type has related message feature" .
+pg:hasFeature rdfs:domain pg:ThreatType .
+pg:hasFeature rdfs:range pg:MessageFeature .
+
+pg:indicatesThreat a owl:ObjectProperty ;
+  rdfs:label "Feature indicates threat" .
+pg:indicatesThreat rdfs:domain pg:MessageFeature .
+pg:indicatesThreat rdfs:range pg:ThreatType .
 
 pg:hasRiskLevel a owl:ObjectProperty ;
-  rdfs:label "Analysis or feature has risk level" .
+  rdfs:label "Analysis has risk level" .
+pg:hasRiskLevel rdfs:domain pg:AnalysisResult .
+pg:hasRiskLevel rdfs:range pg:RiskLevel .
 
 pg:hasRecommendation a owl:ObjectProperty ;
   rdfs:label "Risk level has recommendation" .
+pg:hasRecommendation rdfs:domain pg:RiskLevel .
+pg:hasRecommendation rdfs:range pg:Recommendation .
 
 pg:usesChannel a owl:ObjectProperty ;
   rdfs:label "Message uses communication channel" .
+pg:usesChannel rdfs:domain pg:PhishingMessage .
+pg:usesChannel rdfs:range pg:CommunicationChannel .
+
+pg:targetsOrganization a owl:ObjectProperty ;
+  rdfs:label "Threat targets organization type" .
+pg:targetsOrganization rdfs:domain pg:ThreatType .
+pg:targetsOrganization rdfs:range pg:TargetOrganization .
+
+pg:hasAttackGoal a owl:ObjectProperty ;
+  rdfs:label "Threat has attack goal" .
+pg:hasAttackGoal rdfs:domain pg:ThreatType .
+pg:hasAttackGoal rdfs:range pg:AttackGoal .
+
+pg:requiresAction a owl:ObjectProperty ;
+  rdfs:label "Threat requires protective action" .
+pg:requiresAction rdfs:domain pg:ThreatType .
+pg:requiresAction rdfs:range pg:Recommendation .
+
+pg:detectedInMessage a owl:ObjectProperty ;
+  rdfs:label "Feature detected in message" .
+pg:detectedInMessage rdfs:domain pg:MessageFeature .
+pg:detectedInMessage rdfs:range pg:PhishingMessage .
+
+pg:hasEvidence a owl:ObjectProperty ;
+  rdfs:label "Analysis has evidence" .
+pg:hasEvidence rdfs:domain pg:AnalysisResult .
+pg:hasEvidence rdfs:range pg:Evidence .
+
+pg:containsUrlFeature a owl:ObjectProperty ;
+  rdfs:label "Message contains URL feature" .
+pg:containsUrlFeature rdfs:domain pg:PhishingMessage .
+pg:containsUrlFeature rdfs:range pg:LinkFeature .
+
+pg:hasSenderFeature a owl:ObjectProperty ;
+  rdfs:label "Message has sender feature" .
+pg:hasSenderFeature rdfs:domain pg:PhishingMessage .
+pg:hasSenderFeature rdfs:range pg:SenderFeature .
+
+pg:isFeatureOf a owl:ObjectProperty ;
+  rdfs:label "Feature is feature of threat" .
+pg:isFeatureOf rdfs:domain pg:MessageFeature .
+pg:isFeatureOf rdfs:range pg:ThreatType .
+pg:isFeatureOf owl:inverseOf pg:hasFeature .
+
+pg:mitigatesThreat a owl:ObjectProperty ;
+  rdfs:label "Recommendation mitigates threat" .
+pg:mitigatesThreat rdfs:domain pg:Recommendation .
+pg:mitigatesThreat rdfs:range pg:ThreatType .
+
+pg:isEvidenceFor a owl:ObjectProperty ;
+  rdfs:label "Evidence supports analysis" .
+pg:isEvidenceFor rdfs:domain pg:Evidence .
+pg:isEvidenceFor rdfs:range pg:AnalysisResult .
 
 pg:keyword a owl:DatatypeProperty ;
   rdfs:label "Keyword used for feature detection" .
+pg:keyword rdfs:domain pg:MessageFeature .
+pg:keyword rdfs:range xsd:string .
 
 pg:riskScore a owl:DatatypeProperty ;
   rdfs:label "Risk score contribution" .
+pg:riskScore rdfs:domain pg:MessageFeature .
+pg:riskScore rdfs:range xsd:integer .
 
 pg:description a owl:DatatypeProperty ;
   rdfs:label "Entity description" .
+pg:description rdfs:domain pg:CyberSecurityConcept .
+pg:description rdfs:range xsd:string .
+
+pg:hasSeverityWeight a owl:DatatypeProperty ;
+  rdfs:label "Severity weight" .
+pg:hasSeverityWeight rdfs:domain pg:MessageFeature .
+pg:hasSeverityWeight rdfs:range xsd:integer .
+
+pg:hasConfidenceScore a owl:DatatypeProperty ;
+  rdfs:label "Confidence score" .
+pg:hasConfidenceScore rdfs:domain pg:AnalysisResult .
+pg:hasConfidenceScore rdfs:range xsd:decimal .
+
+pg:hasMessageText a owl:DatatypeProperty ;
+  rdfs:label "Message text" .
+pg:hasMessageText rdfs:domain pg:PhishingMessage .
+pg:hasMessageText rdfs:range xsd:string .
+
+pg:hasDetectedAt a owl:DatatypeProperty ;
+  rdfs:label "Detected timestamp" .
+pg:hasDetectedAt rdfs:domain pg:AnalysisResult .
+pg:hasDetectedAt rdfs:range xsd:dateTime .
+
+pg:hasDomainName a owl:DatatypeProperty ;
+  rdfs:label "Domain name" .
+pg:hasDomainName rdfs:domain pg:UrlEvidence .
+pg:hasDomainName rdfs:range xsd:string .
+
+pg:hasSenderValue a owl:DatatypeProperty ;
+  rdfs:label "Sender value" .
+pg:hasSenderValue rdfs:domain pg:SenderEvidence .
+pg:hasSenderValue rdfs:range xsd:string .
+
+pg:hasRiskExplanation a owl:DatatypeProperty ;
+  rdfs:label "Risk explanation" .
+pg:hasRiskExplanation rdfs:domain pg:AnalysisResult .
+pg:hasRiskExplanation rdfs:range xsd:string .
 
 pg:LowRisk a pg:RiskLevel ;
-  rdfs:label "Нисък риск" ;
+  rdfs:label "Low risk" ;
   pg:riskScore "0-30" .
 
 pg:MediumRisk a pg:RiskLevel ;
-  rdfs:label "Среден риск" ;
+  rdfs:label "Medium risk" ;
   pg:riskScore "31-60" .
 
 pg:HighRisk a pg:RiskLevel ;
-  rdfs:label "Висок риск" ;
+  rdfs:label "High risk" ;
   pg:riskScore "61-100" .
 
 pg:SMS a pg:CommunicationChannel ;
@@ -65,56 +758,86 @@ pg:Email a pg:CommunicationChannel ;
 pg:ChatMessage a pg:CommunicationChannel ;
   rdfs:label "Chat message" .
 
+pg:SocialMedia a pg:CommunicationChannel ;
+  rdfs:label "Social media" .
+
+pg:WhatsApp a pg:CommunicationChannel ;
+  rdfs:label "WhatsApp" .
+
+pg:Viber a pg:CommunicationChannel ;
+  rdfs:label "Viber" .
+
+pg:Telegram a pg:CommunicationChannel ;
+  rdfs:label "Telegram" .
+
+pg:InstagramDM a pg:CommunicationChannel ;
+  rdfs:label "Instagram DM" .
+
+pg:FacebookMessenger a pg:CommunicationChannel ;
+  rdfs:label "Facebook Messenger" .
+
+pg:PhoneCall a pg:CommunicationChannel ;
+  rdfs:label "Phone call" .
+
+pg:QRCode a pg:CommunicationChannel ;
+  rdfs:label "QR code" .
+
+pg:WebForm a pg:CommunicationChannel ;
+  rdfs:label "Web form" .
+
 pg:Urgency a pg:MessageFeature ;
-  rdfs:label "Спешност" ;
-  pg:description "Съобщението използва спешност, за да провокира бърза реакция." ;
+  rdfs:label "Urgency language" ;
+  pg:description "The message pushes the user to act quickly without proper verification." ;
   pg:riskScore "15"^^xsd:integer ;
-  pg:keyword "спешно" ;
-  pg:keyword "незабавно" ;
-  pg:keyword "до 24 часа" ;
-  pg:keyword "веднага" ;
   pg:keyword "urgent" ;
   pg:keyword "immediately" ;
-  pg:keyword "limited time" .
+  pg:keyword "limited time" ;
+  pg:keyword "within 24 hours" ;
+  pg:keyword "act now" ;
+  pg:keyword "final notice" ;
+  pg:keyword "expires today" .
 
 pg:AccountThreat a pg:MessageFeature ;
-  rdfs:label "Заплаха за акаунт" ;
-  pg:description "Съобщението заплашва с блокиране, спиране или ограничаване на акаунт." ;
+  rdfs:label "Account threat" ;
+  pg:description "The message threatens account blocking, suspension, closure or restriction." ;
   pg:riskScore "20"^^xsd:integer ;
-  pg:keyword "ще бъде блокиран" ;
-  pg:keyword "блокирана" ;
-  pg:keyword "suspended" ;
   pg:keyword "blocked" ;
+  pg:keyword "suspended" ;
   pg:keyword "restricted" ;
-  pg:keyword "закриване" .
+  pg:keyword "closed" ;
+  pg:keyword "deactivated" ;
+  pg:keyword "account will be blocked" ;
+  pg:keyword "account suspension" .
 
 pg:CredentialRequest a pg:MessageFeature ;
-  rdfs:label "Искане за парола или вход" ;
-  pg:description "Съобщението изисква парола, вход или потвърждение на акаунт." ;
+  rdfs:label "Credential request" ;
+  pg:description "The message asks for password, login credentials or account verification." ;
   pg:riskScore "30"^^xsd:integer ;
-  pg:keyword "парола" ;
   pg:keyword "password" ;
   pg:keyword "login" ;
-  pg:keyword "потвърдете акаунта" ;
+  pg:keyword "sign in" ;
   pg:keyword "verify your account" ;
-  pg:keyword "вход" .
+  pg:keyword "confirm your account" ;
+  pg:keyword "authentication" ;
+  pg:keyword "credentials" .
 
 pg:PaymentRequest a pg:MessageFeature ;
-  rdfs:label "Искане за плащане" ;
-  pg:description "Съобщението иска плащане, такса или банкови данни." ;
+  rdfs:label "Payment request" ;
+  pg:description "The message requests a payment, fee, card details, bank transfer or billing update." ;
   pg:riskScore "25"^^xsd:integer ;
-  pg:keyword "платете" ;
-  pg:keyword "такса" ;
-  pg:keyword "карта" ;
+  pg:keyword "payment" ;
+  pg:keyword "pay now" ;
+  pg:keyword "fee" ;
   pg:keyword "card" ;
   pg:keyword "iban" ;
-  pg:keyword "payment" ;
   pg:keyword "bank details" ;
-  pg:keyword "банкови данни" .
+  pg:keyword "billing" ;
+  pg:keyword "invoice" ;
+  pg:keyword "transfer" .
 
 pg:SuspiciousLink a pg:MessageFeature ;
-  rdfs:label "Подозрителен линк" ;
-  pg:description "Съобщението съдържа линк, който може да води към фалшив сайт." ;
+  rdfs:label "Suspicious link" ;
+  pg:description "The message contains a URL that may lead to a fake or unsafe website." ;
   pg:riskScore "30"^^xsd:integer ;
   pg:keyword "http://" ;
   pg:keyword "bit.ly" ;
@@ -123,121 +846,399 @@ pg:SuspiciousLink a pg:MessageFeature ;
   pg:keyword "secure-" ;
   pg:keyword "verify-" ;
   pg:keyword ".top" ;
-  pg:keyword ".xyz" .
+  pg:keyword ".xyz" ;
+  pg:keyword ".click" .
 
 pg:PrizeBait a pg:MessageFeature ;
-  rdfs:label "Фалшива награда" ;
-  pg:description "Съобщението обещава награда, печалба или бонус с цел измама." ;
+  rdfs:label "Prize bait" ;
+  pg:description "The message promises a prize, bonus, giveaway or reward to manipulate the user." ;
   pg:riskScore "20"^^xsd:integer ;
-  pg:keyword "спечелихте" ;
-  pg:keyword "награда" ;
   pg:keyword "prize" ;
   pg:keyword "winner" ;
   pg:keyword "bonus" ;
-  pg:keyword "free gift" .
+  pg:keyword "free gift" ;
+  pg:keyword "giveaway" ;
+  pg:keyword "reward" ;
+  pg:keyword "you have won" .
 
 pg:UnknownSender a pg:MessageFeature ;
-  rdfs:label "Непознат или неясен подател" ;
-  pg:description "Липсва ясен официален подател или институция." ;
+  rdfs:label "Unknown sender" ;
+  pg:description "The sender is unclear, unofficial or does not match a trusted organization." ;
   pg:riskScore "10"^^xsd:integer ;
-  pg:keyword "непознат" ;
   pg:keyword "unknown" ;
   pg:keyword "no-reply" ;
-  pg:keyword "support-center" .
+  pg:keyword "support-center" ;
+  pg:keyword "customer-support" ;
+  pg:keyword "helpdesk" .
 
 pg:DeliveryFeeBait a pg:MessageFeature ;
-  rdfs:label "Фалшива куриерска такса" ;
-  pg:description "Съобщението имитира куриер и иска малка такса за пратка." ;
+  rdfs:label "Delivery fee bait" ;
+  pg:description "The message imitates a delivery company and asks for a small fee or data." ;
   pg:riskScore "25"^^xsd:integer ;
-  pg:keyword "пратка" ;
-  pg:keyword "доставка" ;
-  pg:keyword "куриер" ;
   pg:keyword "delivery" ;
   pg:keyword "parcel" ;
-  pg:keyword "shipping fee" .
+  pg:keyword "shipping fee" ;
+  pg:keyword "package" ;
+  pg:keyword "customs fee" ;
+  pg:keyword "delivery failed" ;
+  pg:keyword "reschedule delivery" .
 
 pg:CryptoPaymentRequest a pg:MessageFeature ;
   rdfs:label "Crypto payment request" ;
-  pg:description "Съобщението изисква плащане с криптовалута или изпращане към wallet." ;
+  pg:description "The message requests cryptocurrency payment or wallet transfer." ;
   pg:riskScore "25"^^xsd:integer ;
   pg:keyword "crypto" ;
   pg:keyword "bitcoin" ;
   pg:keyword "usdt" ;
-  pg:keyword "wallet" .
+  pg:keyword "wallet" ;
+  pg:keyword "blockchain" ;
+  pg:keyword "seed phrase" ;
+  pg:keyword "recovery phrase" .
 
 pg:CarFakeOffer a pg:MessageFeature ;
-  rdfs:label "Car fake offer" ;
-  pg:description "Съобщението предлага кола от САЩ/Канада на СЪМНИТЕЛНО ниска цена." ;
-  pg:riskScore "75"^^xsd:integer ;
+  rdfs:label "Fake vehicle offer" ;
+  pg:description "The message offers a vehicle at a suspiciously low price and pushes the user toward unsafe payment." ;
+  pg:riskScore "25"^^xsd:integer ;
   pg:keyword "car" ;
+  pg:keyword "vehicle" ;
   pg:keyword "audi" ;
   pg:keyword "mercedes" ;
-  pg:keyword "bmw" .
+  pg:keyword "bmw" ;
+  pg:keyword "shipping from canada" ;
+  pg:keyword "shipping from usa" ;
+  pg:keyword "deposit" .
+
+pg:TwoFactorCodeRequest a pg:MessageFeature ;
+  rdfs:label "Two-factor code request" ;
+  pg:description "The message asks the user to provide a two-factor authentication code." ;
+  pg:riskScore "35"^^xsd:integer ;
+  pg:keyword "2fa" ;
+  pg:keyword "verification code" ;
+  pg:keyword "one-time code" ;
+  pg:keyword "otp" ;
+  pg:keyword "security code" ;
+  pg:keyword "six digit code" .
+
+pg:CardDataRequest a pg:MessageFeature ;
+  rdfs:label "Card data request" ;
+  pg:description "The message asks for card number, CVV, expiration date or billing information." ;
+  pg:riskScore "35"^^xsd:integer ;
+  pg:keyword "cvv" ;
+  pg:keyword "card number" ;
+  pg:keyword "expiry date" ;
+  pg:keyword "expiration date" ;
+  pg:keyword "billing address" ;
+  pg:keyword "debit card" ;
+  pg:keyword "credit card" .
+
+pg:PersonalDataRequest a pg:MessageFeature ;
+  rdfs:label "Personal data request" ;
+  pg:description "The message asks for personal information such as ID number, address or document photo." ;
+  pg:riskScore "25"^^xsd:integer ;
+  pg:keyword "personal data" ;
+  pg:keyword "id card" ;
+  pg:keyword "passport" ;
+  pg:keyword "address" ;
+  pg:keyword "date of birth" ;
+  pg:keyword "document photo" ;
+  pg:keyword "identity verification" .
+
+pg:ShortenedUrlFeature a pg:MessageFeature ;
+  rdfs:label "Shortened URL" ;
+  pg:description "The message uses a shortened URL that hides the final destination." ;
+  pg:riskScore "20"^^xsd:integer ;
+  pg:keyword "bit.ly" ;
+  pg:keyword "tinyurl" ;
+  pg:keyword "t.co" ;
+  pg:keyword "goo.gl" ;
+  pg:keyword "ow.ly" ;
+  pg:keyword "rebrand.ly" .
+
+pg:LookalikeDomainFeature a pg:MessageFeature ;
+  rdfs:label "Lookalike domain" ;
+  pg:description "The URL imitates a trusted brand using misleading domain structure." ;
+  pg:riskScore "30"^^xsd:integer ;
+  pg:keyword "paypaI" ;
+  pg:keyword "micros0ft" ;
+  pg:keyword "g00gle" ;
+  pg:keyword "secure-bank" ;
+  pg:keyword "login-bank" ;
+  pg:keyword "apple-support" .
+
+pg:HttpWithoutHttpsFeature a pg:MessageFeature ;
+  rdfs:label "HTTP without HTTPS" ;
+  pg:description "The URL uses plain HTTP or another weak trust signal." ;
+  pg:riskScore "15"^^xsd:integer ;
+  pg:keyword "http://" .
+
+pg:GenericGreetingFeature a pg:MessageFeature ;
+  rdfs:label "Generic greeting" ;
+  pg:description "The message uses a generic greeting instead of a specific recipient." ;
+  pg:riskScore "8"^^xsd:integer ;
+  pg:keyword "dear customer" ;
+  pg:keyword "dear user" ;
+  pg:keyword "hello client" ;
+  pg:keyword "valued customer" .
+
+pg:GrammarMistakeFeature a pg:MessageFeature ;
+  rdfs:label "Grammar or spelling mistakes" ;
+  pg:description "The message contains grammar or spelling patterns often seen in mass phishing." ;
+  pg:riskScore "8"^^xsd:integer ;
+  pg:keyword "kindly verify" ;
+  pg:keyword "your informations" ;
+  pg:keyword "account informations" ;
+  pg:keyword "dear costumer" .
+
+pg:AuthorityPressureFeature a pg:MessageFeature ;
+  rdfs:label "Authority pressure" ;
+  pg:description "The message pretends to be from an authority, police, tax or government body." ;
+  pg:riskScore "15"^^xsd:integer ;
+  pg:keyword "tax authority" ;
+  pg:keyword "police" ;
+  pg:keyword "government notice" ;
+  pg:keyword "court notice" ;
+  pg:keyword "legal action" ;
+  pg:keyword "official request" .
+
+pg:GiftCardPaymentRequest a pg:MessageFeature ;
+  rdfs:label "Gift card payment request" ;
+  pg:description "The message requests payment through gift cards or voucher codes." ;
+  pg:riskScore "30"^^xsd:integer ;
+  pg:keyword "gift card" ;
+  pg:keyword "voucher code" ;
+  pg:keyword "itunes card" ;
+  pg:keyword "google play card" ;
+  pg:keyword "steam card" .
+
+pg:MaliciousAttachmentFeature a pg:MessageFeature ;
+  rdfs:label "Malicious attachment signal" ;
+  pg:description "The message tries to make the user open an attachment or document." ;
+  pg:riskScore "30"^^xsd:integer ;
+  pg:keyword "open the attachment" ;
+  pg:keyword "attached invoice" ;
+  pg:keyword "enable macros" ;
+  pg:keyword "download document" ;
+  pg:keyword ".exe" ;
+  pg:keyword ".scr" ;
+  pg:keyword ".zip" .
+
+pg:RefundBait a pg:MessageFeature ;
+  rdfs:label "Refund bait" ;
+  pg:description "The message promises a refund in exchange for login, card or personal details." ;
+  pg:riskScore "20"^^xsd:integer ;
+  pg:keyword "refund" ;
+  pg:keyword "tax refund" ;
+  pg:keyword "claim refund" ;
+  pg:keyword "reimbursement" ;
+  pg:keyword "money back" .
+
+pg:InvestmentReturnBait a pg:MessageFeature ;
+  rdfs:label "Investment return bait" ;
+  pg:description "The message promises unrealistic investment returns." ;
+  pg:riskScore "25"^^xsd:integer ;
+  pg:keyword "guaranteed return" ;
+  pg:keyword "double your money" ;
+  pg:keyword "investment opportunity" ;
+  pg:keyword "risk-free profit" ;
+  pg:keyword "daily profit" .
+
+pg:TechSupportBait a pg:MessageFeature ;
+  rdfs:label "Tech support bait" ;
+  pg:description "The message claims a device or account has a technical/security problem." ;
+  pg:riskScore "20"^^xsd:integer ;
+  pg:keyword "virus detected" ;
+  pg:keyword "device infected" ;
+  pg:keyword "call support" ;
+  pg:keyword "technical support" ;
+  pg:keyword "security alert" .
+
+pg:QRCodePrompt a pg:MessageFeature ;
+  rdfs:label "QR code prompt" ;
+  pg:description "The message asks the user to scan a QR code for login, payment or verification." ;
+  pg:riskScore "20"^^xsd:integer ;
+  pg:keyword "scan qr" ;
+  pg:keyword "qr code" ;
+  pg:keyword "scan the code" ;
+  pg:keyword "qr payment" .
 
 pg:FakeBankMessage a pg:ThreatType ;
-  rdfs:label "Фалшиво банково съобщение" ;
-  pg:description "Измама, която имитира банка и цели кражба на данни или пари." ;
+  rdfs:label "Fake bank message" ;
+  pg:description "A scam that imitates a bank and tries to steal money, credentials or card data." ;
   pg:hasFeature pg:AccountThreat ;
   pg:hasFeature pg:CredentialRequest ;
   pg:hasFeature pg:PaymentRequest ;
-  pg:hasFeature pg:SuspiciousLink .
+  pg:hasFeature pg:SuspiciousLink ;
+  pg:hasFeature pg:CardDataRequest ;
+  pg:hasFeature pg:TwoFactorCodeRequest ;
+  pg:targetsOrganization pg:BankOrganization ;
+  pg:hasAttackGoal pg:StealCredentials ;
+  pg:hasAttackGoal pg:StealCardData ;
+  pg:hasAttackGoal pg:BypassTwoFactor .
 
 pg:FakeDeliveryMessage a pg:ThreatType ;
-  rdfs:label "Фалшиво куриерско съобщение" ;
-  pg:description "Измама, която имитира куриерска услуга и иска такса или данни." ;
+  rdfs:label "Fake delivery message" ;
+  pg:description "A scam that imitates a courier or delivery service and requests a fee or personal data." ;
   pg:hasFeature pg:DeliveryFeeBait ;
   pg:hasFeature pg:PaymentRequest ;
   pg:hasFeature pg:SuspiciousLink ;
-  pg:hasFeature pg:Urgency .
+  pg:hasFeature pg:Urgency ;
+  pg:hasFeature pg:SmallFeeRequest ;
+  pg:targetsOrganization pg:CourierCompany ;
+  pg:hasAttackGoal pg:ReceiveFraudulentPayment ;
+  pg:hasAttackGoal pg:StealPersonalData .
 
 pg:FakePrizeScam a pg:ThreatType ;
-  rdfs:label "Фалшива награда" ;
-  pg:description "Измама, която обещава награда и води потребителя към линк или плащане." ;
+  rdfs:label "Fake prize scam" ;
+  pg:description "A scam that promises a prize and leads the user to a link, payment or data request." ;
   pg:hasFeature pg:PrizeBait ;
   pg:hasFeature pg:SuspiciousLink ;
-  pg:hasFeature pg:PaymentRequest .
+  pg:hasFeature pg:PaymentRequest ;
+  pg:hasFeature pg:PersonalDataRequest ;
+  pg:targetsOrganization pg:OnlineStore ;
+  pg:targetsOrganization pg:SocialNetwork ;
+  pg:hasAttackGoal pg:StealPersonalData ;
+  pg:hasAttackGoal pg:ReceiveFraudulentPayment .
 
 pg:CredentialPhishing a pg:ThreatType ;
-  rdfs:label "Фишинг за идентификационни данни" ;
-  pg:description "Фишинг атака, при която се търсят пароли, кодове или данни за вход." ;
+  rdfs:label "Credential phishing" ;
+  pg:description "A phishing attack that targets passwords, account access and login tokens." ;
   pg:hasFeature pg:CredentialRequest ;
   pg:hasFeature pg:SuspiciousLink ;
-  pg:hasFeature pg:Urgency .
+  pg:hasFeature pg:Urgency ;
+  pg:hasFeature pg:LookalikeDomainFeature ;
+  pg:hasFeature pg:TwoFactorCodeRequest ;
+  pg:targetsOrganization pg:SocialNetwork ;
+  pg:targetsOrganization pg:PaymentProvider ;
+  pg:targetsOrganization pg:OnlineStore ;
+  pg:hasAttackGoal pg:StealCredentials ;
+  pg:hasAttackGoal pg:TakeOverAccount .
 
 pg:CryptoScam a pg:ThreatType ;
-  rdfs:label "Crypto Scam" ;
-  pg:description "Измама, свързана с искане за плащане или инвестиция в криптовалута." ;
-  pg:hasFeature pg:Urgency ;
-  pg:hasFeature pg:CredentialRequest ;
-  pg:hasFeature pg:SuspiciousLink ;
-  pg:hasFeature pg:UnknownSender ;
+  rdfs:label "Crypto scam" ;
+  pg:description "A scam involving cryptocurrency payment, wallet transfer or recovery phrase theft." ;
   pg:hasFeature pg:CryptoPaymentRequest ;
-  pg:hasFeature pg:DeliveryFeeBait ;
-  pg:hasFeature pg:PrizeBait ;
-  pg:hasFeature pg:PaymentRequest ;
-  pg:hasFeature pg:AccountThreat .
-
-pg:FakeCarThread a pg:ThreatType ;
-  rdfs:label "Fake car thread" ;
-  pg:description "Измама, свързана с коли на ниски цени." ;
-  pg:hasFeature pg:CarFakeOffer ;
+  pg:hasFeature pg:Urgency ;
   pg:hasFeature pg:SuspiciousLink ;
   pg:hasFeature pg:UnknownSender ;
-  pg:hasFeature pg:PaymentRequest .
+  pg:hasFeature pg:InvestmentReturnBait ;
+  pg:targetsOrganization pg:CryptoExchange ;
+  pg:hasAttackGoal pg:StealCryptoAssets ;
+  pg:hasAttackGoal pg:ReceiveFraudulentPayment .
+
+pg:FakeVehicleOffer a pg:ThreatType ;
+  rdfs:label "Fake vehicle offer" ;
+  pg:description "A scam involving a low-price vehicle offer and unsafe deposit/payment request." ;
+  pg:hasFeature pg:CarFakeOffer ;
+  pg:hasFeature pg:PaymentRequest ;
+  pg:hasFeature pg:UnknownSender ;
+  pg:hasFeature pg:SuspiciousLink ;
+  pg:targetsOrganization pg:OnlineStore ;
+  pg:hasAttackGoal pg:ReceiveFraudulentPayment .
+
+pg:TechSupportScam a pg:ThreatType ;
+  rdfs:label "Tech support scam" ;
+  pg:description "A scam that pretends the user has a technical or security issue and must contact fake support." ;
+  pg:hasFeature pg:TechSupportBait ;
+  pg:hasFeature pg:Urgency ;
+  pg:hasFeature pg:SuspiciousLink ;
+  pg:hasFeature pg:PaymentRequest ;
+  pg:targetsOrganization pg:TelecomProvider ;
+  pg:targetsOrganization pg:PaymentProvider ;
+  pg:hasAttackGoal pg:InstallMalware ;
+  pg:hasAttackGoal pg:ReceiveFraudulentPayment .
+
+pg:InvestmentScam a pg:ThreatType ;
+  rdfs:label "Investment scam" ;
+  pg:description "A scam that promises unrealistic investment profits and asks for money or account details." ;
+  pg:hasFeature pg:InvestmentReturnBait ;
+  pg:hasFeature pg:CryptoPaymentRequest ;
+  pg:hasFeature pg:PaymentRequest ;
+  pg:hasFeature pg:UnknownSender ;
+  pg:targetsOrganization pg:CryptoExchange ;
+  pg:hasAttackGoal pg:ReceiveFraudulentPayment ;
+  pg:hasAttackGoal pg:StealCryptoAssets .
+
+pg:RefundScam a pg:ThreatType ;
+  rdfs:label "Refund scam" ;
+  pg:description "A scam that uses a fake refund to collect card or personal details." ;
+  pg:hasFeature pg:RefundBait ;
+  pg:hasFeature pg:CardDataRequest ;
+  pg:hasFeature pg:PersonalDataRequest ;
+  pg:hasFeature pg:SuspiciousLink ;
+  pg:targetsOrganization pg:GovernmentInstitution ;
+  pg:targetsOrganization pg:OnlineStore ;
+  pg:targetsOrganization pg:PaymentProvider ;
+  pg:hasAttackGoal pg:StealCardData ;
+  pg:hasAttackGoal pg:StealPersonalData .
+
+pg:MalwareAttachmentScam a pg:ThreatType ;
+  rdfs:label "Malware attachment scam" ;
+  pg:description "A scam that attempts to make the user open a malicious file or macro-enabled document." ;
+  pg:hasFeature pg:MaliciousAttachmentFeature ;
+  pg:hasFeature pg:Urgency ;
+  pg:hasFeature pg:UnknownSender ;
+  pg:targetsOrganization pg:OnlineStore ;
+  pg:hasAttackGoal pg:InstallMalware .
+
+pg:QRPhishing a pg:ThreatType ;
+  rdfs:label "QR phishing" ;
+  pg:description "A phishing attempt that uses a QR code to redirect the user to a malicious page." ;
+  pg:hasFeature pg:QRCodePrompt ;
+  pg:hasFeature pg:SuspiciousLink ;
+  pg:hasFeature pg:CredentialRequest ;
+  pg:targetsOrganization pg:PaymentProvider ;
+  pg:targetsOrganization pg:BankOrganization ;
+  pg:hasAttackGoal pg:StealCredentials ;
+  pg:hasAttackGoal pg:StealCardData .
+
+pg:GovernmentImpersonation a pg:ThreatType ;
+  rdfs:label "Government impersonation" ;
+  pg:description "A scam that pretends to be from a tax, legal or government institution." ;
+  pg:hasFeature pg:AuthorityPressureFeature ;
+  pg:hasFeature pg:PaymentRequest ;
+  pg:hasFeature pg:PersonalDataRequest ;
+  pg:hasFeature pg:SuspiciousLink ;
+  pg:targetsOrganization pg:GovernmentInstitution ;
+  pg:hasAttackGoal pg:StealPersonalData ;
+  pg:hasAttackGoal pg:ReceiveFraudulentPayment .
 
 pg:DoNotOpenLink a pg:Recommendation ;
-  rdfs:label "Не отваряйте линка" ;
-  pg:description "Не отваряйте линковете от съобщението, докато не проверите подателя." .
+  rdfs:label "Do not open the link" ;
+  pg:description "Do not open links from the message until you verify the sender through an official channel." .
 
 pg:DoNotEnterData a pg:Recommendation ;
-  rdfs:label "Не въвеждайте лични данни" ;
-  pg:description "Не въвеждайте пароли, банкови данни или лична информация през линка." .
+  rdfs:label "Do not enter personal data" ;
+  pg:description "Do not enter passwords, card details, two-factor codes or personal information through the provided link." .
 
 pg:VerifyOfficialWebsite a pg:Recommendation ;
-  rdfs:label "Проверете официалния сайт" ;
-  pg:description "Отворете официалния сайт ръчно от браузъра, вместо да използвате получения линк." .
+  rdfs:label "Verify through the official website" ;
+  pg:description "Open the official website manually in your browser instead of using the received link." .
 
 pg:ReportMessage a pg:Recommendation ;
-  rdfs:label "Докладвайте съобщението" ;
-  pg:description "Докладвайте съобщението като спам/фишинг и блокирайте подателя." .
+  rdfs:label "Report the message" ;
+  pg:description "Report the message as spam or phishing and block the sender if possible." .
+
+pg:ContactBank a pg:Recommendation ;
+  rdfs:label "Contact your bank" ;
+  pg:description "If bank or card data may be involved, contact your bank through the official phone number or app." .
+
+pg:ChangePassword a pg:Recommendation ;
+  rdfs:label "Change password" ;
+  pg:description "If you entered credentials, change your password from the official website and enable two-factor authentication." .
+
+pg:DoNotDownloadAttachment a pg:Recommendation ;
+  rdfs:label "Do not download attachments" ;
+  pg:description "Do not download or open attachments from unknown or suspicious senders." .
+
+pg:CheckDeliveryOfficially a pg:Recommendation ;
+  rdfs:label "Check delivery officially" ;
+  pg:description "For delivery messages, check the tracking number only through the official courier website or app." .
+
+pg:AvoidCryptoTransfer a pg:Recommendation ;
+  rdfs:label "Avoid crypto transfer" ;
+  pg:description "Do not send cryptocurrency or wallet information based on an unsolicited message." .
+
+pg:PreserveEvidence a pg:Recommendation ;
+  rdfs:label "Preserve evidence" ;
+  pg:description "Keep a screenshot or copy of the message if you need to report the scam." .
 

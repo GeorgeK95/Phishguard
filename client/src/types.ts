@@ -53,15 +53,43 @@ export type OntologyFeature = {
   keywords: string[]
 }
 
+export type OntologyProperty = {
+  id: string
+  label: string
+  domain?: string
+  range?: string
+}
+
+export type OntologyChannel = {
+  id: string
+  label: string
+}
+
+export type OntologyRecommendation = {
+  id: string
+  label: string
+  text: string
+  appliesToRisk: string[]
+}
+
+export type OntologyClass = {
+  id: string
+  label: string
+  parentId?: string
+}
+
 export type Ontology = {
   namespace: string
-  classes: Array<{ id: string; label: string }>
+  classes: OntologyClass[]
+  objectProperties?: OntologyProperty[]
+  dataProperties?: OntologyProperty[]
   features: OntologyFeature[]
   threatTypes: ThreatType[]
   riskLevels: RiskLevel[]
-  recommendations: Array<{ id: string; label: string; text: string; appliesToRisk: string[] }>
-  channels: Array<{ id: string; label: string }>
+  recommendations: OntologyRecommendation[]
+  channels: OntologyChannel[]
 }
+
 
 export type HistoryItem = {
   id: string

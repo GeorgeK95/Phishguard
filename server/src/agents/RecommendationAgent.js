@@ -12,16 +12,16 @@ export class RecommendationAgent {
     const explanationParts = [];
 
     if (detectedFeatures.length === 0) {
-      explanationParts.push('Не са открити силни признаци на фишинг според текущата онтология.');
+      explanationParts.push('No strong phishing indicators were detected according to the current ontology.');
     } else {
-      explanationParts.push(`Открити са ${detectedFeatures.length} рискови признака: ${detectedFeatures.map((feature) => feature.label).join(', ')}.`);
+      explanationParts.push(`Detected ${detectedFeatures.length} risk indicators: ${detectedFeatures.map((feature) => feature.label).join(', ')}.`);
     }
 
     if (threatType) {
-      explanationParts.push(`Най-близък тип заплаха: ${threatType.label}.`);
+      explanationParts.push(`Closest threat type: ${threatType.label}.`);
     }
 
-    explanationParts.push(`Крайно ниво на риск: ${riskLevel.label}.`);
+    explanationParts.push(`Final risk level: ${riskLevel.label}.`);
 
     return createAclMessage({
       performative: 'INFORM',

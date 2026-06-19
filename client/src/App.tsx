@@ -3,9 +3,9 @@ import { addOntologyFeature, addThreatType, analyzeMessage, getHistory, getOntol
 import type { AnalysisResult, HistoryItem, Ontology } from './types'
 
 const sampleMessages = [
-  'Вашата банкова сметка ще бъде блокирана. Спешно потвърдете паролата и данните си тук: http://secure-bank-login.example.com',
-  'Вашата пратка е задържана. Платете такса 2.99 лв за доставка тук: http://delivery-verify.xyz',
-  'Здравей, срещата ни е утре в 14:00. Ще ти изпратя документите по-късно.'
+  'Your bank account will be blocked. Urgently confirm your password and personal details here: http://secure-bank-login.example.com',
+  'Your parcel is on hold. Pay a 2.99 BGN delivery fee here: http://delivery-verify.xyz',
+  'Hi, our meeting is tomorrow at 2:00 PM. I will send you the documents later.'
 ]
 
 function App() {
@@ -56,16 +56,16 @@ function App() {
           <p className="eyebrow">OWL + ACL + Multi-Agent System</p>
           <h1>PhishGuard</h1>
           <p className="hero-text">
-            Интелигентна многоагентна система за анализ на фишинг съобщения и онлайн измами.
-            Системата използва онтология, агентна комуникация и база данни за история на анализите.
+            An intelligent multi-agent system for analyzing phishing messages and online scams.
+            The system uses an ontology, agent communication and database persistence for analysis history.
           </p>
         </div>
       </section>
 
       <nav className="tabs">
-        <button className={activeTab === 'analyze' ? 'active' : ''} onClick={() => setActiveTab('analyze')}>Анализ</button>
-        <button className={activeTab === 'ontology' ? 'active' : ''} onClick={() => setActiveTab('ontology')}>Онтология</button>
-        <button className={activeTab === 'history' ? 'active' : ''} onClick={() => setActiveTab('history')}>История</button>
+        <button className={activeTab === 'analyze' ? 'active' : ''} onClick={() => setActiveTab('analyze')}>Analysis</button>
+        <button className={activeTab === 'ontology' ? 'active' : ''} onClick={() => setActiveTab('ontology')}>Ontology</button>
+        <button className={activeTab === 'history' ? 'active' : ''} onClick={() => setActiveTab('history')}>History</button>
       </nav>
 
       {error && <div className="error-box">{error}</div>}
@@ -73,38 +73,42 @@ function App() {
       {activeTab === 'analyze' && (
         <section className="grid two-columns">
           <div className="card">
-            <h2>Входно съобщение</h2>
+            <h2>Message input</h2>
             <label>
-              Канал
+              Channel
               <select value={channel} onChange={(event) => setChannel(event.target.value)}>
-                <option value="SMS">SMS</option>
-                <option value="Email">Email</option>
-                <option value="ChatMessage">Chat message</option>
+                {(ontology?.channels?.length ? ontology.channels : [
+                  { id: 'SMS', label: 'SMS' },
+                  { id: 'Email', label: 'Email' },
+                  { id: 'ChatMessage', label: 'Chat message' }
+                ]).map((channelOption) => (
+                  <option key={channelOption.id} value={channelOption.id}>{channelOption.label}</option>
+                ))}
               </select>
             </label>
             <label>
-              Съобщение за анализ
+              Message to analyze
               <textarea value={message} onChange={(event) => setMessage(event.target.value)} rows={9} />
             </label>
             <div className="sample-actions">
               {sampleMessages.map((sample, index) => (
-                <button key={sample} type="button" onClick={() => setMessage(sample)}>Пример {index + 1}</button>
+                <button key={sample} type="button" onClick={() => setMessage(sample)}>Sample {index + 1}</button>
               ))}
             </div>
             <button className="primary-btn" onClick={handleAnalyze} disabled={loading}>
-              {loading ? 'Анализиране...' : 'Анализирай съобщението'}
+              {loading ? 'Analyzing...' : 'Analyze message'}
             </button>
           </div>
 
           <div className="card result-card">
-            <h2>Резултат</h2>
+            <h2>Result</h2>
             {!result ? (
-              <p className="muted">Все още няма анализ. Постави съобщение и стартирай системата.</p>
+              <p className="muted">No analysis yet. Paste a message and start the system.</p>
             ) : (
               <>
                 <div className={`risk-meter ${riskClass}`}>
                   <div>
-                    <span>Риск</span>
+                    <span>Risk</span>
                     <strong>{result.riskLevel.label}</strong>
                   </div>
                   <div className="score-circle">{result.riskScore}</div>
@@ -114,28 +118,28 @@ function App() {
 
                 {result.threatType && (
                   <div className="threat-box">
-                    <span>Вероятен тип заплаха</span>
+                    <span>Probable threat type</span>
                     <strong>{result.threatType.label}</strong>
                     <p>{result.threatType.description}</p>
                   </div>
                 )}
 
-                <h3>Открити признаци</h3>
+                <h3>Detected indicators</h3>
                 <div className="feature-list">
-                  {result.detectedFeatures.length === 0 ? <p className="muted">Няма открити рискови признаци.</p> : null}
+                  {result.detectedFeatures.length === 0 ? <p className="muted">No risky indicators detected.</p> : null}
                   {result.detectedFeatures.map((feature) => (
                     <article key={feature.id} className="feature-item">
                       <div>
                         <strong>{feature.label}</strong>
                         <p>{feature.description}</p>
-                        <small>Доказателства: {feature.evidence.join(', ')}</small>
+                        <small>Evidence: {feature.evidence.join(', ')}</small>
                       </div>
                       <span>+{feature.score}</span>
                     </article>
                   ))}
                 </div>
 
-                <h3>Препоръки</h3>
+                <h3>Recommendations</h3>
                 <ul className="recommendations">
                   {result.recommendations.map((recommendation) => <li key={recommendation}>{recommendation}</li>)}
                 </ul>
@@ -147,7 +151,7 @@ function App() {
 
       {activeTab === 'analyze' && result && (
         <section className="card full-width">
-          <h2>ACL комуникация между агентите</h2>
+          <h2>ACL communication between agents</h2>
           <div className="acl-timeline">
             {result.aclMessages.map((aclMessage) => (
               <article key={aclMessage.id} className="acl-message">
@@ -172,9 +176,9 @@ function OntologyManager({ ontology, onRefresh }: { ontology: Ontology; onRefres
   const [featureLabel, setFeatureLabel] = useState('Crypto payment request')
   const [featureKeywords, setFeatureKeywords] = useState('crypto, bitcoin, usdt, wallet')
   const [featureScore, setFeatureScore] = useState(25)
-  const [featureDescription, setFeatureDescription] = useState('Съобщението изисква плащане с криптовалута или изпращане към wallet.')
+  const [featureDescription, setFeatureDescription] = useState('The message requests cryptocurrency payment or asks the user to send money to a wallet address.')
   const [threatLabel, setThreatLabel] = useState('Crypto Scam')
-  const [threatDescription, setThreatDescription] = useState('Измама, свързана с искане за плащане или инвестиция в криптовалута.')
+  const [threatDescription, setThreatDescription] = useState('A scam related to cryptocurrency payments, wallet transfers or fake crypto investment requests.')
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>([])
   const [saving, setSaving] = useState(false)
 
@@ -204,20 +208,20 @@ function OntologyManager({ ontology, onRefresh }: { ontology: Ontology; onRefres
   return (
     <section className="grid two-columns">
       <div className="card">
-        <h2>Манипулация на онтология: нов признак</h2>
-        <p className="muted">Тази форма добавя нов индивид от клас MessageFeature и регенерира OWL файла.</p>
-        <label>Име на признака<input value={featureLabel} onChange={(event) => setFeatureLabel(event.target.value)} /></label>
-        <label>Ключови думи<input value={featureKeywords} onChange={(event) => setFeatureKeywords(event.target.value)} /></label>
-        <label>Точки риск<input type="number" value={featureScore} onChange={(event) => setFeatureScore(Number(event.target.value))} /></label>
-        <label>Описание<textarea value={featureDescription} onChange={(event) => setFeatureDescription(event.target.value)} rows={4} /></label>
-        <button className="primary-btn" onClick={handleAddFeature} disabled={saving}>Добави признак</button>
+        <h2>Ontology manipulation: new indicator</h2>
+        <p className="muted">This form adds a new individual of the MessageFeature class and regenerates the OWL file.</p>
+        <label>Indicator name<input value={featureLabel} onChange={(event) => setFeatureLabel(event.target.value)} /></label>
+        <label>Keywords<input value={featureKeywords} onChange={(event) => setFeatureKeywords(event.target.value)} /></label>
+        <label>Risk points<input type="number" value={featureScore} onChange={(event) => setFeatureScore(Number(event.target.value))} /></label>
+        <label>Description<textarea value={featureDescription} onChange={(event) => setFeatureDescription(event.target.value)} rows={4} /></label>
+        <button className="primary-btn" onClick={handleAddFeature} disabled={saving}>Add indicator</button>
       </div>
 
       <div className="card">
-        <h2>Манипулация на онтология: нов тип заплаха</h2>
-        <p className="muted">Тази форма добавя нов ThreatType и го свързва с вече съществуващи признаци.</p>
-        <label>Име на заплаха<input value={threatLabel} onChange={(event) => setThreatLabel(event.target.value)} /></label>
-        <label>Описание<textarea value={threatDescription} onChange={(event) => setThreatDescription(event.target.value)} rows={4} /></label>
+        <h2>Ontology manipulation: new threat type</h2>
+        <p className="muted">This form adds a new ThreatType and links it to existing indicators.</p>
+        <label>Threat name<input value={threatLabel} onChange={(event) => setThreatLabel(event.target.value)} /></label>
+        <label>Description<textarea value={threatDescription} onChange={(event) => setThreatDescription(event.target.value)} rows={4} /></label>
         <div className="checkbox-grid">
           {ontology.features.map((feature) => (
             <label key={feature.id} className="checkbox-label">
@@ -226,33 +230,150 @@ function OntologyManager({ ontology, onRefresh }: { ontology: Ontology; onRefres
             </label>
           ))}
         </div>
-        <button className="primary-btn" onClick={handleAddThreat} disabled={saving}>Добави тип заплаха</button>
+        <button className="primary-btn" onClick={handleAddThreat} disabled={saving}>Add threat type</button>
       </div>
 
       <div className="card full-width-content">
-        <h2>Текущи класове и индивиди в онтологията</h2>
-        <div className="ontology-columns">
-          <div>
-            <h3>MessageFeature</h3>
-            {ontology.features.map((feature) => (
-              <article key={feature.id} className="ontology-item">
-                <strong>{feature.label}</strong>
-                <p>{feature.description}</p>
-                <small>{feature.keywords.join(', ')}</small>
-              </article>
-            ))}
-          </div>
-          <div>
-            <h3>ThreatType</h3>
-            {ontology.threatTypes.map((threatType) => (
-              <article key={threatType.id} className="ontology-item">
-                <strong>{threatType.label}</strong>
-                <p>{threatType.description}</p>
-                <small>{threatType.relatedFeatureIds.join(', ')}</small>
-              </article>
-            ))}
-          </div>
+        <h2>Current ontology model</h2>
+        <p className="muted">
+          The UI shows the main ontology groups returned by the backend: classes, properties, channels,
+          risk levels, message indicators, threat types and recommendations.
+        </p>
+
+        <div className="ontology-stats">
+          <span><strong>{ontology.classes.length}</strong> classes</span>
+          <span><strong>{ontology.objectProperties?.length ?? 0}</strong> object properties</span>
+          <span><strong>{ontology.dataProperties?.length ?? 0}</strong> data properties</span>
+          <span><strong>{ontology.channels.length}</strong> channels</span>
+          <span><strong>{ontology.features.length}</strong> indicators</span>
+          <span><strong>{ontology.threatTypes.length}</strong> threat types</span>
+          <span><strong>{ontology.recommendations.length}</strong> recommendations</span>
         </div>
+
+        <div className="ontology-section-grid">
+          <OntologyCollection
+            title="CommunicationChannel"
+            subtitle="Channels that can be selected during message analysis."
+            items={ontology.channels.map((item) => ({ id: item.id, title: item.label }))}
+          />
+
+          <OntologyCollection
+            title="RiskLevel"
+            subtitle="Risk ranges used by the risk assessment agent."
+            items={ontology.riskLevels.map((item) => ({
+              id: item.id,
+              title: item.label,
+              description: `${item.minScore}–${item.maxScore} risk points`
+            }))}
+          />
+
+          <OntologyCollection
+            title="Recommendation"
+            subtitle="Actions suggested to the user depending on risk and detected indicators."
+            items={ontology.recommendations.map((item) => ({
+              id: item.id,
+              title: item.label,
+              description: item.text,
+              meta: `Applies to: ${item.appliesToRisk.join(', ')}`
+            }))}
+          />
+
+          <OntologyCollection
+            title="MessageFeature"
+            subtitle="Indicators used by the message analysis agent."
+            items={ontology.features.map((item) => ({
+              id: item.id,
+              title: item.label,
+              description: item.description,
+              meta: `Keywords: ${item.keywords.join(', ')} · +${item.score} points`
+            }))}
+          />
+
+          <OntologyCollection
+            title="ThreatType"
+            subtitle="Threat categories matched from detected indicators."
+            items={ontology.threatTypes.map((item) => ({
+              id: item.id,
+              title: item.label,
+              description: item.description,
+              meta: `Related indicators: ${item.relatedFeatureIds.join(', ')}`
+            }))}
+          />
+
+          <OntologyCollection
+            title="ObjectProperty"
+            subtitle="Relations between ontology concepts."
+            items={(ontology.objectProperties ?? []).map((item) => ({
+              id: item.id,
+              title: item.label || item.id,
+              meta: [item.domain, item.range].filter(Boolean).join(' → ')
+            }))}
+          />
+
+          <OntologyCollection
+            title="DataProperty"
+            subtitle="Literal attributes used by ontology concepts."
+            items={(ontology.dataProperties ?? []).map((item) => ({
+              id: item.id,
+              title: item.label || item.id,
+              meta: [item.domain, item.range].filter(Boolean).join(' → ')
+            }))}
+          />
+
+          <OntologyCollection
+            title="Classes"
+            subtitle="OWL classes included in the expanded ontology."
+            items={ontology.classes.map((item) => ({
+              id: item.id,
+              title: item.label || item.id,
+              meta: item.parentId ? `Subclass of: ${item.parentId}` : 'Root or top-level class'
+            }))}
+            compact
+          />
+        </div>
+      </div>
+    </section>
+  )
+}
+
+type OntologyCollectionItem = {
+  id: string
+  title: string
+  description?: string
+  meta?: string
+}
+
+function OntologyCollection({
+  title,
+  subtitle,
+  items,
+  compact = false
+}: {
+  title: string
+  subtitle: string
+  items: OntologyCollectionItem[]
+  compact?: boolean
+}) {
+  return (
+    <section className="ontology-group">
+      <div className="ontology-group-header">
+        <div>
+          <h3>{title}</h3>
+          <p>{subtitle}</p>
+        </div>
+        <span>{items.length}</span>
+      </div>
+
+      {items.length === 0 ? <p className="muted">No entries available.</p> : null}
+
+      <div className={compact ? 'ontology-compact-list' : 'ontology-list'}>
+        {items.map((item) => (
+          <article key={item.id} className="ontology-item">
+            <strong>{item.title}</strong>
+            {item.description ? <p>{item.description}</p> : null}
+            {item.meta ? <small>{item.meta}</small> : null}
+          </article>
+        ))}
       </div>
     </section>
   )
@@ -261,17 +382,17 @@ function OntologyManager({ ontology, onRefresh }: { ontology: Ontology; onRefres
 function History({ history }: { history: HistoryItem[] }) {
   return (
     <section className="card full-width">
-      <h2>История от базата данни</h2>
-      {history.length === 0 ? <p className="muted">Все още няма записани анализи.</p> : null}
+      <h2>Database history</h2>
+      {history.length === 0 ? <p className="muted">No saved analyses yet.</p> : null}
       <div className="history-list">
         {history.map((item) => (
           <article key={item.id} className="history-item">
             <div>
               <strong>{item.riskLevel}</strong>
-              <span>{new Date(item.createdAt).toLocaleString('bg-BG')}</span>
+              <span>{new Date(item.createdAt).toLocaleString('en-US')}</span>
             </div>
-            <p>Канал: {item.channel} · Риск точки: {item.riskScore}</p>
-            <small>Признаци: {item.detectedFeatures.map((feature) => feature.label).join(', ') || 'няма'}</small>
+            <p>Channel: {item.channel} · Risk points: {item.riskScore}</p>
+            <small>Indicators: {item.detectedFeatures.map((feature) => feature.label).join(', ') || 'none'}</small>
           </article>
         ))}
       </div>
