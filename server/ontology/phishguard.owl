@@ -1,1244 +1,1776 @@
+@prefix : <http://example.org/phishguard#PhishGuardOntology> .
 @prefix pg: <http://example.org/phishguard#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://example.org/phishguard#PhishGuardOntology> .
 
-pg:PhishGuardOntology a owl:Ontology ;
-  rdfs:label "PhishGuard OWL Ontology" ;
-  rdfs:comment "Expanded ontology for phishing message analysis, online scams, indicators, channels, attack goals, organizations, risk levels and recommendations." .
+<http://example.org/phishguard#PhishGuardOntology> rdf:type owl:Ontology ;
+                                                    rdfs:comment "Expanded ontology for phishing message analysis, online scams, indicators, channels, attack goals, organizations, risk levels and recommendations." ;
+                                                    rdfs:label "PhishGuard OWL Ontology" .
 
-pg:DomainConcept a owl:Class ;
-  rdfs:label "Domain concept" .
+#################################################################
+#    Object Properties
+#################################################################
 
-pg:CyberSecurityConcept a owl:Class ;
-  rdfs:label "Cybersecurity concept" .
+###  http://example.org/phishguard#containsUrlFeature
+pg:containsUrlFeature rdf:type owl:ObjectProperty ;
+                      rdfs:domain pg:PhishingMessage ;
+                      rdfs:range pg:LinkFeature ;
+                      rdfs:label "Message contains URL feature" .
 
-pg:CyberSecurityConcept rdfs:subClassOf pg:DomainConcept .
 
-pg:PhishingMessage a owl:Class ;
-  rdfs:label "Phishing message" .
+###  http://example.org/phishguard#detectedInMessage
+pg:detectedInMessage rdf:type owl:ObjectProperty ;
+                     rdfs:domain pg:MessageFeature ;
+                     rdfs:range pg:PhishingMessage ;
+                     rdfs:label "Feature detected in message" .
 
-pg:PhishingMessage rdfs:subClassOf pg:CyberSecurityConcept .
 
-pg:AnalysisResult a owl:Class ;
-  rdfs:label "Analysis result" .
+###  http://example.org/phishguard#hasAttackGoal
+pg:hasAttackGoal rdf:type owl:ObjectProperty ;
+                 rdfs:domain pg:ThreatType ;
+                 rdfs:range pg:AttackGoal ;
+                 rdfs:label "Threat has attack goal" .
 
-pg:AnalysisResult rdfs:subClassOf pg:CyberSecurityConcept .
 
-pg:Evidence a owl:Class ;
-  rdfs:label "Evidence" .
+###  http://example.org/phishguard#hasEvidence
+pg:hasEvidence rdf:type owl:ObjectProperty ;
+               rdfs:domain pg:AnalysisResult ;
+               rdfs:range pg:Evidence ;
+               rdfs:label "Analysis has evidence" .
 
-pg:Evidence rdfs:subClassOf pg:CyberSecurityConcept .
 
-pg:KeywordEvidence a owl:Class ;
-  rdfs:label "Keyword evidence" .
+###  http://example.org/phishguard#hasFeature
+pg:hasFeature rdf:type owl:ObjectProperty ;
+              owl:inverseOf pg:isFeatureOf ;
+              rdfs:domain pg:ThreatType ;
+              rdfs:range pg:MessageFeature ;
+              rdfs:label "Threat type has related message feature" .
 
-pg:KeywordEvidence rdfs:subClassOf pg:Evidence .
 
-pg:UrlEvidence a owl:Class ;
-  rdfs:label "URL evidence" .
+###  http://example.org/phishguard#hasRecommendation
+pg:hasRecommendation rdf:type owl:ObjectProperty ;
+                     rdfs:domain pg:RiskLevel ;
+                     rdfs:range pg:Recommendation ;
+                     rdfs:label "Risk level has recommendation" .
 
-pg:UrlEvidence rdfs:subClassOf pg:Evidence .
 
-pg:SenderEvidence a owl:Class ;
-  rdfs:label "Sender evidence" .
+###  http://example.org/phishguard#hasRiskLevel
+pg:hasRiskLevel rdf:type owl:ObjectProperty ;
+                rdfs:domain pg:AnalysisResult ;
+                rdfs:range pg:RiskLevel ;
+                rdfs:label "Analysis has risk level" .
 
-pg:SenderEvidence rdfs:subClassOf pg:Evidence .
 
-pg:RiskAssessment a owl:Class ;
-  rdfs:label "Risk assessment" .
+###  http://example.org/phishguard#hasSenderFeature
+pg:hasSenderFeature rdf:type owl:ObjectProperty ;
+                    rdfs:domain pg:PhishingMessage ;
+                    rdfs:range pg:SenderFeature ;
+                    rdfs:label "Message has sender feature" .
 
-pg:RiskAssessment rdfs:subClassOf pg:CyberSecurityConcept .
 
-pg:CyberThreat a owl:Class ;
-  rdfs:label "Cyber threat" .
+###  http://example.org/phishguard#indicatesThreat
+pg:indicatesThreat rdf:type owl:ObjectProperty ;
+                   rdfs:domain pg:MessageFeature ;
+                   rdfs:range pg:ThreatType ;
+                   rdfs:label "Feature indicates threat" .
 
-pg:CyberThreat rdfs:subClassOf pg:CyberSecurityConcept .
 
-pg:ThreatType a owl:Class ;
-  rdfs:label "Threat type" .
+###  http://example.org/phishguard#isEvidenceFor
+pg:isEvidenceFor rdf:type owl:ObjectProperty ;
+                 rdfs:domain pg:Evidence ;
+                 rdfs:range pg:AnalysisResult ;
+                 rdfs:label "Evidence supports analysis" .
 
-pg:ThreatType rdfs:subClassOf pg:CyberThreat .
 
-pg:PhishingThreat a owl:Class ;
-  rdfs:label "Phishing threat" .
+###  http://example.org/phishguard#isFeatureOf
+pg:isFeatureOf rdf:type owl:ObjectProperty ;
+               rdfs:domain pg:MessageFeature ;
+               rdfs:range pg:ThreatType ;
+               rdfs:label "Feature is feature of threat" .
 
-pg:PhishingThreat rdfs:subClassOf pg:ThreatType .
 
-pg:EmailPhishing a owl:Class ;
-  rdfs:label "Email phishing" .
+###  http://example.org/phishguard#mitigatesThreat
+pg:mitigatesThreat rdf:type owl:ObjectProperty ;
+                   rdfs:domain pg:Recommendation ;
+                   rdfs:range pg:ThreatType ;
+                   rdfs:label "Recommendation mitigates threat" .
 
-pg:EmailPhishing rdfs:subClassOf pg:PhishingThreat .
 
-pg:SpearPhishing a owl:Class ;
-  rdfs:label "Spear phishing" .
+###  http://example.org/phishguard#requiresAction
+pg:requiresAction rdf:type owl:ObjectProperty ;
+                  rdfs:domain pg:ThreatType ;
+                  rdfs:range pg:Recommendation ;
+                  rdfs:label "Threat requires protective action" .
 
-pg:SpearPhishing rdfs:subClassOf pg:PhishingThreat .
 
-pg:CredentialPhishingClass a owl:Class ;
-  rdfs:label "Credential phishing" .
+###  http://example.org/phishguard#targetsOrganization
+pg:targetsOrganization rdf:type owl:ObjectProperty ;
+                       rdfs:domain pg:ThreatType ;
+                       rdfs:range pg:TargetOrganization ;
+                       rdfs:label "Threat targets organization type" .
 
-pg:CredentialPhishingClass rdfs:subClassOf pg:PhishingThreat .
 
-pg:ClonePhishing a owl:Class ;
-  rdfs:label "Clone phishing" .
+###  http://example.org/phishguard#usesChannel
+pg:usesChannel rdf:type owl:ObjectProperty ;
+               rdfs:domain pg:PhishingMessage ;
+               rdfs:range pg:CommunicationChannel ;
+               rdfs:label "Message uses communication channel" .
 
-pg:ClonePhishing rdfs:subClassOf pg:PhishingThreat .
 
-pg:QRPhishingThreat a owl:Class ;
-  rdfs:label "QR phishing threat" .
+#################################################################
+#    Data properties
+#################################################################
 
-pg:QRPhishingThreat rdfs:subClassOf pg:PhishingThreat .
+###  http://example.org/phishguard#description
+pg:description rdf:type owl:DatatypeProperty ;
+               rdfs:domain pg:CyberSecurityConcept ;
+               rdfs:range xsd:string ;
+               rdfs:label "Entity description" .
 
-pg:SmishingThreat a owl:Class ;
-  rdfs:label "Smishing threat" .
 
-pg:SmishingThreat rdfs:subClassOf pg:ThreatType .
+###  http://example.org/phishguard#hasConfidenceScore
+pg:hasConfidenceScore rdf:type owl:DatatypeProperty ;
+                      rdfs:domain pg:AnalysisResult ;
+                      rdfs:range xsd:decimal ;
+                      rdfs:label "Confidence score" .
 
-pg:FakeBankSms a owl:Class ;
-  rdfs:label "Fake bank SMS" .
 
-pg:FakeBankSms rdfs:subClassOf pg:SmishingThreat .
+###  http://example.org/phishguard#hasDetectedAt
+pg:hasDetectedAt rdf:type owl:DatatypeProperty ;
+                 rdfs:domain pg:AnalysisResult ;
+                 rdfs:range xsd:dateTime ;
+                 rdfs:label "Detected timestamp" .
 
-pg:FakeDeliverySms a owl:Class ;
-  rdfs:label "Fake delivery SMS" .
 
-pg:FakeDeliverySms rdfs:subClassOf pg:SmishingThreat .
+###  http://example.org/phishguard#hasDomainName
+pg:hasDomainName rdf:type owl:DatatypeProperty ;
+                 rdfs:domain pg:UrlEvidence ;
+                 rdfs:range xsd:string ;
+                 rdfs:label "Domain name" .
 
-pg:FakeTollSms a owl:Class ;
-  rdfs:label "Fake toll SMS" .
 
-pg:FakeTollSms rdfs:subClassOf pg:SmishingThreat .
+###  http://example.org/phishguard#hasMessageText
+pg:hasMessageText rdf:type owl:DatatypeProperty ;
+                  rdfs:domain pg:PhishingMessage ;
+                  rdfs:range xsd:string ;
+                  rdfs:label "Message text" .
 
-pg:VishingThreat a owl:Class ;
-  rdfs:label "Vishing threat" .
 
-pg:VishingThreat rdfs:subClassOf pg:ThreatType .
+###  http://example.org/phishguard#hasRiskExplanation
+pg:hasRiskExplanation rdf:type owl:DatatypeProperty ;
+                      rdfs:domain pg:AnalysisResult ;
+                      rdfs:range xsd:string ;
+                      rdfs:label "Risk explanation" .
 
-pg:SocialEngineeringThreat a owl:Class ;
-  rdfs:label "Social engineering threat" .
 
-pg:SocialEngineeringThreat rdfs:subClassOf pg:ThreatType .
+###  http://example.org/phishguard#hasSenderValue
+pg:hasSenderValue rdf:type owl:DatatypeProperty ;
+                  rdfs:domain pg:SenderEvidence ;
+                  rdfs:range xsd:string ;
+                  rdfs:label "Sender value" .
 
-pg:ImpersonationScam a owl:Class ;
-  rdfs:label "Impersonation scam" .
 
-pg:ImpersonationScam rdfs:subClassOf pg:SocialEngineeringThreat .
+###  http://example.org/phishguard#hasSeverityWeight
+pg:hasSeverityWeight rdf:type owl:DatatypeProperty ;
+                     rdfs:domain pg:MessageFeature ;
+                     rdfs:range xsd:integer ;
+                     rdfs:label "Severity weight" .
 
-pg:FakePrizeScamClass a owl:Class ;
-  rdfs:label "Fake prize scam" .
 
-pg:FakePrizeScamClass rdfs:subClassOf pg:SocialEngineeringThreat .
+###  http://example.org/phishguard#keyword
+pg:keyword rdf:type owl:DatatypeProperty ;
+           rdfs:domain pg:MessageFeature ;
+           rdfs:range xsd:string ;
+           rdfs:label "Keyword used for feature detection" .
 
-pg:RomanceScam a owl:Class ;
-  rdfs:label "Romance scam" .
 
-pg:RomanceScam rdfs:subClassOf pg:SocialEngineeringThreat .
+###  http://example.org/phishguard#riskScore
+pg:riskScore rdf:type owl:DatatypeProperty ;
+             rdfs:domain pg:MessageFeature ;
+             rdfs:label "Risk score contribution" .
 
-pg:TechSupportScam a owl:Class ;
-  rdfs:label "Tech support scam" .
 
-pg:TechSupportScam rdfs:subClassOf pg:SocialEngineeringThreat .
+#################################################################
+#    Classes
+#################################################################
 
-pg:FinancialScam a owl:Class ;
-  rdfs:label "Financial scam" .
+###  http://example.org/phishguard#AnalysisResult
+pg:AnalysisResult rdf:type owl:Class ;
+                  rdfs:subClassOf pg:CyberSecurityConcept ;
+                  rdfs:label "Analysis result" .
 
-pg:FinancialScam rdfs:subClassOf pg:ThreatType .
 
-pg:CryptoScamClass a owl:Class ;
-  rdfs:label "Crypto scam" .
+###  http://example.org/phishguard#ArchiveAttachment
+pg:ArchiveAttachment rdf:type owl:Class ;
+                     rdfs:subClassOf pg:AttachmentFeature ;
+                     rdfs:label "Archive attachment" .
 
-pg:CryptoScamClass rdfs:subClassOf pg:FinancialScam .
 
-pg:InvestmentScam a owl:Class ;
-  rdfs:label "Investment scam" .
+###  http://example.org/phishguard#AttachmentFeature
+pg:AttachmentFeature rdf:type owl:Class ;
+                     rdfs:subClassOf pg:MessageFeature ;
+                     rdfs:label "Attachment feature" .
 
-pg:InvestmentScam rdfs:subClassOf pg:FinancialScam .
 
-pg:FakePaymentScam a owl:Class ;
-  rdfs:label "Fake payment scam" .
+###  http://example.org/phishguard#AttackGoal
+pg:AttackGoal rdf:type owl:Class ;
+              rdfs:subClassOf pg:CyberSecurityConcept ;
+              rdfs:label "Attack goal" .
 
-pg:FakePaymentScam rdfs:subClassOf pg:FinancialScam .
 
-pg:RefundScam a owl:Class ;
-  rdfs:label "Refund scam" .
+###  http://example.org/phishguard#AuthorityPressure
+pg:AuthorityPressure rdf:type owl:Class ;
+                     rdfs:subClassOf pg:LinguisticFeature ;
+                     rdfs:label "Authority pressure" .
 
-pg:RefundScam rdfs:subClassOf pg:FinancialScam .
 
-pg:MalwareThreat a owl:Class ;
-  rdfs:label "Malware threat" .
+###  http://example.org/phishguard#BankOrganization
+pg:BankOrganization rdf:type owl:Class ;
+                    rdfs:subClassOf pg:TargetOrganization .
 
-pg:MalwareThreat rdfs:subClassOf pg:ThreatType .
 
-pg:MaliciousAttachment a owl:Class ;
-  rdfs:label "Malicious attachment" .
+###  http://example.org/phishguard#BankTransferRequest
+pg:BankTransferRequest rdf:type owl:Class ;
+                       rdfs:subClassOf pg:PaymentFeature ;
+                       rdfs:label "Bank transfer request" .
 
-pg:MaliciousAttachment rdfs:subClassOf pg:MalwareThreat .
 
-pg:FakeSoftwareUpdate a owl:Class ;
-  rdfs:label "Fake software update" .
+###  http://example.org/phishguard#BlockSenderClass
+pg:BlockSenderClass rdf:type owl:Class ;
+                    rdfs:subClassOf pg:ReportingAction ;
+                    rdfs:label "Block sender" .
 
-pg:FakeSoftwareUpdate rdfs:subClassOf pg:MalwareThreat .
 
-pg:MessageFeature a owl:Class ;
-  rdfs:label "Message feature" .
+###  http://example.org/phishguard#BypassTwoFactor
+pg:BypassTwoFactor rdf:type owl:Class ;
+                   rdfs:subClassOf pg:AttackGoal .
 
-pg:MessageFeature rdfs:subClassOf pg:CyberSecurityConcept .
 
-pg:LinguisticFeature a owl:Class ;
-  rdfs:label "Linguistic feature" .
+###  http://example.org/phishguard#CardDataRequestClass
+pg:CardDataRequestClass rdf:type owl:Class ;
+                        rdfs:subClassOf pg:DataRequestFeature ;
+                        rdfs:label "Card data request" .
 
-pg:LinguisticFeature rdfs:subClassOf pg:MessageFeature .
 
-pg:UrgencyLanguage a owl:Class ;
-  rdfs:label "Urgency language" .
+###  http://example.org/phishguard#ChangePasswordClass
+pg:ChangePasswordClass rdf:type owl:Class ;
+                       rdfs:subClassOf pg:RecoveryAction ;
+                       rdfs:label "Change password" .
 
-pg:UrgencyLanguage rdfs:subClassOf pg:LinguisticFeature .
 
-pg:ThreateningLanguage a owl:Class ;
-  rdfs:label "Threatening language" .
+###  http://example.org/phishguard#ChatChannel
+pg:ChatChannel rdf:type owl:Class ;
+               rdfs:subClassOf pg:CommunicationChannel ;
+               rdfs:label "Chat channel" .
 
-pg:ThreateningLanguage rdfs:subClassOf pg:LinguisticFeature .
 
-pg:GrammarMistakes a owl:Class ;
-  rdfs:label "Grammar mistakes" .
+###  http://example.org/phishguard#ClonePhishing
+pg:ClonePhishing rdf:type owl:Class ;
+                 rdfs:subClassOf pg:PhishingThreat ;
+                 rdfs:label "Clone phishing" .
 
-pg:GrammarMistakes rdfs:subClassOf pg:LinguisticFeature .
 
-pg:GenericGreeting a owl:Class ;
-  rdfs:label "Generic greeting" .
+###  http://example.org/phishguard#CommunicationChannel
+pg:CommunicationChannel rdf:type owl:Class ;
+                        rdfs:subClassOf pg:CyberSecurityConcept ;
+                        rdfs:label "Communication channel" .
 
-pg:GenericGreeting rdfs:subClassOf pg:LinguisticFeature .
 
-pg:TooGoodToBeTrueLanguage a owl:Class ;
-  rdfs:label "Too-good-to-be-true language" .
+###  http://example.org/phishguard#ContactBankClass
+pg:ContactBankClass rdf:type owl:Class ;
+                    rdfs:subClassOf pg:VerificationAction ;
+                    rdfs:label "Contact bank" .
 
-pg:TooGoodToBeTrueLanguage rdfs:subClassOf pg:LinguisticFeature .
 
-pg:AuthorityPressure a owl:Class ;
-  rdfs:label "Authority pressure" .
+###  http://example.org/phishguard#ContactCourierClass
+pg:ContactCourierClass rdf:type owl:Class ;
+                       rdfs:subClassOf pg:VerificationAction ;
+                       rdfs:label "Contact courier" .
 
-pg:AuthorityPressure rdfs:subClassOf pg:LinguisticFeature .
 
-pg:LinkFeature a owl:Class ;
-  rdfs:label "Link feature" .
+###  http://example.org/phishguard#CourierCompany
+pg:CourierCompany rdf:type owl:Class ;
+                  rdfs:subClassOf pg:TargetOrganization .
 
-pg:LinkFeature rdfs:subClassOf pg:MessageFeature .
 
-pg:SuspiciousUrl a owl:Class ;
-  rdfs:label "Suspicious URL" .
+###  http://example.org/phishguard#CredentialPhishingClass
+pg:CredentialPhishingClass rdf:type owl:Class ;
+                           rdfs:subClassOf pg:PhishingThreat ;
+                           rdfs:label "Credential phishing" .
 
-pg:SuspiciousUrl rdfs:subClassOf pg:LinkFeature .
 
-pg:ShortenedUrl a owl:Class ;
-  rdfs:label "Shortened URL" .
+###  http://example.org/phishguard#CryptoExchange
+pg:CryptoExchange rdf:type owl:Class ;
+                  rdfs:subClassOf pg:TargetOrganization .
 
-pg:ShortenedUrl rdfs:subClassOf pg:LinkFeature .
 
-pg:LookalikeDomain a owl:Class ;
-  rdfs:label "Lookalike domain" .
+###  http://example.org/phishguard#CryptoScamClass
+pg:CryptoScamClass rdf:type owl:Class ;
+                   rdfs:subClassOf pg:FinancialScam ;
+                   rdfs:label "Crypto scam" .
 
-pg:LookalikeDomain rdfs:subClassOf pg:LinkFeature .
 
-pg:HttpWithoutHttps a owl:Class ;
-  rdfs:label "HTTP without HTTPS" .
+###  http://example.org/phishguard#CryptoWalletRequest
+pg:CryptoWalletRequest rdf:type owl:Class ;
+                       rdfs:subClassOf pg:PaymentFeature ;
+                       rdfs:label "Crypto wallet request" .
 
-pg:HttpWithoutHttps rdfs:subClassOf pg:LinkFeature .
 
-pg:MismatchedDomain a owl:Class ;
-  rdfs:label "Mismatched domain" .
+###  http://example.org/phishguard#CyberSecurityConcept
+pg:CyberSecurityConcept rdf:type owl:Class ;
+                        rdfs:subClassOf pg:DomainConcept ;
+                        rdfs:label "Cybersecurity concept" .
 
-pg:MismatchedDomain rdfs:subClassOf pg:LinkFeature .
 
-pg:TyposquattedDomain a owl:Class ;
-  rdfs:label "Typosquatted domain" .
+###  http://example.org/phishguard#CyberThreat
+pg:CyberThreat rdf:type owl:Class ;
+               rdfs:subClassOf pg:CyberSecurityConcept ;
+               rdfs:label "Cyber threat" .
 
-pg:TyposquattedDomain rdfs:subClassOf pg:LinkFeature .
 
-pg:UrlWithIPAddress a owl:Class ;
-  rdfs:label "URL with IP address" .
+###  http://example.org/phishguard#DataRequestFeature
+pg:DataRequestFeature rdf:type owl:Class ;
+                      rdfs:subClassOf pg:MessageFeature ;
+                      rdfs:label "Data request feature" .
 
-pg:UrlWithIPAddress rdfs:subClassOf pg:LinkFeature .
 
-pg:DataRequestFeature a owl:Class ;
-  rdfs:label "Data request feature" .
+###  http://example.org/phishguard#DoNotDownloadAttachmentClass
+pg:DoNotDownloadAttachmentClass rdf:type owl:Class ;
+                                rdfs:subClassOf pg:PreventiveAction ;
+                                rdfs:label "Do not download attachment" .
 
-pg:DataRequestFeature rdfs:subClassOf pg:MessageFeature .
 
-pg:PasswordRequestClass a owl:Class ;
-  rdfs:label "Password request" .
+###  http://example.org/phishguard#DoNotEnterCredentialsClass
+pg:DoNotEnterCredentialsClass rdf:type owl:Class ;
+                              rdfs:subClassOf pg:PreventiveAction ;
+                              rdfs:label "Do not enter credentials" .
 
-pg:PasswordRequestClass rdfs:subClassOf pg:DataRequestFeature .
 
-pg:CardDataRequestClass a owl:Class ;
-  rdfs:label "Card data request" .
+###  http://example.org/phishguard#DoNotOpenLinkClass
+pg:DoNotOpenLinkClass rdf:type owl:Class ;
+                      rdfs:subClassOf pg:PreventiveAction ;
+                      rdfs:label "Do not open link" .
 
-pg:CardDataRequestClass rdfs:subClassOf pg:DataRequestFeature .
 
-pg:PersonalDataRequestClass a owl:Class ;
-  rdfs:label "Personal data request" .
+###  http://example.org/phishguard#DomainConcept
+pg:DomainConcept rdf:type owl:Class ;
+                 rdfs:label "Domain concept" .
 
-pg:PersonalDataRequestClass rdfs:subClassOf pg:DataRequestFeature .
 
-pg:TwoFactorCodeRequest a owl:Class ;
-  rdfs:label "Two-factor code request" .
+###  http://example.org/phishguard#EmailChannel
+pg:EmailChannel rdf:type owl:Class ;
+                rdfs:subClassOf pg:CommunicationChannel ;
+                rdfs:label "Email channel" .
 
-pg:TwoFactorCodeRequest rdfs:subClassOf pg:DataRequestFeature .
 
-pg:RecoveryPhraseRequest a owl:Class ;
-  rdfs:label "Recovery phrase request" .
+###  http://example.org/phishguard#EmailPhishing
+pg:EmailPhishing rdf:type owl:Class ;
+                 rdfs:subClassOf pg:PhishingThreat ;
+                 rdfs:label "Email phishing" .
 
-pg:RecoveryPhraseRequest rdfs:subClassOf pg:DataRequestFeature .
 
-pg:PaymentFeature a owl:Class ;
-  rdfs:label "Payment feature" .
+###  http://example.org/phishguard#Evidence
+pg:Evidence rdf:type owl:Class ;
+            rdfs:subClassOf pg:CyberSecurityConcept ;
+            rdfs:label "Evidence" .
 
-pg:PaymentFeature rdfs:subClassOf pg:MessageFeature .
 
-pg:UrgentPaymentRequest a owl:Class ;
-  rdfs:label "Urgent payment request" .
+###  http://example.org/phishguard#ExecutableAttachment
+pg:ExecutableAttachment rdf:type owl:Class ;
+                        rdfs:subClassOf pg:AttachmentFeature ;
+                        rdfs:label "Executable attachment" .
 
-pg:UrgentPaymentRequest rdfs:subClassOf pg:PaymentFeature .
 
-pg:CryptoWalletRequest a owl:Class ;
-  rdfs:label "Crypto wallet request" .
+###  http://example.org/phishguard#FacebookMessengerChannel
+pg:FacebookMessengerChannel rdf:type owl:Class ;
+                            rdfs:subClassOf pg:CommunicationChannel ;
+                            rdfs:label "Facebook Messenger channel" .
 
-pg:CryptoWalletRequest rdfs:subClassOf pg:PaymentFeature .
 
-pg:SmallFeeRequest a owl:Class ;
-  rdfs:label "Small fee request" .
+###  http://example.org/phishguard#FakeBankSms
+pg:FakeBankSms rdf:type owl:Class ;
+               rdfs:subClassOf pg:SmishingThreat ;
+               rdfs:label "Fake bank SMS" .
 
-pg:SmallFeeRequest rdfs:subClassOf pg:PaymentFeature .
 
-pg:GiftCardPaymentRequest a owl:Class ;
-  rdfs:label "Gift card payment request" .
+###  http://example.org/phishguard#FakeDeliverySms
+pg:FakeDeliverySms rdf:type owl:Class ;
+                   rdfs:subClassOf pg:SmishingThreat ;
+                   rdfs:label "Fake delivery SMS" .
 
-pg:GiftCardPaymentRequest rdfs:subClassOf pg:PaymentFeature .
 
-pg:BankTransferRequest a owl:Class ;
-  rdfs:label "Bank transfer request" .
+###  http://example.org/phishguard#FakePaymentScam
+pg:FakePaymentScam rdf:type owl:Class ;
+                   rdfs:subClassOf pg:FinancialScam ;
+                   rdfs:label "Fake payment scam" .
 
-pg:BankTransferRequest rdfs:subClassOf pg:PaymentFeature .
 
-pg:SenderFeature a owl:Class ;
-  rdfs:label "Sender feature" .
+###  http://example.org/phishguard#FakePrizeScamClass
+pg:FakePrizeScamClass rdf:type owl:Class ;
+                      rdfs:subClassOf pg:SocialEngineeringThreat ;
+                      rdfs:label "Fake prize scam" .
 
-pg:SenderFeature rdfs:subClassOf pg:MessageFeature .
 
-pg:UnknownSenderClass a owl:Class ;
-  rdfs:label "Unknown sender" .
+###  http://example.org/phishguard#FakeSoftwareUpdate
+pg:FakeSoftwareUpdate rdf:type owl:Class ;
+                      rdfs:subClassOf pg:MalwareThreat ;
+                      rdfs:label "Fake software update" .
 
-pg:UnknownSenderClass rdfs:subClassOf pg:SenderFeature .
 
-pg:SpoofedEmailAddress a owl:Class ;
-  rdfs:label "Spoofed email address" .
+###  http://example.org/phishguard#FakeTollSms
+pg:FakeTollSms rdf:type owl:Class ;
+               rdfs:subClassOf pg:SmishingThreat ;
+               rdfs:label "Fake toll SMS" .
 
-pg:SpoofedEmailAddress rdfs:subClassOf pg:SenderFeature .
 
-pg:ImpersonatedOrganization a owl:Class ;
-  rdfs:label "Impersonated organization" .
+###  http://example.org/phishguard#FinancialScam
+pg:FinancialScam rdf:type owl:Class ;
+                 rdfs:subClassOf pg:ThreatType ;
+                 rdfs:label "Financial scam" .
 
-pg:ImpersonatedOrganization rdfs:subClassOf pg:SenderFeature .
 
-pg:NoReplySender a owl:Class ;
-  rdfs:label "No-reply sender" .
+###  http://example.org/phishguard#FreezeCardClass
+pg:FreezeCardClass rdf:type owl:Class ;
+                   rdfs:subClassOf pg:RecoveryAction ;
+                   rdfs:label "Freeze card" .
 
-pg:NoReplySender rdfs:subClassOf pg:SenderFeature .
 
-pg:AttachmentFeature a owl:Class ;
-  rdfs:label "Attachment feature" .
+###  http://example.org/phishguard#GenericGreeting
+pg:GenericGreeting rdf:type owl:Class ;
+                   rdfs:subClassOf pg:LinguisticFeature ;
+                   rdfs:label "Generic greeting" .
 
-pg:AttachmentFeature rdfs:subClassOf pg:MessageFeature .
 
-pg:ExecutableAttachment a owl:Class ;
-  rdfs:label "Executable attachment" .
+###  http://example.org/phishguard#GiftCardPaymentRequest
+pg:GiftCardPaymentRequest rdf:type owl:Class ;
+                          rdfs:subClassOf pg:PaymentFeature .
 
-pg:ExecutableAttachment rdfs:subClassOf pg:AttachmentFeature .
 
-pg:MacroDocumentAttachment a owl:Class ;
-  rdfs:label "Macro document attachment" .
+###  http://example.org/phishguard#GovernmentInstitution
+pg:GovernmentInstitution rdf:type owl:Class ;
+                         rdfs:subClassOf pg:TargetOrganization .
 
-pg:MacroDocumentAttachment rdfs:subClassOf pg:AttachmentFeature .
 
-pg:ArchiveAttachment a owl:Class ;
-  rdfs:label "Archive attachment" .
+###  http://example.org/phishguard#GrammarMistakes
+pg:GrammarMistakes rdf:type owl:Class ;
+                   rdfs:subClassOf pg:LinguisticFeature ;
+                   rdfs:label "Grammar mistakes" .
 
-pg:ArchiveAttachment rdfs:subClassOf pg:AttachmentFeature .
 
-pg:CommunicationChannel a owl:Class ;
-  rdfs:label "Communication channel" .
+###  http://example.org/phishguard#HighRiskClass
+pg:HighRiskClass rdf:type owl:Class ;
+                 rdfs:subClassOf pg:RiskLevel ;
+                 rdfs:label "High risk class" .
 
-pg:CommunicationChannel rdfs:subClassOf pg:CyberSecurityConcept .
 
-pg:EmailChannel a owl:Class ;
-  rdfs:label "Email channel" .
+###  http://example.org/phishguard#HttpWithoutHttps
+pg:HttpWithoutHttps rdf:type owl:Class ;
+                    rdfs:subClassOf pg:LinkFeature ;
+                    rdfs:label "HTTP without HTTPS" .
 
-pg:EmailChannel rdfs:subClassOf pg:CommunicationChannel .
 
-pg:SmsChannel a owl:Class ;
-  rdfs:label "SMS channel" .
+###  http://example.org/phishguard#ImpersonatedOrganization
+pg:ImpersonatedOrganization rdf:type owl:Class ;
+                            rdfs:subClassOf pg:SenderFeature ;
+                            rdfs:label "Impersonated organization" .
 
-pg:SmsChannel rdfs:subClassOf pg:CommunicationChannel .
 
-pg:ChatChannel a owl:Class ;
-  rdfs:label "Chat channel" .
+###  http://example.org/phishguard#ImpersonationScam
+pg:ImpersonationScam rdf:type owl:Class ;
+                     rdfs:subClassOf pg:SocialEngineeringThreat ;
+                     rdfs:label "Impersonation scam" .
 
-pg:ChatChannel rdfs:subClassOf pg:CommunicationChannel .
 
-pg:SocialMediaChannel a owl:Class ;
-  rdfs:label "Social media channel" .
+###  http://example.org/phishguard#InstagramDMChannel
+pg:InstagramDMChannel rdf:type owl:Class ;
+                      rdfs:subClassOf pg:CommunicationChannel ;
+                      rdfs:label "Instagram DM channel" .
 
-pg:SocialMediaChannel rdfs:subClassOf pg:CommunicationChannel .
 
-pg:WhatsAppChannel a owl:Class ;
-  rdfs:label "WhatsApp channel" .
+###  http://example.org/phishguard#InstallMalware
+pg:InstallMalware rdf:type owl:Class ;
+                  rdfs:subClassOf pg:AttackGoal .
 
-pg:WhatsAppChannel rdfs:subClassOf pg:CommunicationChannel .
 
-pg:ViberChannel a owl:Class ;
-  rdfs:label "Viber channel" .
+###  http://example.org/phishguard#InvestmentScam
+pg:InvestmentScam rdf:type owl:Class ;
+                  rdfs:subClassOf pg:FinancialScam .
 
-pg:ViberChannel rdfs:subClassOf pg:CommunicationChannel .
 
-pg:TelegramChannel a owl:Class ;
-  rdfs:label "Telegram channel" .
+###  http://example.org/phishguard#KeywordEvidence
+pg:KeywordEvidence rdf:type owl:Class ;
+                   rdfs:subClassOf pg:Evidence ;
+                   rdfs:label "Keyword evidence" .
 
-pg:TelegramChannel rdfs:subClassOf pg:CommunicationChannel .
 
-pg:InstagramDMChannel a owl:Class ;
-  rdfs:label "Instagram DM channel" .
+###  http://example.org/phishguard#LinguisticFeature
+pg:LinguisticFeature rdf:type owl:Class ;
+                     rdfs:subClassOf pg:MessageFeature ;
+                     rdfs:label "Linguistic feature" .
 
-pg:InstagramDMChannel rdfs:subClassOf pg:CommunicationChannel .
 
-pg:FacebookMessengerChannel a owl:Class ;
-  rdfs:label "Facebook Messenger channel" .
+###  http://example.org/phishguard#LinkFeature
+pg:LinkFeature rdf:type owl:Class ;
+               rdfs:subClassOf pg:MessageFeature ;
+               rdfs:label "Link feature" .
 
-pg:FacebookMessengerChannel rdfs:subClassOf pg:CommunicationChannel .
 
-pg:PhoneCallChannel a owl:Class ;
-  rdfs:label "Phone call channel" .
+###  http://example.org/phishguard#LookalikeDomain
+pg:LookalikeDomain rdf:type owl:Class ;
+                   rdfs:subClassOf pg:LinkFeature ;
+                   rdfs:label "Lookalike domain" .
 
-pg:PhoneCallChannel rdfs:subClassOf pg:CommunicationChannel .
 
-pg:QRCodeChannel a owl:Class ;
-  rdfs:label "QR code channel" .
+###  http://example.org/phishguard#LowRiskClass
+pg:LowRiskClass rdf:type owl:Class ;
+                rdfs:subClassOf pg:RiskLevel ;
+                rdfs:label "Low risk class" .
 
-pg:QRCodeChannel rdfs:subClassOf pg:CommunicationChannel .
 
-pg:TargetOrganization a owl:Class ;
-  rdfs:label "Target organization" .
+###  http://example.org/phishguard#MacroDocumentAttachment
+pg:MacroDocumentAttachment rdf:type owl:Class ;
+                           rdfs:subClassOf pg:AttachmentFeature ;
+                           rdfs:label "Macro document attachment" .
 
-pg:TargetOrganization rdfs:subClassOf pg:CyberSecurityConcept .
 
-pg:BankOrganization a owl:Class ;
-  rdfs:label "Bank organization" .
+###  http://example.org/phishguard#MaliciousAttachment
+pg:MaliciousAttachment rdf:type owl:Class ;
+                       rdfs:subClassOf pg:MalwareThreat ;
+                       rdfs:label "Malicious attachment" .
 
-pg:BankOrganization rdfs:subClassOf pg:TargetOrganization .
 
-pg:CourierCompany a owl:Class ;
-  rdfs:label "Courier company" .
+###  http://example.org/phishguard#MalwareThreat
+pg:MalwareThreat rdf:type owl:Class ;
+                 rdfs:subClassOf pg:ThreatType ;
+                 rdfs:label "Malware threat" .
 
-pg:CourierCompany rdfs:subClassOf pg:TargetOrganization .
 
-pg:GovernmentInstitution a owl:Class ;
-  rdfs:label "Government institution" .
+###  http://example.org/phishguard#MediumRiskClass
+pg:MediumRiskClass rdf:type owl:Class ;
+                   rdfs:subClassOf pg:RiskLevel ;
+                   rdfs:label "Medium risk class" .
 
-pg:GovernmentInstitution rdfs:subClassOf pg:TargetOrganization .
 
-pg:OnlineStore a owl:Class ;
-  rdfs:label "Online store" .
+###  http://example.org/phishguard#MessageFeature
+pg:MessageFeature rdf:type owl:Class ;
+                  rdfs:subClassOf pg:CyberSecurityConcept ;
+                  rdfs:label "Message feature" .
 
-pg:OnlineStore rdfs:subClassOf pg:TargetOrganization .
 
-pg:SocialNetwork a owl:Class ;
-  rdfs:label "Social network" .
+###  http://example.org/phishguard#MismatchedDomain
+pg:MismatchedDomain rdf:type owl:Class ;
+                    rdfs:subClassOf pg:LinkFeature ;
+                    rdfs:label "Mismatched domain" .
 
-pg:SocialNetwork rdfs:subClassOf pg:TargetOrganization .
 
-pg:CryptoExchange a owl:Class ;
-  rdfs:label "Crypto exchange" .
+###  http://example.org/phishguard#NoReplySender
+pg:NoReplySender rdf:type owl:Class ;
+                 rdfs:subClassOf pg:SenderFeature ;
+                 rdfs:label "No-reply sender" .
 
-pg:CryptoExchange rdfs:subClassOf pg:TargetOrganization .
 
-pg:PaymentProvider a owl:Class ;
-  rdfs:label "Payment provider" .
+###  http://example.org/phishguard#OnlineStore
+pg:OnlineStore rdf:type owl:Class ;
+               rdfs:subClassOf pg:TargetOrganization .
 
-pg:PaymentProvider rdfs:subClassOf pg:TargetOrganization .
 
-pg:TelecomProvider a owl:Class ;
-  rdfs:label "Telecom provider" .
+###  http://example.org/phishguard#PasswordRequestClass
+pg:PasswordRequestClass rdf:type owl:Class ;
+                        rdfs:subClassOf pg:DataRequestFeature ;
+                        rdfs:label "Password request" .
 
-pg:TelecomProvider rdfs:subClassOf pg:TargetOrganization .
 
-pg:AttackGoal a owl:Class ;
-  rdfs:label "Attack goal" .
+###  http://example.org/phishguard#PaymentFeature
+pg:PaymentFeature rdf:type owl:Class ;
+                  rdfs:subClassOf pg:MessageFeature ;
+                  rdfs:label "Payment feature" .
 
-pg:AttackGoal rdfs:subClassOf pg:CyberSecurityConcept .
 
-pg:StealCredentials a owl:Class ;
-  rdfs:label "Steal credentials" .
+###  http://example.org/phishguard#PaymentProvider
+pg:PaymentProvider rdf:type owl:Class ;
+                   rdfs:subClassOf pg:TargetOrganization .
 
-pg:StealCredentials rdfs:subClassOf pg:AttackGoal .
 
-pg:StealCardData a owl:Class ;
-  rdfs:label "Steal card data" .
+###  http://example.org/phishguard#PersonalDataRequestClass
+pg:PersonalDataRequestClass rdf:type owl:Class ;
+                            rdfs:subClassOf pg:DataRequestFeature ;
+                            rdfs:label "Personal data request" .
 
-pg:StealCardData rdfs:subClassOf pg:AttackGoal .
 
-pg:StealPersonalData a owl:Class ;
-  rdfs:label "Steal personal data" .
+###  http://example.org/phishguard#PhishingMessage
+pg:PhishingMessage rdf:type owl:Class ;
+                   rdfs:subClassOf pg:CyberSecurityConcept ;
+                   rdfs:label "Phishing message" .
 
-pg:StealPersonalData rdfs:subClassOf pg:AttackGoal .
 
-pg:InstallMalware a owl:Class ;
-  rdfs:label "Install malware" .
+###  http://example.org/phishguard#PhishingThreat
+pg:PhishingThreat rdf:type owl:Class ;
+                  rdfs:subClassOf pg:ThreatType ;
+                  rdfs:label "Phishing threat" .
 
-pg:InstallMalware rdfs:subClassOf pg:AttackGoal .
 
-pg:ReceiveFraudulentPayment a owl:Class ;
-  rdfs:label "Receive fraudulent payment" .
+###  http://example.org/phishguard#PhoneCallChannel
+pg:PhoneCallChannel rdf:type owl:Class ;
+                    rdfs:subClassOf pg:CommunicationChannel ;
+                    rdfs:label "Phone call channel" .
 
-pg:ReceiveFraudulentPayment rdfs:subClassOf pg:AttackGoal .
 
-pg:TakeOverAccount a owl:Class ;
-  rdfs:label "Take over account" .
+###  http://example.org/phishguard#PreventiveAction
+pg:PreventiveAction rdf:type owl:Class ;
+                    rdfs:subClassOf pg:Recommendation ;
+                    rdfs:label "Preventive action" .
 
-pg:TakeOverAccount rdfs:subClassOf pg:AttackGoal .
 
-pg:BypassTwoFactor a owl:Class ;
-  rdfs:label "Bypass two-factor authentication" .
+###  http://example.org/phishguard#QRCodeChannel
+pg:QRCodeChannel rdf:type owl:Class ;
+                 rdfs:subClassOf pg:CommunicationChannel ;
+                 rdfs:label "QR code channel" .
 
-pg:BypassTwoFactor rdfs:subClassOf pg:AttackGoal .
 
-pg:StealCryptoAssets a owl:Class ;
-  rdfs:label "Steal crypto assets" .
+###  http://example.org/phishguard#QRPhishingThreat
+pg:QRPhishingThreat rdf:type owl:Class ;
+                    rdfs:subClassOf pg:PhishingThreat ;
+                    rdfs:label "QR phishing threat" .
 
-pg:StealCryptoAssets rdfs:subClassOf pg:AttackGoal .
 
-pg:RiskLevel a owl:Class ;
-  rdfs:label "Risk level" .
+###  http://example.org/phishguard#ReceiveFraudulentPayment
+pg:ReceiveFraudulentPayment rdf:type owl:Class ;
+                            rdfs:subClassOf pg:AttackGoal .
 
-pg:RiskLevel rdfs:subClassOf pg:CyberSecurityConcept .
 
-pg:LowRiskClass a owl:Class ;
-  rdfs:label "Low risk class" .
+###  http://example.org/phishguard#Recommendation
+pg:Recommendation rdf:type owl:Class ;
+                  rdfs:subClassOf pg:CyberSecurityConcept ;
+                  rdfs:label "Recommendation" .
 
-pg:LowRiskClass rdfs:subClassOf pg:RiskLevel .
 
-pg:MediumRiskClass a owl:Class ;
-  rdfs:label "Medium risk class" .
+###  http://example.org/phishguard#RecoveryAction
+pg:RecoveryAction rdf:type owl:Class ;
+                  rdfs:subClassOf pg:Recommendation ;
+                  rdfs:label "Recovery action" .
 
-pg:MediumRiskClass rdfs:subClassOf pg:RiskLevel .
 
-pg:HighRiskClass a owl:Class ;
-  rdfs:label "High risk class" .
+###  http://example.org/phishguard#RecoveryPhraseRequest
+pg:RecoveryPhraseRequest rdf:type owl:Class ;
+                         rdfs:subClassOf pg:DataRequestFeature ;
+                         rdfs:label "Recovery phrase request" .
 
-pg:HighRiskClass rdfs:subClassOf pg:RiskLevel .
 
-pg:Recommendation a owl:Class ;
-  rdfs:label "Recommendation" .
+###  http://example.org/phishguard#RefundScam
+pg:RefundScam rdf:type owl:Class ;
+              rdfs:subClassOf pg:FinancialScam .
 
-pg:Recommendation rdfs:subClassOf pg:CyberSecurityConcept .
 
-pg:PreventiveAction a owl:Class ;
-  rdfs:label "Preventive action" .
+###  http://example.org/phishguard#ReportMessageClass
+pg:ReportMessageClass rdf:type owl:Class ;
+                      rdfs:subClassOf pg:ReportingAction ;
+                      rdfs:label "Report message" .
 
-pg:PreventiveAction rdfs:subClassOf pg:Recommendation .
 
-pg:VerificationAction a owl:Class ;
-  rdfs:label "Verification action" .
+###  http://example.org/phishguard#ReportingAction
+pg:ReportingAction rdf:type owl:Class ;
+                   rdfs:subClassOf pg:Recommendation ;
+                   rdfs:label "Reporting action" .
 
-pg:VerificationAction rdfs:subClassOf pg:Recommendation .
 
-pg:ReportingAction a owl:Class ;
-  rdfs:label "Reporting action" .
+###  http://example.org/phishguard#RiskAssessment
+pg:RiskAssessment rdf:type owl:Class ;
+                  rdfs:subClassOf pg:CyberSecurityConcept ;
+                  rdfs:label "Risk assessment" .
 
-pg:ReportingAction rdfs:subClassOf pg:Recommendation .
 
-pg:RecoveryAction a owl:Class ;
-  rdfs:label "Recovery action" .
+###  http://example.org/phishguard#RiskLevel
+pg:RiskLevel rdf:type owl:Class ;
+             rdfs:subClassOf pg:CyberSecurityConcept ;
+             rdfs:label "Risk level" .
 
-pg:RecoveryAction rdfs:subClassOf pg:Recommendation .
 
-pg:DoNotOpenLinkClass a owl:Class ;
-  rdfs:label "Do not open link" .
+###  http://example.org/phishguard#RomanceScam
+pg:RomanceScam rdf:type owl:Class ;
+               rdfs:subClassOf pg:SocialEngineeringThreat ;
+               rdfs:label "Romance scam" .
 
-pg:DoNotOpenLinkClass rdfs:subClassOf pg:PreventiveAction .
 
-pg:DoNotEnterCredentialsClass a owl:Class ;
-  rdfs:label "Do not enter credentials" .
+###  http://example.org/phishguard#SenderEvidence
+pg:SenderEvidence rdf:type owl:Class ;
+                  rdfs:subClassOf pg:Evidence ;
+                  rdfs:label "Sender evidence" .
 
-pg:DoNotEnterCredentialsClass rdfs:subClassOf pg:PreventiveAction .
 
-pg:DoNotDownloadAttachmentClass a owl:Class ;
-  rdfs:label "Do not download attachment" .
+###  http://example.org/phishguard#SenderFeature
+pg:SenderFeature rdf:type owl:Class ;
+                 rdfs:subClassOf pg:MessageFeature ;
+                 rdfs:label "Sender feature" .
 
-pg:DoNotDownloadAttachmentClass rdfs:subClassOf pg:PreventiveAction .
 
-pg:VerifyOfficialWebsiteClass a owl:Class ;
-  rdfs:label "Verify official website" .
+###  http://example.org/phishguard#ShortenedUrl
+pg:ShortenedUrl rdf:type owl:Class ;
+                rdfs:subClassOf pg:LinkFeature ;
+                rdfs:label "Shortened URL" .
 
-pg:VerifyOfficialWebsiteClass rdfs:subClassOf pg:VerificationAction .
 
-pg:ContactBankClass a owl:Class ;
-  rdfs:label "Contact bank" .
+###  http://example.org/phishguard#SmallFeeRequest
+pg:SmallFeeRequest rdf:type owl:Class ;
+                   rdfs:subClassOf pg:PaymentFeature .
 
-pg:ContactBankClass rdfs:subClassOf pg:VerificationAction .
 
-pg:ContactCourierClass a owl:Class ;
-  rdfs:label "Contact courier" .
+###  http://example.org/phishguard#SmishingThreat
+pg:SmishingThreat rdf:type owl:Class ;
+                  rdfs:subClassOf pg:ThreatType ;
+                  rdfs:label "Smishing threat" .
 
-pg:ContactCourierClass rdfs:subClassOf pg:VerificationAction .
 
-pg:ReportMessageClass a owl:Class ;
-  rdfs:label "Report message" .
+###  http://example.org/phishguard#SmsChannel
+pg:SmsChannel rdf:type owl:Class ;
+              rdfs:subClassOf pg:CommunicationChannel ;
+              rdfs:label "SMS channel" .
 
-pg:ReportMessageClass rdfs:subClassOf pg:ReportingAction .
 
-pg:BlockSenderClass a owl:Class ;
-  rdfs:label "Block sender" .
+###  http://example.org/phishguard#SocialEngineeringThreat
+pg:SocialEngineeringThreat rdf:type owl:Class ;
+                           rdfs:subClassOf pg:ThreatType ;
+                           rdfs:label "Social engineering threat" .
 
-pg:BlockSenderClass rdfs:subClassOf pg:ReportingAction .
 
-pg:ChangePasswordClass a owl:Class ;
-  rdfs:label "Change password" .
+###  http://example.org/phishguard#SocialMediaChannel
+pg:SocialMediaChannel rdf:type owl:Class ;
+                      rdfs:subClassOf pg:CommunicationChannel ;
+                      rdfs:label "Social media channel" .
 
-pg:ChangePasswordClass rdfs:subClassOf pg:RecoveryAction .
 
-pg:FreezeCardClass a owl:Class ;
-  rdfs:label "Freeze card" .
+###  http://example.org/phishguard#SocialNetwork
+pg:SocialNetwork rdf:type owl:Class ;
+                 rdfs:subClassOf pg:TargetOrganization .
 
-pg:FreezeCardClass rdfs:subClassOf pg:RecoveryAction .
 
-pg:hasFeature a owl:ObjectProperty ;
-  rdfs:label "Threat type has related message feature" .
-pg:hasFeature rdfs:domain pg:ThreatType .
-pg:hasFeature rdfs:range pg:MessageFeature .
+###  http://example.org/phishguard#SpearPhishing
+pg:SpearPhishing rdf:type owl:Class ;
+                 rdfs:subClassOf pg:PhishingThreat ;
+                 rdfs:label "Spear phishing" .
 
-pg:indicatesThreat a owl:ObjectProperty ;
-  rdfs:label "Feature indicates threat" .
-pg:indicatesThreat rdfs:domain pg:MessageFeature .
-pg:indicatesThreat rdfs:range pg:ThreatType .
 
-pg:hasRiskLevel a owl:ObjectProperty ;
-  rdfs:label "Analysis has risk level" .
-pg:hasRiskLevel rdfs:domain pg:AnalysisResult .
-pg:hasRiskLevel rdfs:range pg:RiskLevel .
+###  http://example.org/phishguard#SpoofedEmailAddress
+pg:SpoofedEmailAddress rdf:type owl:Class ;
+                       rdfs:subClassOf pg:SenderFeature ;
+                       rdfs:label "Spoofed email address" .
 
-pg:hasRecommendation a owl:ObjectProperty ;
-  rdfs:label "Risk level has recommendation" .
-pg:hasRecommendation rdfs:domain pg:RiskLevel .
-pg:hasRecommendation rdfs:range pg:Recommendation .
 
-pg:usesChannel a owl:ObjectProperty ;
-  rdfs:label "Message uses communication channel" .
-pg:usesChannel rdfs:domain pg:PhishingMessage .
-pg:usesChannel rdfs:range pg:CommunicationChannel .
+###  http://example.org/phishguard#StealCardData
+pg:StealCardData rdf:type owl:Class ;
+                 rdfs:subClassOf pg:AttackGoal .
 
-pg:targetsOrganization a owl:ObjectProperty ;
-  rdfs:label "Threat targets organization type" .
-pg:targetsOrganization rdfs:domain pg:ThreatType .
-pg:targetsOrganization rdfs:range pg:TargetOrganization .
 
-pg:hasAttackGoal a owl:ObjectProperty ;
-  rdfs:label "Threat has attack goal" .
-pg:hasAttackGoal rdfs:domain pg:ThreatType .
-pg:hasAttackGoal rdfs:range pg:AttackGoal .
+###  http://example.org/phishguard#StealCredentials
+pg:StealCredentials rdf:type owl:Class ;
+                    rdfs:subClassOf pg:AttackGoal .
 
-pg:requiresAction a owl:ObjectProperty ;
-  rdfs:label "Threat requires protective action" .
-pg:requiresAction rdfs:domain pg:ThreatType .
-pg:requiresAction rdfs:range pg:Recommendation .
 
-pg:detectedInMessage a owl:ObjectProperty ;
-  rdfs:label "Feature detected in message" .
-pg:detectedInMessage rdfs:domain pg:MessageFeature .
-pg:detectedInMessage rdfs:range pg:PhishingMessage .
+###  http://example.org/phishguard#StealCryptoAssets
+pg:StealCryptoAssets rdf:type owl:Class ;
+                     rdfs:subClassOf pg:AttackGoal .
 
-pg:hasEvidence a owl:ObjectProperty ;
-  rdfs:label "Analysis has evidence" .
-pg:hasEvidence rdfs:domain pg:AnalysisResult .
-pg:hasEvidence rdfs:range pg:Evidence .
 
-pg:containsUrlFeature a owl:ObjectProperty ;
-  rdfs:label "Message contains URL feature" .
-pg:containsUrlFeature rdfs:domain pg:PhishingMessage .
-pg:containsUrlFeature rdfs:range pg:LinkFeature .
+###  http://example.org/phishguard#StealPersonalData
+pg:StealPersonalData rdf:type owl:Class ;
+                     rdfs:subClassOf pg:AttackGoal .
 
-pg:hasSenderFeature a owl:ObjectProperty ;
-  rdfs:label "Message has sender feature" .
-pg:hasSenderFeature rdfs:domain pg:PhishingMessage .
-pg:hasSenderFeature rdfs:range pg:SenderFeature .
 
-pg:isFeatureOf a owl:ObjectProperty ;
-  rdfs:label "Feature is feature of threat" .
-pg:isFeatureOf rdfs:domain pg:MessageFeature .
-pg:isFeatureOf rdfs:range pg:ThreatType .
-pg:isFeatureOf owl:inverseOf pg:hasFeature .
+###  http://example.org/phishguard#SuspiciousUrl
+pg:SuspiciousUrl rdf:type owl:Class ;
+                 rdfs:subClassOf pg:LinkFeature ;
+                 rdfs:label "Suspicious URL" .
 
-pg:mitigatesThreat a owl:ObjectProperty ;
-  rdfs:label "Recommendation mitigates threat" .
-pg:mitigatesThreat rdfs:domain pg:Recommendation .
-pg:mitigatesThreat rdfs:range pg:ThreatType .
 
-pg:isEvidenceFor a owl:ObjectProperty ;
-  rdfs:label "Evidence supports analysis" .
-pg:isEvidenceFor rdfs:domain pg:Evidence .
-pg:isEvidenceFor rdfs:range pg:AnalysisResult .
+###  http://example.org/phishguard#TakeOverAccount
+pg:TakeOverAccount rdf:type owl:Class ;
+                   rdfs:subClassOf pg:AttackGoal .
 
-pg:keyword a owl:DatatypeProperty ;
-  rdfs:label "Keyword used for feature detection" .
-pg:keyword rdfs:domain pg:MessageFeature .
-pg:keyword rdfs:range xsd:string .
 
-pg:riskScore a owl:DatatypeProperty ;
-  rdfs:label "Risk score contribution" .
-pg:riskScore rdfs:domain pg:MessageFeature .
-pg:riskScore rdfs:range xsd:integer .
+###  http://example.org/phishguard#TargetOrganization
+pg:TargetOrganization rdf:type owl:Class ;
+                      rdfs:subClassOf pg:CyberSecurityConcept ;
+                      rdfs:label "Target organization" .
 
-pg:description a owl:DatatypeProperty ;
-  rdfs:label "Entity description" .
-pg:description rdfs:domain pg:CyberSecurityConcept .
-pg:description rdfs:range xsd:string .
 
-pg:hasSeverityWeight a owl:DatatypeProperty ;
-  rdfs:label "Severity weight" .
-pg:hasSeverityWeight rdfs:domain pg:MessageFeature .
-pg:hasSeverityWeight rdfs:range xsd:integer .
+###  http://example.org/phishguard#TechSupportScam
+pg:TechSupportScam rdf:type owl:Class ;
+                   rdfs:subClassOf pg:SocialEngineeringThreat .
 
-pg:hasConfidenceScore a owl:DatatypeProperty ;
-  rdfs:label "Confidence score" .
-pg:hasConfidenceScore rdfs:domain pg:AnalysisResult .
-pg:hasConfidenceScore rdfs:range xsd:decimal .
 
-pg:hasMessageText a owl:DatatypeProperty ;
-  rdfs:label "Message text" .
-pg:hasMessageText rdfs:domain pg:PhishingMessage .
-pg:hasMessageText rdfs:range xsd:string .
+###  http://example.org/phishguard#TelecomProvider
+pg:TelecomProvider rdf:type owl:Class ;
+                   rdfs:subClassOf pg:TargetOrganization .
 
-pg:hasDetectedAt a owl:DatatypeProperty ;
-  rdfs:label "Detected timestamp" .
-pg:hasDetectedAt rdfs:domain pg:AnalysisResult .
-pg:hasDetectedAt rdfs:range xsd:dateTime .
 
-pg:hasDomainName a owl:DatatypeProperty ;
-  rdfs:label "Domain name" .
-pg:hasDomainName rdfs:domain pg:UrlEvidence .
-pg:hasDomainName rdfs:range xsd:string .
+###  http://example.org/phishguard#TelegramChannel
+pg:TelegramChannel rdf:type owl:Class ;
+                   rdfs:subClassOf pg:CommunicationChannel ;
+                   rdfs:label "Telegram channel" .
 
-pg:hasSenderValue a owl:DatatypeProperty ;
-  rdfs:label "Sender value" .
-pg:hasSenderValue rdfs:domain pg:SenderEvidence .
-pg:hasSenderValue rdfs:range xsd:string .
 
-pg:hasRiskExplanation a owl:DatatypeProperty ;
-  rdfs:label "Risk explanation" .
-pg:hasRiskExplanation rdfs:domain pg:AnalysisResult .
-pg:hasRiskExplanation rdfs:range xsd:string .
+###  http://example.org/phishguard#ThreatType
+pg:ThreatType rdf:type owl:Class ;
+              rdfs:subClassOf pg:CyberThreat ;
+              rdfs:label "Threat type" .
 
-pg:LowRisk a pg:RiskLevel ;
-  rdfs:label "Low risk" ;
-  pg:riskScore "0-30" .
 
-pg:MediumRisk a pg:RiskLevel ;
-  rdfs:label "Medium risk" ;
-  pg:riskScore "31-60" .
+###  http://example.org/phishguard#ThreateningLanguage
+pg:ThreateningLanguage rdf:type owl:Class ;
+                       rdfs:subClassOf pg:LinguisticFeature ;
+                       rdfs:label "Threatening language" .
 
-pg:HighRisk a pg:RiskLevel ;
-  rdfs:label "High risk" ;
-  pg:riskScore "61-100" .
 
-pg:SMS a pg:CommunicationChannel ;
-  rdfs:label "SMS" .
+###  http://example.org/phishguard#TooGoodToBeTrueLanguage
+pg:TooGoodToBeTrueLanguage rdf:type owl:Class ;
+                           rdfs:subClassOf pg:LinguisticFeature ;
+                           rdfs:label "Too-good-to-be-true language" .
 
-pg:Email a pg:CommunicationChannel ;
-  rdfs:label "Email" .
 
-pg:ChatMessage a pg:CommunicationChannel ;
-  rdfs:label "Chat message" .
+###  http://example.org/phishguard#TwoFactorCodeRequest
+pg:TwoFactorCodeRequest rdf:type owl:Class ;
+                        rdfs:subClassOf pg:DataRequestFeature .
 
-pg:SocialMedia a pg:CommunicationChannel ;
-  rdfs:label "Social media" .
 
-pg:WhatsApp a pg:CommunicationChannel ;
-  rdfs:label "WhatsApp" .
+###  http://example.org/phishguard#TyposquattedDomain
+pg:TyposquattedDomain rdf:type owl:Class ;
+                      rdfs:subClassOf pg:LinkFeature ;
+                      rdfs:label "Typosquatted domain" .
 
-pg:Viber a pg:CommunicationChannel ;
-  rdfs:label "Viber" .
 
-pg:Telegram a pg:CommunicationChannel ;
-  rdfs:label "Telegram" .
+###  http://example.org/phishguard#UnknownSenderClass
+pg:UnknownSenderClass rdf:type owl:Class ;
+                      rdfs:subClassOf pg:SenderFeature ;
+                      rdfs:label "Unknown sender" .
 
-pg:InstagramDM a pg:CommunicationChannel ;
-  rdfs:label "Instagram DM" .
 
-pg:FacebookMessenger a pg:CommunicationChannel ;
-  rdfs:label "Facebook Messenger" .
+###  http://example.org/phishguard#UrgencyLanguage
+pg:UrgencyLanguage rdf:type owl:Class ;
+                   rdfs:subClassOf pg:LinguisticFeature ;
+                   rdfs:label "Urgency language" .
 
-pg:PhoneCall a pg:CommunicationChannel ;
-  rdfs:label "Phone call" .
 
-pg:QRCode a pg:CommunicationChannel ;
-  rdfs:label "QR code" .
+###  http://example.org/phishguard#UrgentPaymentRequest
+pg:UrgentPaymentRequest rdf:type owl:Class ;
+                        rdfs:subClassOf pg:PaymentFeature ;
+                        rdfs:label "Urgent payment request" .
 
-pg:WebForm a pg:CommunicationChannel ;
-  rdfs:label "Web form" .
 
-pg:Urgency a pg:MessageFeature ;
-  rdfs:label "Urgency language" ;
-  pg:description "The message pushes the user to act quickly without proper verification." ;
-  pg:riskScore "15"^^xsd:integer ;
-  pg:keyword "urgent" ;
-  pg:keyword "immediately" ;
-  pg:keyword "limited time" ;
-  pg:keyword "within 24 hours" ;
-  pg:keyword "act now" ;
-  pg:keyword "final notice" ;
-  pg:keyword "expires today" .
+###  http://example.org/phishguard#UrlEvidence
+pg:UrlEvidence rdf:type owl:Class ;
+               rdfs:subClassOf pg:Evidence ;
+               rdfs:label "URL evidence" .
 
-pg:AccountThreat a pg:MessageFeature ;
-  rdfs:label "Account threat" ;
-  pg:description "The message threatens account blocking, suspension, closure or restriction." ;
-  pg:riskScore "20"^^xsd:integer ;
-  pg:keyword "blocked" ;
-  pg:keyword "suspended" ;
-  pg:keyword "restricted" ;
-  pg:keyword "closed" ;
-  pg:keyword "deactivated" ;
-  pg:keyword "account will be blocked" ;
-  pg:keyword "account suspension" .
 
-pg:CredentialRequest a pg:MessageFeature ;
-  rdfs:label "Credential request" ;
-  pg:description "The message asks for password, login credentials or account verification." ;
-  pg:riskScore "30"^^xsd:integer ;
-  pg:keyword "password" ;
-  pg:keyword "login" ;
-  pg:keyword "sign in" ;
-  pg:keyword "verify your account" ;
-  pg:keyword "confirm your account" ;
-  pg:keyword "authentication" ;
-  pg:keyword "credentials" .
+###  http://example.org/phishguard#UrlWithIPAddress
+pg:UrlWithIPAddress rdf:type owl:Class ;
+                    rdfs:subClassOf pg:LinkFeature ;
+                    rdfs:label "URL with IP address" .
 
-pg:PaymentRequest a pg:MessageFeature ;
-  rdfs:label "Payment request" ;
-  pg:description "The message requests a payment, fee, card details, bank transfer or billing update." ;
-  pg:riskScore "25"^^xsd:integer ;
-  pg:keyword "payment" ;
-  pg:keyword "pay now" ;
-  pg:keyword "fee" ;
-  pg:keyword "card" ;
-  pg:keyword "iban" ;
-  pg:keyword "bank details" ;
-  pg:keyword "billing" ;
-  pg:keyword "invoice" ;
-  pg:keyword "transfer" .
 
-pg:SuspiciousLink a pg:MessageFeature ;
-  rdfs:label "Suspicious link" ;
-  pg:description "The message contains a URL that may lead to a fake or unsafe website." ;
-  pg:riskScore "30"^^xsd:integer ;
-  pg:keyword "http://" ;
-  pg:keyword "bit.ly" ;
-  pg:keyword "tinyurl" ;
-  pg:keyword "login-" ;
-  pg:keyword "secure-" ;
-  pg:keyword "verify-" ;
-  pg:keyword ".top" ;
-  pg:keyword ".xyz" ;
-  pg:keyword ".click" .
+###  http://example.org/phishguard#VerificationAction
+pg:VerificationAction rdf:type owl:Class ;
+                      rdfs:subClassOf pg:Recommendation ;
+                      rdfs:label "Verification action" .
 
-pg:PrizeBait a pg:MessageFeature ;
-  rdfs:label "Prize bait" ;
-  pg:description "The message promises a prize, bonus, giveaway or reward to manipulate the user." ;
-  pg:riskScore "20"^^xsd:integer ;
-  pg:keyword "prize" ;
-  pg:keyword "winner" ;
-  pg:keyword "bonus" ;
-  pg:keyword "free gift" ;
-  pg:keyword "giveaway" ;
-  pg:keyword "reward" ;
-  pg:keyword "you have won" .
 
-pg:UnknownSender a pg:MessageFeature ;
-  rdfs:label "Unknown sender" ;
-  pg:description "The sender is unclear, unofficial or does not match a trusted organization." ;
-  pg:riskScore "10"^^xsd:integer ;
-  pg:keyword "unknown" ;
-  pg:keyword "no-reply" ;
-  pg:keyword "support-center" ;
-  pg:keyword "customer-support" ;
-  pg:keyword "helpdesk" .
+###  http://example.org/phishguard#VerifyOfficialWebsiteClass
+pg:VerifyOfficialWebsiteClass rdf:type owl:Class ;
+                              rdfs:subClassOf pg:VerificationAction ;
+                              rdfs:label "Verify official website" .
 
-pg:DeliveryFeeBait a pg:MessageFeature ;
-  rdfs:label "Delivery fee bait" ;
-  pg:description "The message imitates a delivery company and asks for a small fee or data." ;
-  pg:riskScore "25"^^xsd:integer ;
-  pg:keyword "delivery" ;
-  pg:keyword "parcel" ;
-  pg:keyword "shipping fee" ;
-  pg:keyword "package" ;
-  pg:keyword "customs fee" ;
-  pg:keyword "delivery failed" ;
-  pg:keyword "reschedule delivery" .
 
-pg:CryptoPaymentRequest a pg:MessageFeature ;
-  rdfs:label "Crypto payment request" ;
-  pg:description "The message requests cryptocurrency payment or wallet transfer." ;
-  pg:riskScore "25"^^xsd:integer ;
-  pg:keyword "crypto" ;
-  pg:keyword "bitcoin" ;
-  pg:keyword "usdt" ;
-  pg:keyword "wallet" ;
-  pg:keyword "blockchain" ;
-  pg:keyword "seed phrase" ;
-  pg:keyword "recovery phrase" .
+###  http://example.org/phishguard#ViberChannel
+pg:ViberChannel rdf:type owl:Class ;
+                rdfs:subClassOf pg:CommunicationChannel ;
+                rdfs:label "Viber channel" .
 
-pg:CarFakeOffer a pg:MessageFeature ;
-  rdfs:label "Fake vehicle offer" ;
-  pg:description "The message offers a vehicle at a suspiciously low price and pushes the user toward unsafe payment." ;
-  pg:riskScore "25"^^xsd:integer ;
-  pg:keyword "car" ;
-  pg:keyword "vehicle" ;
-  pg:keyword "audi" ;
-  pg:keyword "mercedes" ;
-  pg:keyword "bmw" ;
-  pg:keyword "shipping from canada" ;
-  pg:keyword "shipping from usa" ;
-  pg:keyword "deposit" .
 
-pg:TwoFactorCodeRequest a pg:MessageFeature ;
-  rdfs:label "Two-factor code request" ;
-  pg:description "The message asks the user to provide a two-factor authentication code." ;
-  pg:riskScore "35"^^xsd:integer ;
-  pg:keyword "2fa" ;
-  pg:keyword "verification code" ;
-  pg:keyword "one-time code" ;
-  pg:keyword "otp" ;
-  pg:keyword "security code" ;
-  pg:keyword "six digit code" .
+###  http://example.org/phishguard#VishingThreat
+pg:VishingThreat rdf:type owl:Class ;
+                 rdfs:subClassOf pg:ThreatType ;
+                 rdfs:label "Vishing threat" .
 
-pg:CardDataRequest a pg:MessageFeature ;
-  rdfs:label "Card data request" ;
-  pg:description "The message asks for card number, CVV, expiration date or billing information." ;
-  pg:riskScore "35"^^xsd:integer ;
-  pg:keyword "cvv" ;
-  pg:keyword "card number" ;
-  pg:keyword "expiry date" ;
-  pg:keyword "expiration date" ;
-  pg:keyword "billing address" ;
-  pg:keyword "debit card" ;
-  pg:keyword "credit card" .
 
-pg:PersonalDataRequest a pg:MessageFeature ;
-  rdfs:label "Personal data request" ;
-  pg:description "The message asks for personal information such as ID number, address or document photo." ;
-  pg:riskScore "25"^^xsd:integer ;
-  pg:keyword "personal data" ;
-  pg:keyword "id card" ;
-  pg:keyword "passport" ;
-  pg:keyword "address" ;
-  pg:keyword "date of birth" ;
-  pg:keyword "document photo" ;
-  pg:keyword "identity verification" .
+###  http://example.org/phishguard#WhatsAppChannel
+pg:WhatsAppChannel rdf:type owl:Class ;
+                   rdfs:subClassOf pg:CommunicationChannel ;
+                   rdfs:label "WhatsApp channel" .
 
-pg:ShortenedUrlFeature a pg:MessageFeature ;
-  rdfs:label "Shortened URL" ;
-  pg:description "The message uses a shortened URL that hides the final destination." ;
-  pg:riskScore "20"^^xsd:integer ;
-  pg:keyword "bit.ly" ;
-  pg:keyword "tinyurl" ;
-  pg:keyword "t.co" ;
-  pg:keyword "goo.gl" ;
-  pg:keyword "ow.ly" ;
-  pg:keyword "rebrand.ly" .
 
-pg:LookalikeDomainFeature a pg:MessageFeature ;
-  rdfs:label "Lookalike domain" ;
-  pg:description "The URL imitates a trusted brand using misleading domain structure." ;
-  pg:riskScore "30"^^xsd:integer ;
-  pg:keyword "paypaI" ;
-  pg:keyword "micros0ft" ;
-  pg:keyword "g00gle" ;
-  pg:keyword "secure-bank" ;
-  pg:keyword "login-bank" ;
-  pg:keyword "apple-support" .
+#################################################################
+#    Individuals
+#################################################################
 
-pg:HttpWithoutHttpsFeature a pg:MessageFeature ;
-  rdfs:label "HTTP without HTTPS" ;
-  pg:description "The URL uses plain HTTP or another weak trust signal." ;
-  pg:riskScore "15"^^xsd:integer ;
-  pg:keyword "http://" .
+###  http://example.org/phishguard#AccountThreat
+pg:AccountThreat rdf:type owl:NamedIndividual ,
+                          pg:MessageFeature ;
+                 pg:description "The message threatens account blocking, suspension, closure or restriction." ;
+                 pg:keyword "account suspension" ,
+                            "account will be blocked" ,
+                            "blocked" ,
+                            "closed" ,
+                            "deactivated" ,
+                            "restricted" ,
+                            "suspended" ;
+                 pg:riskScore 20 ;
+                 rdfs:label "Account threat" .
 
-pg:GenericGreetingFeature a pg:MessageFeature ;
-  rdfs:label "Generic greeting" ;
-  pg:description "The message uses a generic greeting instead of a specific recipient." ;
-  pg:riskScore "8"^^xsd:integer ;
-  pg:keyword "dear customer" ;
-  pg:keyword "dear user" ;
-  pg:keyword "hello client" ;
-  pg:keyword "valued customer" .
 
-pg:GrammarMistakeFeature a pg:MessageFeature ;
-  rdfs:label "Grammar or spelling mistakes" ;
-  pg:description "The message contains grammar or spelling patterns often seen in mass phishing." ;
-  pg:riskScore "8"^^xsd:integer ;
-  pg:keyword "kindly verify" ;
-  pg:keyword "your informations" ;
-  pg:keyword "account informations" ;
-  pg:keyword "dear costumer" .
+###  http://example.org/phishguard#AsdAsd
+pg:AsdAsd rdf:type owl:NamedIndividual ,
+                   pg:ThreatType ;
+          pg:hasFeature pg:CredentialRequest ;
+          pg:description "asd asd " ;
+          rdfs:label "asd asd " .
 
-pg:AuthorityPressureFeature a pg:MessageFeature ;
-  rdfs:label "Authority pressure" ;
-  pg:description "The message pretends to be from an authority, police, tax or government body." ;
-  pg:riskScore "15"^^xsd:integer ;
-  pg:keyword "tax authority" ;
-  pg:keyword "police" ;
-  pg:keyword "government notice" ;
-  pg:keyword "court notice" ;
-  pg:keyword "legal action" ;
-  pg:keyword "official request" .
 
-pg:GiftCardPaymentRequest a pg:MessageFeature ;
-  rdfs:label "Gift card payment request" ;
-  pg:description "The message requests payment through gift cards or voucher codes." ;
-  pg:riskScore "30"^^xsd:integer ;
-  pg:keyword "gift card" ;
-  pg:keyword "voucher code" ;
-  pg:keyword "itunes card" ;
-  pg:keyword "google play card" ;
-  pg:keyword "steam card" .
+###  http://example.org/phishguard#AuthorityPressureFeature
+pg:AuthorityPressureFeature rdf:type owl:NamedIndividual ,
+                                     pg:MessageFeature ;
+                            pg:description "The message pretends to be from an authority, police, tax or government body." ;
+                            pg:keyword "court notice" ,
+                                       "government notice" ,
+                                       "legal action" ,
+                                       "official request" ,
+                                       "police" ,
+                                       "tax authority" ;
+                            pg:riskScore 15 ;
+                            rdfs:label "Authority pressure" .
 
-pg:MaliciousAttachmentFeature a pg:MessageFeature ;
-  rdfs:label "Malicious attachment signal" ;
-  pg:description "The message tries to make the user open an attachment or document." ;
-  pg:riskScore "30"^^xsd:integer ;
-  pg:keyword "open the attachment" ;
-  pg:keyword "attached invoice" ;
-  pg:keyword "enable macros" ;
-  pg:keyword "download document" ;
-  pg:keyword ".exe" ;
-  pg:keyword ".scr" ;
-  pg:keyword ".zip" .
 
-pg:RefundBait a pg:MessageFeature ;
-  rdfs:label "Refund bait" ;
-  pg:description "The message promises a refund in exchange for login, card or personal details." ;
-  pg:riskScore "20"^^xsd:integer ;
-  pg:keyword "refund" ;
-  pg:keyword "tax refund" ;
-  pg:keyword "claim refund" ;
-  pg:keyword "reimbursement" ;
-  pg:keyword "money back" .
+###  http://example.org/phishguard#AvoidCryptoTransfer
+pg:AvoidCryptoTransfer rdf:type owl:NamedIndividual ,
+                                pg:Recommendation ;
+                       pg:description "Do not send cryptocurrency or wallet information based on an unsolicited message." ;
+                       rdfs:label "Avoid crypto transfer" .
 
-pg:InvestmentReturnBait a pg:MessageFeature ;
-  rdfs:label "Investment return bait" ;
-  pg:description "The message promises unrealistic investment returns." ;
-  pg:riskScore "25"^^xsd:integer ;
-  pg:keyword "guaranteed return" ;
-  pg:keyword "double your money" ;
-  pg:keyword "investment opportunity" ;
-  pg:keyword "risk-free profit" ;
-  pg:keyword "daily profit" .
 
-pg:TechSupportBait a pg:MessageFeature ;
-  rdfs:label "Tech support bait" ;
-  pg:description "The message claims a device or account has a technical/security problem." ;
-  pg:riskScore "20"^^xsd:integer ;
-  pg:keyword "virus detected" ;
-  pg:keyword "device infected" ;
-  pg:keyword "call support" ;
-  pg:keyword "technical support" ;
-  pg:keyword "security alert" .
+###  http://example.org/phishguard#BankOrganization
+pg:BankOrganization rdf:type owl:NamedIndividual .
 
-pg:QRCodePrompt a pg:MessageFeature ;
-  rdfs:label "QR code prompt" ;
-  pg:description "The message asks the user to scan a QR code for login, payment or verification." ;
-  pg:riskScore "20"^^xsd:integer ;
-  pg:keyword "scan qr" ;
-  pg:keyword "qr code" ;
-  pg:keyword "scan the code" ;
-  pg:keyword "qr payment" .
 
-pg:FakeBankMessage a pg:ThreatType ;
-  rdfs:label "Fake bank message" ;
-  pg:description "A scam that imitates a bank and tries to steal money, credentials or card data." ;
-  pg:hasFeature pg:AccountThreat ;
-  pg:hasFeature pg:CredentialRequest ;
-  pg:hasFeature pg:PaymentRequest ;
-  pg:hasFeature pg:SuspiciousLink ;
-  pg:hasFeature pg:CardDataRequest ;
-  pg:hasFeature pg:TwoFactorCodeRequest ;
-  pg:targetsOrganization pg:BankOrganization ;
-  pg:hasAttackGoal pg:StealCredentials ;
-  pg:hasAttackGoal pg:StealCardData ;
-  pg:hasAttackGoal pg:BypassTwoFactor .
+###  http://example.org/phishguard#BypassTwoFactor
+pg:BypassTwoFactor rdf:type owl:NamedIndividual .
 
-pg:FakeDeliveryMessage a pg:ThreatType ;
-  rdfs:label "Fake delivery message" ;
-  pg:description "A scam that imitates a courier or delivery service and requests a fee or personal data." ;
-  pg:hasFeature pg:DeliveryFeeBait ;
-  pg:hasFeature pg:PaymentRequest ;
-  pg:hasFeature pg:SuspiciousLink ;
-  pg:hasFeature pg:Urgency ;
-  pg:hasFeature pg:SmallFeeRequest ;
-  pg:targetsOrganization pg:CourierCompany ;
-  pg:hasAttackGoal pg:ReceiveFraudulentPayment ;
-  pg:hasAttackGoal pg:StealPersonalData .
 
-pg:FakePrizeScam a pg:ThreatType ;
-  rdfs:label "Fake prize scam" ;
-  pg:description "A scam that promises a prize and leads the user to a link, payment or data request." ;
-  pg:hasFeature pg:PrizeBait ;
-  pg:hasFeature pg:SuspiciousLink ;
-  pg:hasFeature pg:PaymentRequest ;
-  pg:hasFeature pg:PersonalDataRequest ;
-  pg:targetsOrganization pg:OnlineStore ;
-  pg:targetsOrganization pg:SocialNetwork ;
-  pg:hasAttackGoal pg:StealPersonalData ;
-  pg:hasAttackGoal pg:ReceiveFraudulentPayment .
+###  http://example.org/phishguard#CarFakeOffer
+pg:CarFakeOffer rdf:type owl:NamedIndividual ,
+                         pg:MessageFeature ;
+                pg:description "The message offers a vehicle at a suspiciously low price and pushes the user toward unsafe payment." ;
+                pg:keyword "audi" ,
+                           "bmw" ,
+                           "car" ,
+                           "deposit" ,
+                           "mercedes" ,
+                           "shipping from canada" ,
+                           "shipping from usa" ,
+                           "vehicle" ;
+                pg:riskScore 25 ;
+                rdfs:label "Fake vehicle offer" .
 
-pg:CredentialPhishing a pg:ThreatType ;
-  rdfs:label "Credential phishing" ;
-  pg:description "A phishing attack that targets passwords, account access and login tokens." ;
-  pg:hasFeature pg:CredentialRequest ;
-  pg:hasFeature pg:SuspiciousLink ;
-  pg:hasFeature pg:Urgency ;
-  pg:hasFeature pg:LookalikeDomainFeature ;
-  pg:hasFeature pg:TwoFactorCodeRequest ;
-  pg:targetsOrganization pg:SocialNetwork ;
-  pg:targetsOrganization pg:PaymentProvider ;
-  pg:targetsOrganization pg:OnlineStore ;
-  pg:hasAttackGoal pg:StealCredentials ;
-  pg:hasAttackGoal pg:TakeOverAccount .
 
-pg:CryptoScam a pg:ThreatType ;
-  rdfs:label "Crypto scam" ;
-  pg:description "A scam involving cryptocurrency payment, wallet transfer or recovery phrase theft." ;
-  pg:hasFeature pg:CryptoPaymentRequest ;
-  pg:hasFeature pg:Urgency ;
-  pg:hasFeature pg:SuspiciousLink ;
-  pg:hasFeature pg:UnknownSender ;
-  pg:hasFeature pg:InvestmentReturnBait ;
-  pg:targetsOrganization pg:CryptoExchange ;
-  pg:hasAttackGoal pg:StealCryptoAssets ;
-  pg:hasAttackGoal pg:ReceiveFraudulentPayment .
+###  http://example.org/phishguard#CardDataRequest
+pg:CardDataRequest rdf:type owl:NamedIndividual ,
+                            pg:MessageFeature ;
+                   pg:description "The message asks for card number, CVV, expiration date or billing information." ;
+                   pg:keyword "billing address" ,
+                              "card number" ,
+                              "credit card" ,
+                              "cvv" ,
+                              "debit card" ,
+                              "expiration date" ,
+                              "expiry date" ;
+                   pg:riskScore 35 ;
+                   rdfs:label "Card data request" .
 
-pg:FakeVehicleOffer a pg:ThreatType ;
-  rdfs:label "Fake vehicle offer" ;
-  pg:description "A scam involving a low-price vehicle offer and unsafe deposit/payment request." ;
-  pg:hasFeature pg:CarFakeOffer ;
-  pg:hasFeature pg:PaymentRequest ;
-  pg:hasFeature pg:UnknownSender ;
-  pg:hasFeature pg:SuspiciousLink ;
-  pg:targetsOrganization pg:OnlineStore ;
-  pg:hasAttackGoal pg:ReceiveFraudulentPayment .
 
-pg:TechSupportScam a pg:ThreatType ;
-  rdfs:label "Tech support scam" ;
-  pg:description "A scam that pretends the user has a technical or security issue and must contact fake support." ;
-  pg:hasFeature pg:TechSupportBait ;
-  pg:hasFeature pg:Urgency ;
-  pg:hasFeature pg:SuspiciousLink ;
-  pg:hasFeature pg:PaymentRequest ;
-  pg:targetsOrganization pg:TelecomProvider ;
-  pg:targetsOrganization pg:PaymentProvider ;
-  pg:hasAttackGoal pg:InstallMalware ;
-  pg:hasAttackGoal pg:ReceiveFraudulentPayment .
+###  http://example.org/phishguard#ChangePassword
+pg:ChangePassword rdf:type owl:NamedIndividual ,
+                           pg:Recommendation ;
+                  pg:description "If you entered credentials, change your password from the official website and enable two-factor authentication." ;
+                  rdfs:label "Change password" .
 
-pg:InvestmentScam a pg:ThreatType ;
-  rdfs:label "Investment scam" ;
-  pg:description "A scam that promises unrealistic investment profits and asks for money or account details." ;
-  pg:hasFeature pg:InvestmentReturnBait ;
-  pg:hasFeature pg:CryptoPaymentRequest ;
-  pg:hasFeature pg:PaymentRequest ;
-  pg:hasFeature pg:UnknownSender ;
-  pg:targetsOrganization pg:CryptoExchange ;
-  pg:hasAttackGoal pg:ReceiveFraudulentPayment ;
-  pg:hasAttackGoal pg:StealCryptoAssets .
 
-pg:RefundScam a pg:ThreatType ;
-  rdfs:label "Refund scam" ;
-  pg:description "A scam that uses a fake refund to collect card or personal details." ;
-  pg:hasFeature pg:RefundBait ;
-  pg:hasFeature pg:CardDataRequest ;
-  pg:hasFeature pg:PersonalDataRequest ;
-  pg:hasFeature pg:SuspiciousLink ;
-  pg:targetsOrganization pg:GovernmentInstitution ;
-  pg:targetsOrganization pg:OnlineStore ;
-  pg:targetsOrganization pg:PaymentProvider ;
-  pg:hasAttackGoal pg:StealCardData ;
-  pg:hasAttackGoal pg:StealPersonalData .
+###  http://example.org/phishguard#ChatMessage
+pg:ChatMessage rdf:type owl:NamedIndividual ,
+                        pg:CommunicationChannel ;
+               rdfs:label "Chat message" .
 
-pg:MalwareAttachmentScam a pg:ThreatType ;
-  rdfs:label "Malware attachment scam" ;
-  pg:description "A scam that attempts to make the user open a malicious file or macro-enabled document." ;
-  pg:hasFeature pg:MaliciousAttachmentFeature ;
-  pg:hasFeature pg:Urgency ;
-  pg:hasFeature pg:UnknownSender ;
-  pg:targetsOrganization pg:OnlineStore ;
-  pg:hasAttackGoal pg:InstallMalware .
 
-pg:QRPhishing a pg:ThreatType ;
-  rdfs:label "QR phishing" ;
-  pg:description "A phishing attempt that uses a QR code to redirect the user to a malicious page." ;
-  pg:hasFeature pg:QRCodePrompt ;
-  pg:hasFeature pg:SuspiciousLink ;
-  pg:hasFeature pg:CredentialRequest ;
-  pg:targetsOrganization pg:PaymentProvider ;
-  pg:targetsOrganization pg:BankOrganization ;
-  pg:hasAttackGoal pg:StealCredentials ;
-  pg:hasAttackGoal pg:StealCardData .
+###  http://example.org/phishguard#CheckDeliveryOfficially
+pg:CheckDeliveryOfficially rdf:type owl:NamedIndividual ,
+                                    pg:Recommendation ;
+                           pg:description "For delivery messages, check the tracking number only through the official courier website or app." ;
+                           rdfs:label "Check delivery officially" .
 
-pg:GovernmentImpersonation a pg:ThreatType ;
-  rdfs:label "Government impersonation" ;
-  pg:description "A scam that pretends to be from a tax, legal or government institution." ;
-  pg:hasFeature pg:AuthorityPressureFeature ;
-  pg:hasFeature pg:PaymentRequest ;
-  pg:hasFeature pg:PersonalDataRequest ;
-  pg:hasFeature pg:SuspiciousLink ;
-  pg:targetsOrganization pg:GovernmentInstitution ;
-  pg:hasAttackGoal pg:StealPersonalData ;
-  pg:hasAttackGoal pg:ReceiveFraudulentPayment .
 
-pg:DoNotOpenLink a pg:Recommendation ;
-  rdfs:label "Do not open the link" ;
-  pg:description "Do not open links from the message until you verify the sender through an official channel." .
+###  http://example.org/phishguard#ContactBank
+pg:ContactBank rdf:type owl:NamedIndividual ,
+                        pg:Recommendation ;
+               pg:description "If bank or card data may be involved, contact your bank through the official phone number or app." ;
+               rdfs:label "Contact your bank" .
 
-pg:DoNotEnterData a pg:Recommendation ;
-  rdfs:label "Do not enter personal data" ;
-  pg:description "Do not enter passwords, card details, two-factor codes or personal information through the provided link." .
 
-pg:VerifyOfficialWebsite a pg:Recommendation ;
-  rdfs:label "Verify through the official website" ;
-  pg:description "Open the official website manually in your browser instead of using the received link." .
+###  http://example.org/phishguard#CourierCompany
+pg:CourierCompany rdf:type owl:NamedIndividual .
 
-pg:ReportMessage a pg:Recommendation ;
-  rdfs:label "Report the message" ;
-  pg:description "Report the message as spam or phishing and block the sender if possible." .
 
-pg:ContactBank a pg:Recommendation ;
-  rdfs:label "Contact your bank" ;
-  pg:description "If bank or card data may be involved, contact your bank through the official phone number or app." .
+###  http://example.org/phishguard#CredentialPhishing
+pg:CredentialPhishing rdf:type owl:NamedIndividual ,
+                               pg:ThreatType ;
+                      pg:hasAttackGoal pg:StealCredentials ,
+                                       pg:TakeOverAccount ;
+                      pg:hasFeature pg:CredentialRequest ,
+                                    pg:LookalikeDomainFeature ,
+                                    pg:SuspiciousLink ,
+                                    pg:TwoFactorCodeRequest ,
+                                    pg:Urgency ;
+                      pg:targetsOrganization pg:OnlineStore ,
+                                             pg:PaymentProvider ,
+                                             pg:SocialNetwork ;
+                      pg:description "A phishing attack that targets passwords, account access and login tokens." ;
+                      rdfs:label "Credential phishing" .
 
-pg:ChangePassword a pg:Recommendation ;
-  rdfs:label "Change password" ;
-  pg:description "If you entered credentials, change your password from the official website and enable two-factor authentication." .
 
-pg:DoNotDownloadAttachment a pg:Recommendation ;
-  rdfs:label "Do not download attachments" ;
-  pg:description "Do not download or open attachments from unknown or suspicious senders." .
+###  http://example.org/phishguard#CredentialRequest
+pg:CredentialRequest rdf:type owl:NamedIndividual ,
+                              pg:MessageFeature ;
+                     pg:description "The message asks for password, login credentials or account verification." ;
+                     pg:keyword "authentication" ,
+                                "confirm your account" ,
+                                "credentials" ,
+                                "login" ,
+                                "password" ,
+                                "sign in" ,
+                                "verify your account" ;
+                     pg:riskScore 30 ;
+                     rdfs:label "Credential request" .
 
-pg:CheckDeliveryOfficially a pg:Recommendation ;
-  rdfs:label "Check delivery officially" ;
-  pg:description "For delivery messages, check the tracking number only through the official courier website or app." .
 
-pg:AvoidCryptoTransfer a pg:Recommendation ;
-  rdfs:label "Avoid crypto transfer" ;
-  pg:description "Do not send cryptocurrency or wallet information based on an unsolicited message." .
+###  http://example.org/phishguard#CryptoExchange
+pg:CryptoExchange rdf:type owl:NamedIndividual .
 
-pg:PreserveEvidence a pg:Recommendation ;
-  rdfs:label "Preserve evidence" ;
-  pg:description "Keep a screenshot or copy of the message if you need to report the scam." .
 
+###  http://example.org/phishguard#CryptoPaymentRequest
+pg:CryptoPaymentRequest rdf:type owl:NamedIndividual ,
+                                 pg:MessageFeature ;
+                        pg:description "The message requests cryptocurrency payment or wallet transfer." ;
+                        pg:keyword "bitcoin" ,
+                                   "blockchain" ,
+                                   "crypto" ,
+                                   "recovery phrase" ,
+                                   "seed phrase" ,
+                                   "usdt" ,
+                                   "wallet" ;
+                        pg:riskScore 25 ;
+                        rdfs:label "Crypto payment request" .
+
+
+###  http://example.org/phishguard#CryptoScam
+pg:CryptoScam rdf:type owl:NamedIndividual ,
+                       pg:ThreatType ;
+              pg:hasAttackGoal pg:ReceiveFraudulentPayment ,
+                               pg:StealCryptoAssets ;
+              pg:hasFeature pg:CryptoPaymentRequest ,
+                            pg:InvestmentReturnBait ,
+                            pg:SuspiciousLink ,
+                            pg:UnknownSender ,
+                            pg:Urgency ;
+              pg:targetsOrganization pg:CryptoExchange ;
+              pg:description "A scam involving cryptocurrency payment, wallet transfer or recovery phrase theft." ;
+              rdfs:label "Crypto scam" .
+
+
+###  http://example.org/phishguard#DeliveryFeeBait
+pg:DeliveryFeeBait rdf:type owl:NamedIndividual ,
+                            pg:MessageFeature ;
+                   pg:description "The message imitates a delivery company and asks for a small fee or data." ;
+                   pg:keyword "customs fee" ,
+                              "delivery" ,
+                              "delivery failed" ,
+                              "package" ,
+                              "parcel" ,
+                              "reschedule delivery" ,
+                              "shipping fee" ;
+                   pg:riskScore 25 ;
+                   rdfs:label "Delivery fee bait" .
+
+
+###  http://example.org/phishguard#DoNotDownloadAttachment
+pg:DoNotDownloadAttachment rdf:type owl:NamedIndividual ,
+                                    pg:Recommendation ;
+                           pg:description "Do not download or open attachments from unknown or suspicious senders." ;
+                           rdfs:label "Do not download attachments" .
+
+
+###  http://example.org/phishguard#DoNotEnterData
+pg:DoNotEnterData rdf:type owl:NamedIndividual ,
+                           pg:Recommendation ;
+                  pg:description "Do not enter passwords, card details, two-factor codes or personal information through the provided link." ;
+                  rdfs:label "Do not enter personal data" .
+
+
+###  http://example.org/phishguard#DoNotOpenLink
+pg:DoNotOpenLink rdf:type owl:NamedIndividual ,
+                          pg:Recommendation ;
+                 pg:description "Do not open links from the message until you verify the sender through an official channel." ;
+                 rdfs:label "Do not open the link" .
+
+
+###  http://example.org/phishguard#Email
+pg:Email rdf:type owl:NamedIndividual ,
+                  pg:CommunicationChannel ;
+         rdfs:label "Email" .
+
+
+###  http://example.org/phishguard#FacebookMessenger
+pg:FacebookMessenger rdf:type owl:NamedIndividual ,
+                              pg:CommunicationChannel ;
+                     rdfs:label "Facebook Messenger" .
+
+
+###  http://example.org/phishguard#FakeBankMessage
+pg:FakeBankMessage rdf:type owl:NamedIndividual ,
+                            pg:ThreatType ;
+                   pg:hasAttackGoal pg:BypassTwoFactor ,
+                                    pg:StealCardData ,
+                                    pg:StealCredentials ;
+                   pg:hasFeature pg:AccountThreat ,
+                                 pg:CardDataRequest ,
+                                 pg:CredentialRequest ,
+                                 pg:PaymentRequest ,
+                                 pg:SuspiciousLink ,
+                                 pg:TwoFactorCodeRequest ;
+                   pg:targetsOrganization pg:BankOrganization ;
+                   pg:description "A scam that imitates a bank and tries to steal money, credentials or card data." ;
+                   rdfs:label "Fake bank message" .
+
+
+###  http://example.org/phishguard#FakeDeliveryMessage
+pg:FakeDeliveryMessage rdf:type owl:NamedIndividual ,
+                                pg:ThreatType ;
+                       pg:hasAttackGoal pg:ReceiveFraudulentPayment ,
+                                        pg:StealPersonalData ;
+                       pg:hasFeature pg:DeliveryFeeBait ,
+                                     pg:PaymentRequest ,
+                                     pg:SmallFeeRequest ,
+                                     pg:SuspiciousLink ,
+                                     pg:Urgency ;
+                       pg:targetsOrganization pg:CourierCompany ;
+                       pg:description "A scam that imitates a courier or delivery service and requests a fee or personal data." ;
+                       rdfs:label "Fake delivery message" .
+
+
+###  http://example.org/phishguard#FakeGuru
+pg:FakeGuru rdf:type owl:NamedIndividual ,
+                     pg:MessageFeature ;
+            pg:description "Wanna get rick quick ? Pay for this course." ;
+            pg:keyword "money" ,
+                       "quick" ,
+                       "rich" ;
+            pg:riskScore 25 ;
+            rdfs:label "Fake Guru" .
+
+
+###  http://example.org/phishguard#FakeGuruTrheadType
+pg:FakeGuruTrheadType rdf:type owl:NamedIndividual ,
+                               pg:ThreatType ;
+                      pg:hasFeature pg:FakeGuru ;
+                      pg:description "Fake course; scammer." ;
+                      rdfs:label "FakeGuruTrheadType" .
+
+
+###  http://example.org/phishguard#FakePrizeScam
+pg:FakePrizeScam rdf:type owl:NamedIndividual ,
+                          pg:ThreatType ;
+                 pg:hasAttackGoal pg:ReceiveFraudulentPayment ,
+                                  pg:StealPersonalData ;
+                 pg:hasFeature pg:PaymentRequest ,
+                               pg:PersonalDataRequest ,
+                               pg:PrizeBait ,
+                               pg:SuspiciousLink ;
+                 pg:targetsOrganization pg:OnlineStore ,
+                                        pg:SocialNetwork ;
+                 pg:description "A scam that promises a prize and leads the user to a link, payment or data request." ;
+                 rdfs:label "Fake prize scam" .
+
+
+###  http://example.org/phishguard#FakeVehicleOffer
+pg:FakeVehicleOffer rdf:type owl:NamedIndividual ,
+                             pg:ThreatType ;
+                    pg:hasAttackGoal pg:ReceiveFraudulentPayment ;
+                    pg:hasFeature pg:CarFakeOffer ,
+                                  pg:PaymentRequest ,
+                                  pg:SuspiciousLink ,
+                                  pg:UnknownSender ;
+                    pg:targetsOrganization pg:OnlineStore ;
+                    pg:description "A scam involving a low-price vehicle offer and unsafe deposit/payment request." ;
+                    rdfs:label "Fake vehicle offer" .
+
+
+###  http://example.org/phishguard#GenericGreetingFeature
+pg:GenericGreetingFeature rdf:type owl:NamedIndividual ,
+                                   pg:MessageFeature ;
+                          pg:description "The message uses a generic greeting instead of a specific recipient." ;
+                          pg:keyword "dear customer" ,
+                                     "dear user" ,
+                                     "hello client" ,
+                                     "valued customer" ;
+                          pg:riskScore 8 ;
+                          rdfs:label "Generic greeting" .
+
+
+###  http://example.org/phishguard#GiftCardPaymentRequest
+pg:GiftCardPaymentRequest rdf:type owl:NamedIndividual ,
+                                   pg:MessageFeature ;
+                          pg:description "The message requests payment through gift cards or voucher codes." ;
+                          pg:keyword "gift card" ,
+                                     "google play card" ,
+                                     "itunes card" ,
+                                     "steam card" ,
+                                     "voucher code" ;
+                          pg:riskScore 30 .
+
+
+###  http://example.org/phishguard#GovernmentImpersonation
+pg:GovernmentImpersonation rdf:type owl:NamedIndividual ,
+                                    pg:ThreatType ;
+                           pg:hasAttackGoal pg:ReceiveFraudulentPayment ,
+                                            pg:StealPersonalData ;
+                           pg:hasFeature pg:AuthorityPressureFeature ,
+                                         pg:PaymentRequest ,
+                                         pg:PersonalDataRequest ,
+                                         pg:SuspiciousLink ;
+                           pg:targetsOrganization pg:GovernmentInstitution ;
+                           pg:description "A scam that pretends to be from a tax, legal or government institution." ;
+                           rdfs:label "Government impersonation" .
+
+
+###  http://example.org/phishguard#GovernmentInstitution
+pg:GovernmentInstitution rdf:type owl:NamedIndividual .
+
+
+###  http://example.org/phishguard#GrammarMistakeFeature
+pg:GrammarMistakeFeature rdf:type owl:NamedIndividual ,
+                                  pg:MessageFeature ;
+                         pg:description "The message contains grammar or spelling patterns often seen in mass phishing." ;
+                         pg:keyword "account informations" ,
+                                    "dear costumer" ,
+                                    "kindly verify" ,
+                                    "your informations" ;
+                         pg:riskScore 8 ;
+                         rdfs:label "Grammar or spelling mistakes" .
+
+
+###  http://example.org/phishguard#HighRisk
+pg:HighRisk rdf:type owl:NamedIndividual ,
+                     pg:RiskLevel ;
+            pg:riskScore "61-100" ;
+            rdfs:label "High risk" .
+
+
+###  http://example.org/phishguard#HttpWithoutHttpsFeature
+pg:HttpWithoutHttpsFeature rdf:type owl:NamedIndividual ,
+                                    pg:MessageFeature ;
+                           pg:description "The URL uses plain HTTP or another weak trust signal." ;
+                           pg:keyword "http://" ;
+                           pg:riskScore 15 ;
+                           rdfs:label "HTTP without HTTPS" .
+
+
+###  http://example.org/phishguard#InstagramDM
+pg:InstagramDM rdf:type owl:NamedIndividual ,
+                        pg:CommunicationChannel ;
+               rdfs:label "Instagram DM" .
+
+
+###  http://example.org/phishguard#InstallMalware
+pg:InstallMalware rdf:type owl:NamedIndividual .
+
+
+###  http://example.org/phishguard#InvestmentReturnBait
+pg:InvestmentReturnBait rdf:type owl:NamedIndividual ,
+                                 pg:MessageFeature ;
+                        pg:description "The message promises unrealistic investment returns." ;
+                        pg:keyword "daily profit" ,
+                                   "double your money" ,
+                                   "guaranteed return" ,
+                                   "investment opportunity" ,
+                                   "risk-free profit" ;
+                        pg:riskScore 25 ;
+                        rdfs:label "Investment return bait" .
+
+
+###  http://example.org/phishguard#InvestmentScam
+pg:InvestmentScam rdf:type owl:NamedIndividual ,
+                           pg:ThreatType ;
+                  pg:hasAttackGoal pg:ReceiveFraudulentPayment ,
+                                   pg:StealCryptoAssets ;
+                  pg:hasFeature pg:CryptoPaymentRequest ,
+                                pg:InvestmentReturnBait ,
+                                pg:PaymentRequest ,
+                                pg:UnknownSender ;
+                  pg:targetsOrganization pg:CryptoExchange ;
+                  pg:description "A scam that promises unrealistic investment profits and asks for money or account details." .
+
+
+###  http://example.org/phishguard#LookalikeDomainFeature
+pg:LookalikeDomainFeature rdf:type owl:NamedIndividual ,
+                                   pg:MessageFeature ;
+                          pg:description "The URL imitates a trusted brand using misleading domain structure." ;
+                          pg:keyword "apple-support" ,
+                                     "g00gle" ,
+                                     "login-bank" ,
+                                     "micros0ft" ,
+                                     "paypaI" ,
+                                     "secure-bank" ;
+                          pg:riskScore 30 ;
+                          rdfs:label "Lookalike domain" .
+
+
+###  http://example.org/phishguard#LowRisk
+pg:LowRisk rdf:type owl:NamedIndividual ,
+                    pg:RiskLevel ;
+           pg:riskScore "0-30" ;
+           rdfs:label "Low risk" .
+
+
+###  http://example.org/phishguard#MaliciousAttachmentFeature
+pg:MaliciousAttachmentFeature rdf:type owl:NamedIndividual ,
+                                       pg:MessageFeature ;
+                              pg:description "The message tries to make the user open an attachment or document." ;
+                              pg:keyword ".exe" ,
+                                         ".scr" ,
+                                         ".zip" ,
+                                         "attached invoice" ,
+                                         "download document" ,
+                                         "enable macros" ,
+                                         "open the attachment" ;
+                              pg:riskScore 30 ;
+                              rdfs:label "Malicious attachment signal" .
+
+
+###  http://example.org/phishguard#MalwareAttachmentScam
+pg:MalwareAttachmentScam rdf:type owl:NamedIndividual ,
+                                  pg:ThreatType ;
+                         pg:hasAttackGoal pg:InstallMalware ;
+                         pg:hasFeature pg:MaliciousAttachmentFeature ,
+                                       pg:UnknownSender ,
+                                       pg:Urgency ;
+                         pg:targetsOrganization pg:OnlineStore ;
+                         pg:description "A scam that attempts to make the user open a malicious file or macro-enabled document." ;
+                         rdfs:label "Malware attachment scam" .
+
+
+###  http://example.org/phishguard#MediumRisk
+pg:MediumRisk rdf:type owl:NamedIndividual ,
+                       pg:RiskLevel ;
+              pg:riskScore "31-60" ;
+              rdfs:label "Medium risk" .
+
+
+###  http://example.org/phishguard#OnlineStore
+pg:OnlineStore rdf:type owl:NamedIndividual .
+
+
+###  http://example.org/phishguard#PaymentProvider
+pg:PaymentProvider rdf:type owl:NamedIndividual .
+
+
+###  http://example.org/phishguard#PaymentRequest
+pg:PaymentRequest rdf:type owl:NamedIndividual ,
+                           pg:MessageFeature ;
+                  pg:description "The message requests a payment, fee, card details, bank transfer or billing update." ;
+                  pg:keyword "bank details" ,
+                             "billing" ,
+                             "card" ,
+                             "fee" ,
+                             "iban" ,
+                             "invoice" ,
+                             "pay now" ,
+                             "payment" ,
+                             "transfer" ;
+                  pg:riskScore 25 ;
+                  rdfs:label "Payment request" .
+
+
+###  http://example.org/phishguard#PersonalDataRequest
+pg:PersonalDataRequest rdf:type owl:NamedIndividual ,
+                                pg:MessageFeature ;
+                       pg:description "The message asks for personal information such as ID number, address or document photo." ;
+                       pg:keyword "address" ,
+                                  "date of birth" ,
+                                  "document photo" ,
+                                  "id card" ,
+                                  "identity verification" ,
+                                  "passport" ,
+                                  "personal data" ;
+                       pg:riskScore 25 ;
+                       rdfs:label "Personal data request" .
+
+
+###  http://example.org/phishguard#PhoneCall
+pg:PhoneCall rdf:type owl:NamedIndividual ,
+                      pg:CommunicationChannel ;
+             rdfs:label "Phone call" .
+
+
+###  http://example.org/phishguard#PreserveEvidence
+pg:PreserveEvidence rdf:type owl:NamedIndividual ,
+                             pg:Recommendation ;
+                    pg:description "Keep a screenshot or copy of the message if you need to report the scam." ;
+                    rdfs:label "Preserve evidence" .
+
+
+###  http://example.org/phishguard#PrizeBait
+pg:PrizeBait rdf:type owl:NamedIndividual ,
+                      pg:MessageFeature ;
+             pg:description "The message promises a prize, bonus, giveaway or reward to manipulate the user." ;
+             pg:keyword "bonus" ,
+                        "free gift" ,
+                        "giveaway" ,
+                        "prize" ,
+                        "reward" ,
+                        "winner" ,
+                        "you have won" ;
+             pg:riskScore 20 ;
+             rdfs:label "Prize bait" .
+
+
+###  http://example.org/phishguard#QRCode
+pg:QRCode rdf:type owl:NamedIndividual ,
+                   pg:CommunicationChannel ;
+          rdfs:label "QR code" .
+
+
+###  http://example.org/phishguard#QRCodePrompt
+pg:QRCodePrompt rdf:type owl:NamedIndividual ,
+                         pg:MessageFeature ;
+                pg:description "The message asks the user to scan a QR code for login, payment or verification." ;
+                pg:keyword "qr code" ,
+                           "qr payment" ,
+                           "scan qr" ,
+                           "scan the code" ;
+                pg:riskScore 20 ;
+                rdfs:label "QR code prompt" .
+
+
+###  http://example.org/phishguard#QRPhishing
+pg:QRPhishing rdf:type owl:NamedIndividual ,
+                       pg:ThreatType ;
+              pg:hasAttackGoal pg:StealCardData ,
+                               pg:StealCredentials ;
+              pg:hasFeature pg:CredentialRequest ,
+                            pg:QRCodePrompt ,
+                            pg:SuspiciousLink ;
+              pg:targetsOrganization pg:BankOrganization ,
+                                     pg:PaymentProvider ;
+              pg:description "A phishing attempt that uses a QR code to redirect the user to a malicious page." ;
+              rdfs:label "QR phishing" .
+
+
+###  http://example.org/phishguard#ReceiveFraudulentPayment
+pg:ReceiveFraudulentPayment rdf:type owl:NamedIndividual .
+
+
+###  http://example.org/phishguard#RefundBait
+pg:RefundBait rdf:type owl:NamedIndividual ,
+                       pg:MessageFeature ;
+              pg:description "The message promises a refund in exchange for login, card or personal details." ;
+              pg:keyword "claim refund" ,
+                         "money back" ,
+                         "refund" ,
+                         "reimbursement" ,
+                         "tax refund" ;
+              pg:riskScore 20 ;
+              rdfs:label "Refund bait" .
+
+
+###  http://example.org/phishguard#RefundScam
+pg:RefundScam rdf:type owl:NamedIndividual ,
+                       pg:ThreatType ;
+              pg:hasAttackGoal pg:StealCardData ,
+                               pg:StealPersonalData ;
+              pg:hasFeature pg:CardDataRequest ,
+                            pg:PersonalDataRequest ,
+                            pg:RefundBait ,
+                            pg:SuspiciousLink ;
+              pg:targetsOrganization pg:GovernmentInstitution ,
+                                     pg:OnlineStore ,
+                                     pg:PaymentProvider ;
+              pg:description "A scam that uses a fake refund to collect card or personal details." .
+
+
+###  http://example.org/phishguard#ReportMessage
+pg:ReportMessage rdf:type owl:NamedIndividual ,
+                          pg:Recommendation ;
+                 pg:description "Report the message as spam or phishing and block the sender if possible." ;
+                 rdfs:label "Report the message" .
+
+
+###  http://example.org/phishguard#SMS
+pg:SMS rdf:type owl:NamedIndividual ,
+                pg:CommunicationChannel ;
+       rdfs:label "SMS" .
+
+
+###  http://example.org/phishguard#ShortenedUrlFeature
+pg:ShortenedUrlFeature rdf:type owl:NamedIndividual ,
+                                pg:MessageFeature ;
+                       pg:description "The message uses a shortened URL that hides the final destination." ;
+                       pg:keyword "bit.ly" ,
+                                  "goo.gl" ,
+                                  "ow.ly" ,
+                                  "rebrand.ly" ,
+                                  "t.co" ,
+                                  "tinyurl" ;
+                       pg:riskScore 20 ;
+                       rdfs:label "Shortened URL" .
+
+
+###  http://example.org/phishguard#SmallFeeRequest
+pg:SmallFeeRequest rdf:type owl:NamedIndividual .
+
+
+###  http://example.org/phishguard#SocialMedia
+pg:SocialMedia rdf:type owl:NamedIndividual ,
+                        pg:CommunicationChannel ;
+               rdfs:label "Social media" .
+
+
+###  http://example.org/phishguard#SocialNetwork
+pg:SocialNetwork rdf:type owl:NamedIndividual .
+
+
+###  http://example.org/phishguard#StealCardData
+pg:StealCardData rdf:type owl:NamedIndividual .
+
+
+###  http://example.org/phishguard#StealCredentials
+pg:StealCredentials rdf:type owl:NamedIndividual .
+
+
+###  http://example.org/phishguard#StealCryptoAssets
+pg:StealCryptoAssets rdf:type owl:NamedIndividual .
+
+
+###  http://example.org/phishguard#StealPersonalData
+pg:StealPersonalData rdf:type owl:NamedIndividual .
+
+
+###  http://example.org/phishguard#SuspiciousLink
+pg:SuspiciousLink rdf:type owl:NamedIndividual ,
+                           pg:MessageFeature ;
+                  pg:description "The message contains a URL that may lead to a fake or unsafe website." ;
+                  pg:keyword ".click" ,
+                             ".top" ,
+                             ".xyz" ,
+                             "bit.ly" ,
+                             "http://" ,
+                             "login-" ,
+                             "secure-" ,
+                             "tinyurl" ,
+                             "verify-" ;
+                  pg:riskScore 30 ;
+                  rdfs:label "Suspicious link" .
+
+
+###  http://example.org/phishguard#TakeOverAccount
+pg:TakeOverAccount rdf:type owl:NamedIndividual .
+
+
+###  http://example.org/phishguard#TakeRequestThreadType
+pg:TakeRequestThreadType rdf:type owl:NamedIndividual ,
+                                  pg:ThreatType ;
+                         pg:hasFeature pg:TakingRequest ;
+                         pg:description "The message is from unrecognised person and has intent for the client to go and take the person. " ;
+                         rdfs:label "TakeRequestThreadType" .
+
+
+###  http://example.org/phishguard#TakingRequest
+pg:TakingRequest rdf:type owl:NamedIndividual ,
+                          pg:MessageFeature ;
+                 pg:description "The message is from unrecognised person and has intent for the client to go and take the person. " ;
+                 pg:keyword "Pick me up" ;
+                 pg:riskScore 66 ;
+                 rdfs:label "Taking request" .
+
+
+###  http://example.org/phishguard#TechSupportBait
+pg:TechSupportBait rdf:type owl:NamedIndividual ,
+                            pg:MessageFeature ;
+                   pg:description "The message claims a device or account has a technical/security problem." ;
+                   pg:keyword "call support" ,
+                              "device infected" ,
+                              "security alert" ,
+                              "technical support" ,
+                              "virus detected" ;
+                   pg:riskScore 20 ;
+                   rdfs:label "Tech support bait" .
+
+
+###  http://example.org/phishguard#TechSupportScam
+pg:TechSupportScam rdf:type owl:NamedIndividual ,
+                            pg:ThreatType ;
+                   pg:hasAttackGoal pg:InstallMalware ,
+                                    pg:ReceiveFraudulentPayment ;
+                   pg:hasFeature pg:PaymentRequest ,
+                                 pg:SuspiciousLink ,
+                                 pg:TechSupportBait ,
+                                 pg:Urgency ;
+                   pg:targetsOrganization pg:PaymentProvider ,
+                                          pg:TelecomProvider ;
+                   pg:description "A scam that pretends the user has a technical or security issue and must contact fake support." .
+
+
+###  http://example.org/phishguard#TelecomProvider
+pg:TelecomProvider rdf:type owl:NamedIndividual .
+
+
+###  http://example.org/phishguard#Telegram
+pg:Telegram rdf:type owl:NamedIndividual ,
+                     pg:CommunicationChannel ;
+            rdfs:label "Telegram" .
+
+
+###  http://example.org/phishguard#TwoFactorCodeRequest
+pg:TwoFactorCodeRequest rdf:type owl:NamedIndividual ,
+                                 pg:MessageFeature ;
+                        pg:description "The message asks the user to provide a two-factor authentication code." ;
+                        pg:keyword "2fa" ,
+                                   "one-time code" ,
+                                   "otp" ,
+                                   "security code" ,
+                                   "six digit code" ,
+                                   "verification code" ;
+                        pg:riskScore 35 .
+
+
+###  http://example.org/phishguard#UnknownSender
+pg:UnknownSender rdf:type owl:NamedIndividual ,
+                          pg:MessageFeature ;
+                 pg:description "The sender is unclear, unofficial or does not match a trusted organization." ;
+                 pg:keyword "customer-support" ,
+                            "helpdesk" ,
+                            "no-reply" ,
+                            "support-center" ,
+                            "unknown" ;
+                 pg:riskScore 10 ;
+                 rdfs:label "Unknown sender" .
+
+
+###  http://example.org/phishguard#Urgency
+pg:Urgency rdf:type owl:NamedIndividual ,
+                    pg:MessageFeature ;
+           pg:description "The message pushes the user to act quickly without proper verification." ;
+           pg:keyword "act now" ,
+                      "expires today" ,
+                      "final notice" ,
+                      "immediately" ,
+                      "limited time" ,
+                      "urgent" ,
+                      "within 24 hours" ;
+           pg:riskScore 15 ;
+           rdfs:label "Urgency language" .
+
+
+###  http://example.org/phishguard#VerifyOfficialWebsite
+pg:VerifyOfficialWebsite rdf:type owl:NamedIndividual ,
+                                  pg:Recommendation ;
+                         pg:description "Open the official website manually in your browser instead of using the received link." ;
+                         rdfs:label "Verify through the official website" .
+
+
+###  http://example.org/phishguard#Viber
+pg:Viber rdf:type owl:NamedIndividual ,
+                  pg:CommunicationChannel ;
+         rdfs:label "Viber" .
+
+
+###  http://example.org/phishguard#WebForm
+pg:WebForm rdf:type owl:NamedIndividual ,
+                    pg:CommunicationChannel ;
+           rdfs:label "Web form" .
+
+
+###  http://example.org/phishguard#WhatsApp
+pg:WhatsApp rdf:type owl:NamedIndividual ,
+                     pg:CommunicationChannel ;
+            rdfs:label "WhatsApp" .
+
+
+#################################################################
+#    Annotations
+#################################################################
+
+pg:BankOrganization rdfs:label "Bank organization" .
+
+
+pg:BypassTwoFactor rdfs:label "Bypass two-factor authentication" .
+
+
+pg:CourierCompany rdfs:label "Courier company" .
+
+
+pg:CryptoExchange rdfs:label "Crypto exchange" .
+
+
+pg:GiftCardPaymentRequest rdfs:label "Gift card payment request" .
+
+
+pg:GovernmentInstitution rdfs:label "Government institution" .
+
+
+pg:InstallMalware rdfs:label "Install malware" .
+
+
+pg:InvestmentScam rdfs:label "Investment scam" .
+
+
+pg:OnlineStore rdfs:label "Online store" .
+
+
+pg:PaymentProvider rdfs:label "Payment provider" .
+
+
+pg:ReceiveFraudulentPayment rdfs:label "Receive fraudulent payment" .
+
+
+pg:RefundScam rdfs:label "Refund scam" .
+
+
+pg:SmallFeeRequest rdfs:label "Small fee request" .
+
+
+pg:SocialNetwork rdfs:label "Social network" .
+
+
+pg:StealCardData rdfs:label "Steal card data" .
+
+
+pg:StealCredentials rdfs:label "Steal credentials" .
+
+
+pg:StealCryptoAssets rdfs:label "Steal crypto assets" .
+
+
+pg:StealPersonalData rdfs:label "Steal personal data" .
+
+
+pg:TakeOverAccount rdfs:label "Take over account" .
+
+
+pg:TechSupportScam rdfs:label "Tech support scam" .
+
+
+pg:TelecomProvider rdfs:label "Telecom provider" .
+
+
+pg:TwoFactorCodeRequest rdfs:label "Two-factor code request" .
+
+
+###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi

@@ -1182,6 +1182,26 @@
         "scan the code",
         "qr payment"
       ]
+    },
+    {
+      "id": "TakingRequest",
+      "label": "Taking request",
+      "score": 66,
+      "description": "The message is from unrecognised person and has intent for the client to go and take the person. ",
+      "keywords": [
+        "Pick me up"
+      ]
+    },
+    {
+      "id": "FakeGuru",
+      "label": "Fake Guru",
+      "score": 25,
+      "description": "Wanna get rick quick ? Pay for this course.",
+      "keywords": [
+        "rich",
+        "money",
+        "quick"
+      ]
     }
   ],
   "threatTypes": [
@@ -1408,6 +1428,30 @@
       "attackGoalIds": [
         "StealPersonalData",
         "ReceiveFraudulentPayment"
+      ]
+    },
+    {
+      "id": "TakeRequestThreadType",
+      "label": "TakeRequestThreadType",
+      "description": "The message is from unrecognised person and has intent for the client to go and take the person. ",
+      "relatedFeatureIds": [
+        "TakingRequest"
+      ]
+    },
+    {
+      "id": "FakeGuruTrheadType",
+      "label": "FakeGuruTrheadType",
+      "description": "Fake course; scammer.",
+      "relatedFeatureIds": [
+        "FakeGuru"
+      ]
+    },
+    {
+      "id": "AsdAsd",
+      "label": "asd asd ",
+      "description": "asd asd ",
+      "relatedFeatureIds": [
+        "CredentialRequest"
       ]
     }
   ],
